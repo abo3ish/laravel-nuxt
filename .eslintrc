@@ -1,0 +1,14 @@
+{
+  "root": true,
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "sourceType": "module"
+  },
+  "extends": [
+    "@nuxtjs"
+  ],
+  "rules": {
+    "vue/max-attributes-per-line": "off",
+    "no-console": "off"
+  }
+}
