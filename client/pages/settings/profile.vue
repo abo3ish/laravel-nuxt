@@ -80,11 +80,8 @@ export default {
       })
     },
     async update () {
-
       const { data } = await this.form.patch('/settings/profile')
 
-      console.log(this.$store.dispatch('validation/setErrors', data))
-      console.log(this.errors)
       this.$auth.setUser(data)
       this.fireSwal('success', 'User Updated Successfully')
     }

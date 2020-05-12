@@ -56,7 +56,7 @@ module.exports = {
   },
 
   axios: {
-    baseURL: 'http://localhost:4000/api'
+    baseURL: 'http://localhost:7000/api'
   },
 
   css: [
@@ -85,8 +85,7 @@ module.exports = {
      ** Build configuration
      */
   build: {
-    extractCSS: true,
-    vendor: ['sweetalert2']
+    extractCSS: true
   },
 
   hooks: {
