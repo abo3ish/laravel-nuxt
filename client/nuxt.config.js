@@ -4,7 +4,7 @@ const { copySync, removeSync } = require('fs-extra')
 
 module.exports = {
   debug: false,
-  // mode: 'spa', // Comment this for SSR
+  mode: 'spa', // Comment this for SSR
 
   srcDir: __dirname,
 
@@ -71,8 +71,9 @@ module.exports = {
     '~plugins/axios',
     '~plugins/fontawesome',
     '~plugins/sweetAlert',
-    // '~plugins/nuxt-client-init', // Comment this for SSR
-    { src: '~plugins/bootstrap', mode: 'client' }
+    { src: '~plugins/bootstrap', mode: 'client' },
+    { src: '~plugins/admin-lte' },
+    '~plugins/nuxt-client-init' // Comment this for SSR
   ],
 
   modules: [

@@ -55,10 +55,10 @@
 
 <script>
 export default {
+  layout: 'default',
   head () {
     return { title: this.$t('login') }
   },
-
   data: () => ({
     form: {
       email: '',
@@ -66,7 +66,6 @@ export default {
     },
     remember: false
   }),
-
   methods: {
     async login () {
       try {
