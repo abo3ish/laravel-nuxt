@@ -24,7 +24,7 @@
           >
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{ user.name }}</a>
         </div>
       </div>
 
@@ -49,10 +49,10 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
+                <router-link :to="{ name: 'settings.profile' }" class="nav-link active">
                   <fa icon="nav-icon" />
-                  <p>Dashboard v1</p>
-                </a>
+                  <p>Profile</p>
+                </router-link>
               </li>
               <li class="nav-item">
                 <a href="./index2.html" class="nav-link">
@@ -83,12 +83,18 @@ export default ({
     return {
       sliderArrow: 'right'
     }
+  },
+  computed: {
+    user () {
+      return this.$auth.user
+    }
+  },
+  methods: {
+    logout () {
+      this.$auth.logout()
+      // this.user().logout()
+    }
   }
 
 })
 </script>
-<style>
-* {
-  /* direction: rtl !important; */
-}
-</style>

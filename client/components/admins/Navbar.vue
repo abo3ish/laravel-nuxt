@@ -42,83 +42,19 @@
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <fa icon="comments" />
-          <span class="badge badge-danger navbar-badge">3</span>
+          <fa icon="cog" />
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img
-                src="https://via.placeholder.com/100/100"
-                alt="User Avatar"
-                class="img-size-50 mr-3 img-circle"
-              >
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span
-                    class="float-right text-sm text-danger"
-                  ><fa icon="star" /></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted">
-                  <fa icon="clock" /> 4 Hours Ago
-                </p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
+        <div class="dropdown-menu dropdown-menu dropdown-menu-right">
+          <router-link :to="{ name: 'settings.profile' }" class="dropdown-item pl-3">
+            <fa icon="cog" fixed-width />
+            {{ $t('settings') }}
+          </router-link>
+
           <div class="dropdown-divider" />
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img
-                src="https://via.placeholder.com/100/100"
-                alt="User Avatar"
-                class="img-size-50 mr-3 img-circle"
-              >
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span
-                    class="float-right text-sm text-danger"
-                  ><fa icon="star" /></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted">
-                  <fa icon="clock" /> 4 Hours Ago
-                </p>
-              </div>
-            </div>
-            <!-- Message End -->
+          <a class="dropdown-item pl-3" href="#" @click.prevent="logout">
+            <fa icon="sign-out-alt" fixed-width />
+            {{ $t('logout') }}
           </a>
-          <div class="dropdown-divider" />
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img
-                src="https://via.placeholder.com/100/100"
-                alt="User Avatar"
-                class="img-size-50 mr-3 img-circle"
-              >
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span
-                    class="float-right text-sm text-danger"
-                  ><fa icon="star" /></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted">
-                  <fa icon="clock" /> 4 Hours Ago
-                </p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider" />
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
       </li>
       <!-- Notifications Dropdown Menu -->
@@ -155,3 +91,18 @@
   </nav>
   <!-- /.navbar -->
 </template>
+<script>
+export default {
+
+
+  methods: {
+    async logout () {
+      // Log out the user.
+      await this.$auth.logout()
+
+      // Redirect to login.
+      // this.$router.push({ name: 'login' })
+    }
+  }
+}
+</script>

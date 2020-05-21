@@ -1,25 +1,8 @@
 <template>
   <div>
-    <div class="top-right links">
-      <template v-if="$auth.loggedIn">
-        <router-link :to="{ name: 'home' }">
-          {{ $t('home') }}
-        </router-link>
-      </template>
-      <template v-else>
-        <router-link :to="{ name: 'login' }">
-          {{ $t('login') }}
-        </router-link>
-        <router-link :to="{ name: 'register' }">
-          {{ $t('register') }}
-        </router-link>
-      </template>
-    </div>
-
     <div class="text-center">
       <div class="title mb-4">
         <span class="laravel">Laravel</span><span class="nuxt">Nuxt</span>
-        <!-- {{ title }} -->
       </div>
 
       <div class="links">
@@ -31,8 +14,6 @@
 
 <script>
 export default {
-  layout: 'simple',
-
   head () {
     return { title: this.$t('home') }
   },
