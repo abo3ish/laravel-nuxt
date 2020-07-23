@@ -4,7 +4,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img
-        src="dist/img/AdminLTELogo.png"
+        src="https://via.placeholder.com/400/400"
         alt="AdminLTE Logo"
         class="brand-image img-circle elevation-3"
         style="opacity: .8"
@@ -39,12 +39,12 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+            <a href="/" class="nav-link active">
               <fa icon="tachometer-alt" />
               <p>
                 Dashboard
                 <fa icon="angle-left" class="right fa-angle-left" />
-                <!-- <fa icon="right  fa-angle-left" /> -->
+                <fa icon="right  fa-angle-left" />
               </p>
             </a>
             <ul class="nav nav-treeview">
@@ -53,18 +53,6 @@
                   <fa icon="nav-icon" />
                   <p>Profile</p>
                 </router-link>
-              </li>
-              <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
-                  <fa icon="nav-icon" />
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                  <fa icon="nav-icon" />
-                  <p>Dashboard v3</p>
-                </a>
               </li>
             </ul>
           </li>

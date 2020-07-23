@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
 use Tymon\JWTAuth\JWTAuth;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class MeController extends Controller
+class MeController extends ApiBaseController
 {
     protected $auth;
 

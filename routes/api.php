@@ -1,31 +1,40 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+require_once __DIR__ . '/admin.php';
 
-Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('logout', 'Auth\LoginController@logout');
 
-    Route::get('/me', 'API\MeController@index');
-    Route::get('/user', 'API\MeController@index');
+Route::group(['middleware' => 'assign.guard:api'], function () {
+
+    Route::get('/me', 'Api\MeController@index');
+    Route::get('user', 'Api\MeController@index');
+
+    Route::post('logout', 'Api\AuthController@logout');
 
     Route::patch('settings/profile', 'Settings\ProfileController@update');
+
     Route::patch('settings/password', 'Settings\PasswordController@update');
+
+    // Examination services
+    Route::get('/examination-services', 'Api\ExaminationServiceController@index');
+
+    // Examination services Types
+    Route::get('examination-service-types/{examinationServiceType}', 'Api\ExaminationServiceTypeController@show');
+
+    // Cart
+    Route::resource('cart', 'Api\CartController');
+
+    // Address
+    Route::resource('addresses', 'Api\AddressController');
+
+    // Examination Order
+    Route::resource('orders', 'Api\OrderController');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
-    Route::post('login', 'Auth\LoginController@login');
-    Route::post('register', 'Auth\RegisterController@register');
+    Route::post('login', 'Api\AuthController@login');
+    Route::post('register', 'Api\RegisterController@register');
 
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
