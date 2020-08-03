@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\User\MeResource;
 use Tymon\JWTAuth\JWTAuth;
 use Illuminate\Http\Request;
 
@@ -17,8 +18,8 @@ class MeController extends ApiBaseController
     public function index()
     {
         return response()->json([
-            'success' => true,
-            'data' => $this->auth->user(),
+            'data' => new MeResource($this->auth->user()),
+            'message' => ''
         ], 200);
     }
 }

@@ -7,17 +7,8 @@ require_once __DIR__ . '/admin.php';
 
 Route::group(['middleware' => 'assign.guard:api'], function () {
 
-    Route::get('/me', 'Api\MeController@index');
-    Route::get('user', 'Api\MeController@index');
-
-    Route::post('logout', 'Api\AuthController@logout');
-
-    Route::patch('settings/profile', 'Settings\ProfileController@update');
-
-    Route::patch('settings/password', 'Settings\PasswordController@update');
-
-    // Examination services
-    Route::get('/examination-services', 'Api\ExaminationServiceController@index');
+    // Examinations
+    Route::get('/examinations', 'Api\ExaminationController@index');
 
     // Examination services Types
     Route::get('examination-service-types/{examinationServiceType}', 'Api\ExaminationServiceTypeController@show');
@@ -30,6 +21,19 @@ Route::group(['middleware' => 'assign.guard:api'], function () {
 
     // Examination Order
     Route::resource('orders', 'Api\OrderController');
+
+
+
+
+    Route::get('/me', 'Api\MeController@index');
+    Route::get('user', 'Api\MeController@index');
+
+    Route::post('logout', 'Api\AuthController@logout');
+
+    Route::patch('settings/profile', 'Settings\ProfileController@update');
+
+    Route::patch('settings/password', 'Settings\PasswordController@update');
+
 });
 
 Route::group(['middleware' => 'guest:api'], function () {

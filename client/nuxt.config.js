@@ -9,9 +9,9 @@ module.exports = {
   srcDir: __dirname,
 
   env: {
-    apiUrl: process.env.API_URL || process.env.APP_URL + '/api',
+    apiUrl: process.env.API_URL || process.env.APP_URL + '/api/admin',
     appName: process.env.APP_NAME || 'Laravel Nuxt',
-    appLocale: process.env.APP_LOCALE || 'en',
+    appLocale: process.env.APP_LOCALE || 'ar',
     githubAuth: !!process.env.GITHUB_CLIENT_ID
   },
 
@@ -56,7 +56,7 @@ module.exports = {
   },
 
   axios: {
-    baseURL: 'http://localhost:7000/api'
+    baseURL: 'http://localhost:7000/api/admin'
   },
 
   css: [
@@ -71,16 +71,21 @@ module.exports = {
     '~plugins/axios',
     '~plugins/fontawesome',
     '~plugins/sweetAlert',
-    { src: '~plugins/bootstrap', mode: 'client' },
-    { src: '~plugins/admin-lte' },
+    '~plugins/bootstrap',
+    '~plugins/admin-lte',
     '~plugins/nuxt-client-init' // Comment this for SSR
   ],
 
   modules: [
     '@nuxtjs/router',
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    'bootstrap-vue/nuxt'
   ],
+
+  bootstrapVue: {
+    // icons: true // Install the IconsPlugin (in addition to BootStrapVue plugin
+  },
 
   /*
      ** Build configuration

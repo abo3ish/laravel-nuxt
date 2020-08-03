@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ServiceProvider;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,10 +13,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            ExaminationServiceSeeder::class,
+            ServiceProviderTypeSeeder::class,
+            ExaminationSeeder::class,
             AdminSeeder::class,
             UserSeeder::class,
             CitySeeder::class,
+            AddressSeeder::class,
         ]);
+
+        factory(ServiceProvider::class, 50)->create();
     }
 }

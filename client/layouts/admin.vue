@@ -1,5 +1,5 @@
 <template>
-  <div class="layout">
+  <div class="layout wrapper">
     <navbar />
     <Sidebar />
     <nuxt class="content-wrapper" />
@@ -14,6 +14,13 @@ export default {
   components: {
     Navbar,
     Sidebar
+  },
+  head () {
+    return {
+      bodyAttrs: {
+        class: 'hold-transition sidebar-mini'
+      }
+    }
   }
 }
 </script>

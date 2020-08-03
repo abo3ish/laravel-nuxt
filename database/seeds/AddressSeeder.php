@@ -12,6 +12,13 @@ class AddressSeeder extends Seeder
      */
     public function run()
     {
-       //
+       Address::create([
+           'user_id' => 1,
+           'city_id' => 1,
+           'street' => 'elshershaby',
+           'building_number' => 1,
+           'floor_number' => 1,
+           'flat_number' => 1
+       ]);
     }
 }
