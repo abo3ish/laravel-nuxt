@@ -3,6 +3,7 @@
     <navbar />
     <Sidebar />
     <nuxt class="content-wrapper" />
+    <notifications group="feedback" />
   </div>
 </template>
 

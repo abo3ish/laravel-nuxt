@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\ServiceProviderType;
 use Illuminate\Http\Request;
 
-class ServiceProviderTypeController extends Controller
+class ServiceProviderTypeController extends AdminBaseController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class ServiceProviderTypeController extends Controller
      */
     public function index()
     {
-        //
+        return ServiceProviderType::all();
     }
 
     /**

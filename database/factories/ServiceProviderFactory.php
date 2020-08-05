@@ -13,6 +13,9 @@ $factory->define(ServiceProvider::class, function (Faker $faker) {
         'phone' => $faker->e164PhoneNumber,
         'address' => $faker->address,
         'email' => $faker->email,
-        'password' => bcrypt('secret')
+        'password' => bcrypt('secret'),
+        'status' => 1,
+        'age' => $faker->numberBetween(22, 50),
+        'last_seen' => $faker->dateTime()
     ];
 });

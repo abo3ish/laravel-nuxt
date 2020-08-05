@@ -13,7 +13,20 @@ class ServiceProviderTypeSeeder extends Seeder
     public function run()
     {
         ServiceProviderType::create([
-            'title' => 'doctor',
+            'title' => 'طبيب أطفال',
+            'slug' => 'pediatrician',
+        ]);
+        ServiceProviderType::create([
+            'title' => 'طبيب باطنة',
+            'slug' => 'internist',
+        ]);
+        ServiceProviderType::create([
+            'title' => 'طبيب عام ',
+            'slug' => 'general_doctor',
+        ]);
+        ServiceProviderType::create([
+            'title' => 'طبيب عظام ',
+            'slug' => 'orthopedics'
         ]);
         ServiceProviderType::create([
             'title' => 'nurse',

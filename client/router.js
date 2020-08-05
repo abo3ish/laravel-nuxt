@@ -25,7 +25,11 @@ const routes = [
       { path: 'password', name: 'settings.password', component: page('settings/password.vue') }
     ]
   },
-  { path: '/service-providers', name: 'serviceProviders', component: page('service-providers/index.vue') }
+  { path: '/service-providers', name: 'service-providers', component: page('service-providers/index.vue') },
+  { path: '/service-providers/create', name: 'create-service-provider', component: page('service-providers/create.vue') },
+  { path: '/service-providers/edit/:id', name: 'edit-service-provider', component: page('service-providers/edit.vue') },
+
+  { path: '/service-providers/:id', name: 'show-service-provider', component: page('service-providers/show.vue') }
 ]
 
 export function createRouter () {

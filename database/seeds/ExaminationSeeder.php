@@ -23,7 +23,10 @@ class ExaminationSeeder extends Seeder
             'icon' => '',
             'slug' => 'doctor'
         ]);
-        $doctorServiceProvider = ServiceProviderType::where('title', 'doctor')->first();
+        $generalDoctorServiceProvider = ServiceProviderType::where('slug', 'general_doctor')->first();
+        $orthopedicsDoctorServiceProvider = ServiceProviderType::where('slug', 'orthopedics')->first();
+        $internistDoctorServiceProvider = ServiceProviderType::where('slug', 'internist')->first();
+        $pediatricianDoctorServiceProvider = ServiceProviderType::where('slug', 'pediatrician')->first();
         Service::create([
             'examination_id' => $homeExamination->id,
             'title' => 'طبيب عام',
@@ -33,7 +36,7 @@ class ExaminationSeeder extends Seeder
             'purchase_price' => 200,
             'sell_price' => 250,
             'slug' => 'general_doctor',
-            'service_provider_type_id' => $doctorServiceProvider->id
+            'service_provider_type_id' => $generalDoctorServiceProvider->id
         ]);
         Service::create([
             'examination_id' => $homeExamination->id,
@@ -44,7 +47,7 @@ class ExaminationSeeder extends Seeder
             'purchase_price' => 200,
             'sell_price' => 250,
             'slug' => 'children_doctors',
-            'service_provider_type_id' => $doctorServiceProvider->id
+            'service_provider_type_id' => $pediatricianDoctorServiceProvider->id
         ]);
         Service::create([
             'examination_id' => $homeExamination->id,
@@ -55,7 +58,7 @@ class ExaminationSeeder extends Seeder
             'purchase_price' => 200,
             'sell_price' => 250,
             'slug' => 'internist',
-            'service_provider_type_id' => $doctorServiceProvider->id
+            'service_provider_type_id' => $internistDoctorServiceProvider->id
 
         ]);
         Service::create([
@@ -67,7 +70,7 @@ class ExaminationSeeder extends Seeder
             'purchase_price' => 200,
             'sell_price' => 250,
             'slug' => 'orthopedic_doctor',
-            'service_provider_type_id' => $doctorServiceProvider->id
+            'service_provider_type_id' => $orthopedicsDoctorServiceProvider->id
         ]);
 
         /*************************************

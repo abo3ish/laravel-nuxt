@@ -20,7 +20,10 @@ class CreateServiceProvidersTable extends Migration
             $table->string('phone');
             $table->string('address');
             $table->string('email');
+            $table->integer('age');
             $table->string('password');
+            $table->boolean('status')->default(true);
+            $table->dateTime('last_seen')->nullable();
             $table->timestamps();
         });
     }

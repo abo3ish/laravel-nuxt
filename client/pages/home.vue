@@ -1,7 +1,7 @@
 <template>
-  <div class="wrapper">
+  <div>
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div>
       <!-- Content Header (Page header) -->
       <div class="content-header">
         <div class="container-fluid">
@@ -158,7 +158,7 @@
                         <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
                       </div>
                       <!-- /.direct-chat-info -->
-                      <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
+                      <img class="direct-chat-img" src="https://via.placeholder.com/300/300" alt="message user image">
                       <!-- /.direct-chat-img -->
                       <div class="direct-chat-text">
                         واقعا این قالب رایگانه ؟ قابل باور نیست
@@ -174,7 +174,7 @@
                         <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
                       </div>
                       <!-- /.direct-chat-info -->
-                      <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+                      <img class="direct-chat-img" src="https://via.placeholder.com/300/300" alt="message user image">
                       <!-- /.direct-chat-img -->
                       <div class="direct-chat-text">
                         بهتره اینو باور کنی :)
@@ -190,7 +190,7 @@
                         <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
                       </div>
                       <!-- /.direct-chat-info -->
-                      <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
+                      <img class="direct-chat-img" src="https://via.placeholder.com/300/300" alt="message user image">
                       <!-- /.direct-chat-img -->
                       <div class="direct-chat-text">
                         میخوام با این قالب یه اپلیکیشن باحال بزنم ؟‌ تو هم همکاری میکنی ؟
@@ -206,7 +206,7 @@
                         <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
                       </div>
                       <!-- /.direct-chat-info -->
-                      <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+                      <img class="direct-chat-img" src="https://via.placeholder.com/300/300" alt="message user image">
                       <!-- /.direct-chat-img -->
                       <div class="direct-chat-text">
                         اره حتما
@@ -222,7 +222,7 @@
                     <ul class="contacts-list">
                       <li>
                         <a href="#">
-                          <img class="contacts-list-img" src="dist/img/user1-128x128.jpg">
+                          <img class="contacts-list-img" src="https://via.placeholder.com/300/300">
 
                           <div class="contacts-list-info">
                             <span class="contacts-list-name">
@@ -237,7 +237,7 @@
                       <!-- End Contact Item -->
                       <li>
                         <a href="#">
-                          <img class="contacts-list-img" src="dist/img/user7-128x128.jpg">
+                          <img class="contacts-list-img" src="https://via.placeholder.com/300/300">
 
                           <div class="contacts-list-info">
                             <span class="contacts-list-name">
@@ -252,7 +252,7 @@
                       <!-- End Contact Item -->
                       <li>
                         <a href="#">
-                          <img class="contacts-list-img" src="dist/img/user3-128x128.jpg">
+                          <img class="contacts-list-img" src="https://via.placeholder.com/300/300">
 
                           <div class="contacts-list-info">
                             <span class="contacts-list-name">
@@ -267,7 +267,7 @@
                       <!-- End Contact Item -->
                       <li>
                         <a href="#">
-                          <img class="contacts-list-img" src="dist/img/user5-128x128.jpg">
+                          <img class="contacts-list-img" src="https://via.placeholder.com/300/300">
 
                           <div class="contacts-list-info">
                             <span class="contacts-list-name">
@@ -282,7 +282,7 @@
                       <!-- End Contact Item -->
                       <li>
                         <a href="#">
-                          <img class="contacts-list-img" src="dist/img/user6-128x128.jpg">
+                          <img class="contacts-list-img" src="https://via.placeholder.com/300/300">
 
                           <div class="contacts-list-info">
                             <span class="contacts-list-name">
@@ -297,7 +297,7 @@
                       <!-- End Contact Item -->
                       <li>
                         <a href="#">
-                          <img class="contacts-list-img" src="dist/img/user8-128x128.jpg">
+                          <img class="contacts-list-img" src="https://via.placeholder.com/300/300">
 
                           <div class="contacts-list-info">
                             <span class="contacts-list-name">

@@ -73,8 +73,17 @@ module.exports = {
     '~plugins/sweetAlert',
     '~plugins/bootstrap',
     '~plugins/admin-lte',
-    '~plugins/nuxt-client-init' // Comment this for SSR
+    '~plugins/nuxt-client-init', // Comment this for SSR
+    '~plugins/vue-notification' // Comment this for SSR
   ],
+
+  buildModules: [
+    '@nuxtjs/moment'
+  ],
+
+  moment: {
+    locales: ['ar']
+  },
 
   modules: [
     '@nuxtjs/router',

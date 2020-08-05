@@ -1,4 +1,22 @@
 {
   "home_page": "الصفحة الرئيسية",
-  "service_providers": "مقدمين الخدمة"
+  "service_providers": "مقدمين الخدمة",
+  "add_new": "أضف جديد",
+  "home": "الرئيسية",
+  "service_provider_created_sucessfully": "تم انشاء مقدم الخدمة بنجاح",
+  "service_provider_updated_sucessfully": "تم تعديل مقدم الخدمة بنجاح",
+  "service_provider_type": "نوع مقدم الخدمة",
+  "create": "انشئ",
+  "save": "حفظ",
+  "activate": "تفعيل",
+  "name": "الاسم",
+  "email": "البريد الالكتروني",
+  "password": "كلمة السر",
+  "address": "العنوان",
+  "age": "السن",
+  "phone": "الهاتف",
+  "create_new_service_provider": "انشئ مقدم خدمة جديد",
+  "activated": "مفعل",
+  "not_activated": "غير مفعل",
+  "select": "اختر"
 }
