@@ -78,7 +78,8 @@ module.exports = {
   ],
 
   buildModules: [
-    '@nuxtjs/moment'
+    '@nuxtjs/moment',
+    '@nuxtjs/laravel-echo'
   ],
 
   moment: {
