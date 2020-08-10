@@ -30,4 +30,43 @@ class Order extends Model
                 break;
         }
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function serviceProvider()
+    {
+        return $this->belongsTo(ServiceProvider::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+    public function services()
+    {
+        return $this->HasMany(OrderService::class);
+    }
+
+    public function drugs()
+    {
+        return $this->HasMany(OrderDrug::class);
+    }
+
+    public function getServicesStringAttribute()
+    {
+        $string = '';
+        foreach($this->services as $orderService) {
+            $string .= $orderService->service->title . ', ';
+        }
+        return trim($string, ", ");
+    }
+
+    public function getStatusStringAttribute()
+    {
+        return Self::whatIsMyStatus($this->status);
+    }
 }

@@ -12,16 +12,16 @@
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
-          <nuxt-link :to="{name: 'service-providers' }" class="nav-link active">
+          <nuxt-link :to="{ name: 'service-providers' }" class="nav-link active">
             <i class="fa fa-circle-o nav-icon" />
             <p>{{ $t('service_providers') }}</p>
           </nuxt-link>
         </li>
         <li class="nav-item">
-          <a href="./index2.html" class="nav-link">
+          <nuxt-link :to="{ name: 'orders' }" class="nav-link">
             <i class="fa fa-circle-o nav-icon" />
-            <p>داشبورد دوم</p>
-          </a>
+            <p> الطلبات</p>
+          </nuxt-link>
         </li>
         <li class="nav-item">
           <a href="./index3.html" class="nav-link">

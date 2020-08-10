@@ -79,18 +79,44 @@
                   show-empty
                   stacked="md"
                 >
+                  <!-- user -->
+                  <template v-slot:cell(user)="data">
+                    <span>{{ data.item.user.name }}</span>
+                  </template>
+
+                  <!-- Address -->
+                  <template v-slot:cell(address)="data">
+                    <span>{{ data.item.address }}</span>
+                  </template>
+
                   <!-- Type -->
                   <template v-slot:cell(type)="data">
-                    <span>{{ data.item.type.title }}</span>
+                    <span>{{ data.item.type }}</span>
+                  </template>
+
+                  <!-- Order items -->
+                  <template v-slot:cell(services)="data">
+                    <span>{{ data.item.services }}</span>
+                  </template>
+
+                  <!-- Service Provider -->
+                  <template v-slot:cell(service_provider)="data">
+                    <span v-if="data.item.service_provider">{{ data.item.service_provider.name }}</span>
                   </template>
 
                   <!-- Status -->
                   <template v-slot:cell(status)="data">
-                    <b-badge v-if="data.item.status" variant="success">
-                      {{ $t('activated') }}
+                    <b-badge v-if="data.item.status.code == 0" variant="warning">
+                      {{ data.item.status.string }}
                     </b-badge>
-                    <b-badge v-else variant="danger">
-                      {{ $t('not_activated') }}
+                    <b-badge v-if="data.item.status.code == 1" variant="primary">
+                      {{ data.item.status.string }}
+                    </b-badge>
+                    <b-badge v-else-if="data.item.status.code == 2" variant="secondary">
+                      {{ data.item.status.string }}
+                    </b-badge>
+                    <b-badge v-else-if="data.item.status.code == 3" variant="success">
+                      {{ data.item.status.string }}
                     </b-badge>
                   </template>
 
@@ -105,7 +131,7 @@
                   <template v-slot:cell(actions)="data">
                     <!-- Show -->
                     <b-button
-                      :to="{ name: 'show-service-provider', params: { id: data.item.id }}"
+                      :to="{ name: 'show-order', params: { id: data.item.id }}"
                       variant="info"
                       size="sm"
                     >
@@ -113,7 +139,7 @@
                     </b-button>
                     <!-- Edit -->
                     <b-button
-                      :to="{ name: 'edit-service-provider', params: { id: data.item.id }}"
+                      :to="{ name: 'edit-order', params: { id: data.item.id }}"
                       variant="secondary"
                       size="sm"
                     >
@@ -187,13 +213,11 @@ export default {
       sortDesc: false,
       fields: [
         { key: 'id', sortable: true },
-        // { key: 'first_name', sortable: true },
-        // { key: 'last_name', sortable: true }
-        { key: 'name', sortable: true },
-        { key: 'type', sortable: true },
-        { key: 'phone', sortable: true },
+        { key: 'user', sortable: true },
         { key: 'address', sortable: false },
-        { key: 'last_seen', sortable: true },
+        { key: 'type', sortable: true },
+        { key: 'services', sortable: true },
+        { key: 'service_provider', sortable: false },
         { key: 'status', sortable: true },
         { key: 'actions', sortable: false }
       ]
@@ -207,7 +231,6 @@ export default {
     }
   },
   mounted () {
-    this.fetchServiceProviderTypes()
     this.fetchData().catch((error) => {
       console.log(error)
     })
@@ -217,25 +240,19 @@ export default {
       this.query.page = this.currentPage
 
       this.isBusy = true
-      await this.$axios.$get('service-providers', {
+      await this.$axios.$get('orders', {
         params: this.query
       })
         .then((res) => {
-          this.rows = res.total
-          this.perPage = res.per_page
-          this.currentPage = res.current_page
+          this.rows = res.meta.total
+          this.perPage = res.meta.per_page
+          this.currentPage = res.meta.current_page
           this.serviceProviders = res.data
           this.isBusy = false
         })
 
-      this.$router.replace({ name: 'service-providers',
+      this.$router.replace({ name: 'orders',
         query: this.query })
-    },
-    fetchServiceProviderTypes () {
-      this.$axios.$get('service-provider-types')
-        .then((res) => {
-          this.serviceProviderTypes = res
-        })
     },
     deleteItem (id, event) {
       event.preventDefault()

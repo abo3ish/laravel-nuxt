@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Order;
+use App\Models\OrderService;
 use App\Models\ServiceProvider;
 use Illuminate\Database\Seeder;
 
@@ -22,5 +24,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         factory(ServiceProvider::class, 50)->create();
+        factory(Order::class, 50)->create();
+        factory(OrderService::class, 100)->create();
     }
 }
