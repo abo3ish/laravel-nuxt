@@ -210,7 +210,7 @@ export default {
       serviceProviders: [],
       serviceProviderTypes: [],
       sortBy: 'id',
-      sortDesc: false,
+      sortDesc: true,
       fields: [
         { key: 'id', sortable: true },
         { key: 'user', sortable: true },
@@ -231,6 +231,12 @@ export default {
     }
   },
   mounted () {
+    this.$echo.channel('new-order')
+      .listen('NewOrder', (e) => {
+        console.log(e)
+        this.serviceProviders.push(e)
+      })
+
     this.fetchData().catch((error) => {
       console.log(error)
     })
@@ -251,8 +257,8 @@ export default {
           this.isBusy = false
         })
 
-      this.$router.replace({ name: 'orders',
-        query: this.query })
+      this.$router.push({ name: 'orders',
+        query: this.query }).catch((err) => {})
     },
     deleteItem (id, event) {
       event.preventDefault()

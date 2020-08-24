@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
+use App\Models\Advertisement;
 use Illuminate\Http\Request;
-use App\Models\ExaminationService;
-use App\Http\Controllers\Api\ApiBaseController;
-use App\Http\Resources\ExaminationService\ExaminationSerivceResource;
-use App\Http\Resources\ExaminationService\ExaminationSerivcesResource;
 
-class ExaminationServiceController extends ApiBaseController
+class AdvertisementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +14,7 @@ class ExaminationServiceController extends ApiBaseController
      */
     public function index()
     {
-        $examinationServices = ExaminationService::all();
-        return ExaminationSerivceResource::collection($examinationServices);
+        //
     }
 
     /**
@@ -45,10 +41,10 @@ class ExaminationServiceController extends ApiBaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ExaminationService  $examinationService
+     * @param  \App\Models\Advertisement  $advertisement
      * @return \Illuminate\Http\Response
      */
-    public function show(ExaminationService $examinationService)
+    public function show(Advertisement $advertisement)
     {
         //
     }
@@ -56,10 +52,10 @@ class ExaminationServiceController extends ApiBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ExaminationService  $examinationService
+     * @param  \App\Models\Advertisement  $advertisement
      * @return \Illuminate\Http\Response
      */
-    public function edit(ExaminationService $examinationService)
+    public function edit(Advertisement $advertisement)
     {
         //
     }
@@ -68,10 +64,10 @@ class ExaminationServiceController extends ApiBaseController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ExaminationService  $examinationService
+     * @param  \App\Models\Advertisement  $advertisement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ExaminationService $examinationService)
+    public function update(Request $request, Advertisement $advertisement)
     {
         //
     }
@@ -79,10 +75,10 @@ class ExaminationServiceController extends ApiBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ExaminationService  $examinationService
+     * @param  \App\Models\Advertisement  $advertisement
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ExaminationService $examinationService)
+    public function destroy(Advertisement $advertisement)
     {
         //
     }

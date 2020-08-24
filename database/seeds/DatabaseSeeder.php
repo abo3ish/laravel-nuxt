@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CitySeeder::class,
             AddressSeeder::class,
+            AdvertisementSeeder::class,
         ]);
 
         factory(ServiceProvider::class, 50)->create();

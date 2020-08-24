@@ -21,6 +21,8 @@ class CreateAddressesTable extends Migration
             $table->string('building_number');
             $table->string('floor_number');
             $table->string('flat_number');
+            $table->double('lat')->nullable();
+            $table->double('lng')->nullable();
             $table->timestamps();
         });
     }

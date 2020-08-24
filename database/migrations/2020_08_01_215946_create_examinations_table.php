@@ -20,6 +20,7 @@ class CreateExaminationsTable extends Migration
             $table->string('icon');
             $table->string('slug');
             $table->boolean('status')->default(true);
+            $table->boolean('accept_multi')->default(true);
             $table->timestamps();
         });
     }

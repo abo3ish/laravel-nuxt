@@ -12,6 +12,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'name
 
     Route::resource('service-provider-types', 'ServiceProviderTypeController');
     Route::resource('service-providers', 'ServiceProviderController');
+    Route::get('service-providers/search', 'ServiceProviderController@search');
 
     Route::resource('orders', 'OrderController');
 });

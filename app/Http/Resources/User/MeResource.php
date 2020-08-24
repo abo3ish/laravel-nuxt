@@ -19,7 +19,8 @@ class MeResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'phone' => $this->phone,
-            'address' => UserAddressResource::collection($this->addresses)
+            'address' => UserAddressResource::collection($this->addresses),
+            'token' => $this->token
         ];
     }
 }

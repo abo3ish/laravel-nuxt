@@ -14,12 +14,12 @@
                 </nuxt-link>
               </li>
               <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'service-providers'}">
-                  {{ $t('service_providers') }}
+                <nuxt-link :to="{name: 'orders'}">
+                  {{ $t('orders') }}
                 </nuxt-link>
               </li>
               <li class="breadcrumb-item active">
-                {{ serviceProvider.name }}
+                <!-- {{ serviceProvider.name }} -->
               </li>
             </ol>
           </div>
@@ -33,8 +33,8 @@
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">
-              {{ serviceProvider.name + " - " + type }}
-              <n-link :to="{name: 'create-service-provider' }">
+              <!-- {{ serviceProvider.name + " - " + type }} -->
+              <n-link :to="{name: 'create-order' }">
                 <button class="btn btn-outline-light float-left">
                   {{ $t('add_new') }}
                 </button>
@@ -46,32 +46,92 @@
           <!-- form start -->
           <form role="form" @submit.prevent="update()">
             <div class="card-body">
-              <!-- Name -->
-              <label-input-text v-model="form.name" :label="$t('name')" :type="'text'" :placeholder="'Enter Name'" name="name" />
-              <!-- email -->
-              <label-input-text v-model="form.email" :label="$t('email')" :type="'email'" :placeholder="'Enter Email Address'" name="email" />
-              <!-- password -->
-              <label-input-text v-model="form.password" :label="$t('password')" :type="'password'" :placeholder="'Enter Password'" name="password" />
-              <!-- address -->
-              <label-input-text v-model="form.address" :label="$t('address')" :type="'text'" :placeholder="'Enter Address'" name="address" />
-              <!-- phone -->
-              <label-input-text v-model="form.phone" :label="$t('phone')" :type="'text'" :placeholder="'Enter Phone'" name="phone" />
-              <!-- age -->
-              <label-input-text v-model="form.age" :label="$t('age')" :type="'number'" :placeholder="'Enter Age'" name="age" />
-              <!-- service_provider_type -->
-              <select-box v-model="form.type_id" :items="serviceProviderTypes" :label="$t('service_provider_type')" name="type_id" />
-              <!-- status -->
-              <check-box v-model="form.status" :label="$t('activate')" name="status" />
-              <!-- /.card-body -->
-
-              <div class="card-footer">
-                <v-button
-                  :loading="form.busy"
-                  type="success"
-                >
-                  {{ $t('save') }}
-                </v-button>
+              <!-- User Name -->
+              <div class="form-group">
+                <label for="balance">{{ $t('user') }} : </label>
+                <code>
+                  {{ order.user.name }} <br>
+                </code>
               </div>
+
+              <!-- Services -->
+              <div class="form-group">
+                <label for="balance">{{ $t('type') }} : </label>
+                <code>
+                  {{ order.type }}
+                </code>
+              </div>
+
+              <!-- Services -->
+              <div class="form-group">
+                <label for="balance">{{ $t('services') }} : </label>
+                <code v-for="service in order.services" :key="service.id">
+                  {{ service.service.title }} |
+                </code>
+              </div>
+
+              <!-- Status -->
+              <div class="form-group">
+                <label for="balance">{{ $t('status') }} : </label>
+                <code>
+                  {{ order.status.string }} <br>
+                </code>
+              </div>
+
+              <!-- Service Provider -->
+              <div class="form-group">
+                <label for="balance">{{ $t('service_provider') }} : </label>
+                <code>
+                  {{ order.service_provider ? order.service_provider.name : $t('not_assigned') }} <br>
+                </code>
+              </div>
+
+              <!-- Address -->
+              <div class="form-group">
+                <label for="balance">{{ $t('address') }} : </label>
+                <code id="address">
+                  {{ order.address }} <br>
+                </code>
+              </div>
+
+              <!-- Form  -->
+              <form @submit.prevent="update()">
+                <!-- Service Provider -->
+                <div class="form-group">
+                  <label id="service-provider">Service Provider</label>
+                  <v-select
+                    v-model="form.service_provider_id"
+                    :options="options"
+                    :filterable="false"
+                    :reduce="provider => provider.id"
+                    @search="fetchOptions"
+                  >
+                    <template slot="option" slot-scope="option">
+                      <div class="d-center">
+                        {{ option.name }}
+                      </div>
+                    </template>
+                    <template slot="selected-option" slot-scope="option">
+                      <div class="selected d-center">
+                        {{ option.name }}
+                      </div>
+                    </template>
+                  </v-select>
+                </div>
+
+                <div class="form-group">
+                  <LabelInputText v-model="order.prices.price_to_pay" :label="$t('price_to_pay')" :type="'number'" :name="'price_to_pay'" />
+                </div>
+                <div class="card-footer">
+                  <v-button
+                    :loading="form.busy"
+                    type="success"
+                  >
+                    {{ $t('save') }}
+                  </v-button>
+                </div>
+              </form>
+              <!-- save -->
             </div>
           </form>
         </div>
@@ -89,6 +149,7 @@ import SelectBox from '~/components/forms/SelectBox'
 import CheckBox from '~/components/forms/CheckBox'
 
 export default {
+  middleware: 'auth',
   layout: 'admin',
   components: {
     LabelInputText,
@@ -98,46 +159,41 @@ export default {
   data: () => {
     return {
       serviceProviderTypes: [],
-      serviceProvider: {},
-      form: new Form({
-        name: '',
-        email: '',
-        phone: '',
-        age: '',
+      order: {
+        user: {},
+        status: {},
         address: '',
-        password: '',
-        status: Boolean(false),
-        type_id: ''
-      }),
-      type: ''
+        type: '',
+        service: [],
+        service_provider: {},
+        prices: {}
+      },
+      options: [],
+      form: new Form({
+        service_provider_id: '',
+        price_to_pay: ''
+      })
     }
   },
-  created () {
-    this.fetchServiceProviderTypes()
-    this.fetchData()
+  async mounted () {
+    // this.fetchServiceProviderTypes()
+    await this.fetchData()
   },
   methods: {
-    fetchServiceProviderTypes () {
-      this.$axios.$get('service-provider-types')
+    async fetchData () {
+      await this.$axios.$get('orders/' + this.$route.params.id)
         .then((res) => {
-          this.serviceProviderTypes = res
-        })
-    },
-    fetchData () {
-      this.$axios.$get('service-providers/' + this.$route.params.id)
-        .then((res) => {
-          this.form.fill(res)
-          this.serviceProvider = res
-          this.setServiceProviderType()
+          // this.form.fill(res)
+          this.order = res
         })
     },
     update () {
-      this.form.put('/service-providers/' + this.$route.params.id, this.form)
+      this.form.put('/orders/' + this.$route.params.id, this.form)
         .then((res) => {
-          this.form.fill(res.data)
-          this.serviceProvider = res.data
-        }).then(() => {
-          this.setServiceProviderType()
+          console.log(res)
+          this.order = res.data
+          // this.form.fill(res.data)
+          // this.order = res.data
         })
 
       this.$notify({
@@ -146,17 +202,24 @@ export default {
         type: 'success'
       })
     },
-    setServiceProviderType () {
-      this.serviceProviderTypes.filter((el) => {
-        if (this.serviceProvider.type_id == el.id) {
-          this.type = el.title
-        }
-      })
+    fetchOptions (search, loading) {
+      loading(true)
+      setTimeout(() => {
+        this.$axios.$get('service-providers', { params: { name: search } })
+          .then((res) => {
+            this.options = res.data
+            console.log(res.data)
+            loading(false)
+          })
+      }, 300)
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+  .loader {
+    text-align: center;
+    color: #bbbbbb;
+  }
 </style>

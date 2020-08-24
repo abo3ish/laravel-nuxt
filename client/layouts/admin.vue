@@ -4,6 +4,7 @@
     <Sidebar />
     <nuxt class="content-wrapper" />
     <notifications group="feedback" />
+    <notifications group="newOrder" position="bottom right" width="300" />
   </div>
 </template>
 
@@ -22,6 +23,18 @@ export default {
         class: 'hold-transition sidebar-mini'
       }
     }
+  },
+  mounted () {
+    this.$echo.channel('new-order')
+      .listen('NewOrder', (e) => {
+        this.$notify({
+          group: 'newOrder',
+          title: this.$t('new_order'),
+          text: e.user.name + ' <br> طلب ' + '<b>' + e.services + '</b>',
+          type: 'success',
+          width: 600
+        })
+      })
   }
 }
 </script>

@@ -52,6 +52,12 @@ return [
             'provider' => 'admins',
             'hash' => false,
         ],
+
+        'service_provider' => [
+            'driver' => 'jwt',
+            'provider' => 'service_providers',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -80,6 +86,11 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
+        ],
+
+        'service_providers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\ServiceProvider::class,
         ],
     ],
 

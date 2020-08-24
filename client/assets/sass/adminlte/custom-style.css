@@ -1,5 +1,12 @@
+
 body {
-    font-family: 'Vazir', sans-serif !important;
+    font-family: SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
 }
 
 .ltr {

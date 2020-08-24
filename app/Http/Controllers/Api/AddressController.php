@@ -6,6 +6,7 @@ use App\Models\Address;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Api\ApiBaseController;
+use App\Http\Resources\Api\Address\AddressResource;
 
 class AddressController extends ApiBaseController
 {
@@ -34,10 +35,11 @@ class AddressController extends ApiBaseController
             'building_number' => $request->building_number,
             'floor_number' => $request->floor_number,
             'flat_number' => $request->flat_number,
+            'lat' => $request->lat,
+            'lng' => $request->lng,
         ]);
-
-        return response()->json($address, Response::HTTP_OK);
-
+        $data = new AddressResource($address);
+        return apiReturn($data, true, '', Response::HTTP_OK);
     }
 
     /**

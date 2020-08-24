@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Examination;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Http\Resources\Examination\ExaminationResource;
+use App\Models\Advertisement;
 
 class ExaminationController extends ApiBaseController
 {
@@ -18,7 +20,9 @@ class ExaminationController extends ApiBaseController
     {
         $sections = Examination::all();
 
-        return ExaminationResource::collection($sections);
+        $examinations = ExaminationResource::collection($sections);
+        return apiReturn($examinations, true, '', Response::HTTP_OK);
+
     }
 
     /**

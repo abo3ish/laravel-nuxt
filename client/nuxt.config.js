@@ -74,13 +74,26 @@ module.exports = {
     '~plugins/bootstrap',
     '~plugins/admin-lte',
     '~plugins/nuxt-client-init', // Comment this for SSR
-    '~plugins/vue-notification' // Comment this for SSR
+    '~plugins/vue-notification', // Comment this for SSR,
+    '~plugins/vue-select'
   ],
 
   buildModules: [
     '@nuxtjs/moment',
     '@nuxtjs/laravel-echo'
   ],
+
+  echo: {
+    broadcaster: 'pusher',
+    plugins: [
+      '~/plugins/echo.js'
+    ],
+    key: '94e21d523d92bd874c7e',
+    wsHost: 'localhost',
+    wsPort: 6001,
+    connectOnLogin: true,
+    disconnectOnLogout: true
+  },
 
   moment: {
     locales: ['ar']

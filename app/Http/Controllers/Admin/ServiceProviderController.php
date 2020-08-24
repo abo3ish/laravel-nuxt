@@ -138,4 +138,9 @@ class ServiceProviderController extends AdminBaseController
 
         return $serviceProviders;
     }
+
+    public function search(Request $request)
+    {
+        return $request->all();
+    }
 }

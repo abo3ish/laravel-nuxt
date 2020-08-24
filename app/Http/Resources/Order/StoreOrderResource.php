@@ -16,6 +16,7 @@ class StoreOrderResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'uuid' => $this->uuid
         ];
     }
 }

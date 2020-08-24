@@ -21,12 +21,14 @@ class ExaminationSeeder extends Seeder
             'title' => 'كشف منزلي',
             'description' => 'وصف للعنصر قد يمتد لسطرين او اكثر',
             'icon' => '',
-            'slug' => 'doctor'
+            'slug' => 'doctor',
+            'accept_multi' => false,
         ]);
         $generalDoctorServiceProvider = ServiceProviderType::where('slug', 'general_doctor')->first();
         $orthopedicsDoctorServiceProvider = ServiceProviderType::where('slug', 'orthopedics')->first();
         $internistDoctorServiceProvider = ServiceProviderType::where('slug', 'internist')->first();
         $pediatricianDoctorServiceProvider = ServiceProviderType::where('slug', 'pediatrician')->first();
+
         Service::create([
             'examination_id' => $homeExamination->id,
             'title' => 'طبيب عام',

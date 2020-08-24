@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use App\Models\Order;
 use App\Models\Service;
+use App\Events\NewOrder;
 use App\Models\OrderService;
 use Illuminate\Http\Request;
 use App\Models\ExaminationOrder;
 use App\Http\Controllers\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\Api\ApiBaseController;
 use App\Http\Resources\Order\AllOrdersResource;
 use App\Http\Resources\Order\StoreOrderResource;
 use App\Http\Resources\Order\UserHistoryResource;
 
-class OrderController extends Controller
+class OrderController extends ApiBaseController
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +26,10 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::where('user_id', auth()->id())->get();
-        return UserHistoryResource::collection($orders);
+        $data = UserHistoryResource::collection($orders);
+
+        return apiReturn($data, true, '', Response::HTTP_OK);
+
     }
 
     public function store(Request $request)
@@ -31,13 +37,14 @@ class OrderController extends Controller
         try {
 
             $order = Order::create([
+                'uuid' => $this->generateUuid(),
                 'user_id' => auth()->id(),
                 'type' => 'service',
                 'address_id' => $request->address_id
-                ]);
+            ]);
 
             if ($request->type == 'service') {
-                foreach($request->items as $item) {
+                foreach ($request->items as $item) {
                     $service = Service::find($item);
                     OrderService::create([
                         'order_id' => $order->id,
@@ -47,16 +54,23 @@ class OrderController extends Controller
                     ]);
                 }
             }
+
             $data = new StoreOrderResource($order);
-            return response()->json([
-                'data' => $data,
-                'message' => "طلب رقم {$order->id} سيتم التواصل معكم خلال دقائق ..."
-                ]);
+
+            // event(new NewOrder($order));
+            return apiReturn($data, true, '', Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json([
-                'data' => '',
-                'message' => "حدث خطأ ما، برجاء إعادة المحاولة"
-            ]);
+            return apiReturn($e, false, 'حدث خطأ ما، برجاء إعادة المحاولة', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function generateUuid()
+    {
+        $uuid = random_int(1000000, 9999999);
+
+        if (Order::where('uuid', $uuid)->first()) {
+            $this->generateUuid();
+        }
+        return $uuid;
     }
 }

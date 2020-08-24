@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Examination;
 
+use App\Http\Resources\Api\Advertisement\AdvertisementResource;
+use App\Models\Advertisement;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ExaminationResource extends JsonResource
@@ -19,7 +21,9 @@ class ExaminationResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'icon' => $this->icon,
-            'services' => ExaminationServiceResource::collection($this->services()->where('parent_id', null)->get())
+            'accept_multi' => $this->accept_multi,
+            'services' => ExaminationServiceResource::collection($this->services()->where('parent_id', null)->get()),
+            'ads' => AdvertisementResource::collection(Advertisement::where('slug', $this->slug)->get())
         ];
     }
 }

@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Models\ExaminationOrder;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Api\ApiBaseController;
 use App\Models\ExaminationServiceType;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\Api\ApiBaseController;
 
 class ExaminationOrderController extends ApiBaseController
 {
@@ -18,8 +19,8 @@ class ExaminationOrderController extends ApiBaseController
      */
     public function index()
     {
-        $orders = ExaminationOrder::where('user_id', auth()->id())->get();
-        return $orders;
+        $data = ExaminationOrder::where('user_id', auth()->id())->get();
+        return apiReturn($data, true, '', Response::HTTP_OK);
     }
 
     /**

@@ -110,4 +110,12 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     {
         return $this->hasMany(Address::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function devices()
+    {
+        return $this->morphMany(Device::class, 'deviceable');
+    }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\User\MeResource;
 use Tymon\JWTAuth\JWTAuth;
 use Illuminate\Http\Request;
+use App\Http\Resources\User\MeResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class MeController extends ApiBaseController
 {
@@ -17,9 +18,8 @@ class MeController extends ApiBaseController
 
     public function index()
     {
-        return response()->json([
-            'data' => new MeResource($this->auth->user()),
-            'message' => ''
-        ], 200);
+        $data = new MeResource($this->auth->user());
+
+        return apiReturn($data, true, '', Response::HTTP_OK);
     }
 }
