@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use App\Events\Login;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\Advertisement\AdvertisementResource;
-use App\Http\Resources\User\MeResource;
-use App\Http\Traits\UserProviderTrait;
 use App\Models\Advertisement;
+use App\Http\Controllers\Controller;
+use App\Http\Traits\UserProviderTrait;
+use App\Http\Resources\User\MeResource;
+use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Resources\Api\Advertisement\AdvertisementResource;
 
 class AuthController extends Controller
 {
@@ -43,10 +45,30 @@ class AuthController extends Controller
         ]);
     }
 
+    public function socialLogin(Request $request)
+    {
+        $socialUser = Socialite::driver(strtolower($request->social_provider))->userFromToken($request->access_token);
+        if ($user = User::where('social_id', $socialUser->getId())
+            ->where('social_provider', strtolower($request->social_provider))
+            ->first()
+        ) {
+            $token = auth()->login($user);
+
+            $user->token = $token;
+            $data = new MeResource($user);
+            $ads = AdvertisementResource::collection(Advertisement::where('slug', 'home')->get());
+
+            $data = collect(["ads" => $ads, "user" => $data]);
+
+            return apiReturn($data, true, '', Response::HTTP_OK);
+        }
+    }
+
     public function register()
     {
-
     }
+
+
 
     public function logout()
     {

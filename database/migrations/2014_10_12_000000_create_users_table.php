@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('channel')->nullable();
             $table->string('push_token')->nullable();
             $table->string('push_token_type')->nullable();
+            $table->integer('social_id')->nullable();
+            $table->string('social_provider')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
