@@ -13,7 +13,7 @@ $factory->define(Order::class, function (Faker $faker) {
         'uuid' => random_int(1000000, 9999999),
         'user_id' => User::all()->random()->id,
         'address_id' => Address::all()->random()->id,
-        'type' => collect(['service', 'drug'])->random(),
+        'type' => collect(['service', 'pharmacy'])->random(),
         'service_provider_id' => function () {
             if (collect([0, 1])->random()) {
                 return ServiceProvider::all()->random()->id;

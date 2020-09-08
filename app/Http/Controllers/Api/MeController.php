@@ -20,6 +20,6 @@ class MeController extends ApiBaseController
     {
         $data = new MeResource($this->auth->user());
 
-        return apiReturn($data, true, '', Response::HTTP_OK);
+        return apiReturn($data, null, Response::HTTP_OK);
     }
 }

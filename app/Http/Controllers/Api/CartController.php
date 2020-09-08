@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
+use App\Models\Drug;
+use App\Models\Order;
 use Illuminate\Http\Request;
-use App\Models\ExaminationServiceType;
+use App\Models\PharmacyOrder;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Http\Resources\Api\Cart\CartResource;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Api\ApiBaseController;
-use App\Http\Resources\Cart\ExaminationServiceCartResource;
+use App\Http\Resources\Api\Order\StoreOrderResource;
 use Gloudemans\Shoppingcart\Exceptions\InvalidRowIDException;
 
 class CartController extends ApiBaseController
@@ -16,8 +20,6 @@ class CartController extends ApiBaseController
 
     public function __construct()
     {
-        // dd(Cart::instance(auth()->id()));
-
         $this->cart = Cart::instance(auth()->id());
     }
 
@@ -29,23 +31,10 @@ class CartController extends ApiBaseController
     public function index()
     {
         $this->cart->restore(auth()->id());
-        // dd($this->cart->content()->values()->all());
-        return response()->json([
-            'success' => true,
-            'data' =>  ExaminationServiceCartResource::collection($this->cart->content()->values()->all())
-        ]);
+
+        return apiReturn(CartResource::collection($this->cart->content()->values()->all()), null);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -56,18 +45,17 @@ class CartController extends ApiBaseController
     public function store(Request $request)
     {
 
-        $examinationServiceType = ExaminationServiceType::find($request->examination_service_type_id);
+        $drug = Drug::find($request->drug_id);
         $this->cart->add(
-            $examinationServiceType,
-            1
+            $drug->id,
+            $drug->name,
+            $request->quantity,
+            $drug->price
         );
 
         $this->cart->store(auth()->id());
 
-        return response()->json([
-            'success' => true,
-            'data' => ExaminationServiceCartResource::collection($this->cart->content()->values()->all())
-        ]);
+        return apiReturn(CartResource::collection($this->cart->content()->values()->all()), null);
     }
 
     /**
@@ -103,30 +91,23 @@ class CartController extends ApiBaseController
     {
         try {
             if ($request->quantity == 0) {
-                $this->cart->remove($request->rowId);
+                $this->cart->remove($request->row_id);
             } else {
                 $this->cart->update(
-                    $request->rowId,
+                    $request->row_id,
                     $request->quantity
                 );
             }
 
             $this->cart->store(auth()->id());
 
-            return response()->json([
-                'success' => true,
-                'data' => ExaminationServiceCartResource::collection($this->cart->content()->values()->all())
-            ]);
+            return apiReturn(CartResource::collection($this->cart->content()->values()->all()), null);
+
         } catch (InvalidRowIDException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => "Sorry, This item is not found"
-            ], Response::HTTP_NOT_FOUND);
+            return apiReturn(null, ['Sorry, This item is not found'], Response::HTTP_NOT_FOUND);
+
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => "Sorry, Something went wrong, please try again"
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return apiReturn(null, ['Sorry, Something went wrong, please try again'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -142,20 +123,45 @@ class CartController extends ApiBaseController
             $this->cart->remove($rowId);
             $this->cart->store(auth()->id());
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Item deleted successfully'
-            ], 200);
+            return apiReturn(null, null, Response::HTTP_OK);
+
         } catch (InvalidRowIDException $e) {
-            return response()->json([
-                "success" => false,
-                "message" => "This item is not found in you Cart"
-            ], 404);
+            return apiReturn(null, ['Sorry, This item is not found'], Response::HTTP_NOT_FOUND);
+
         } catch (\Exception $e) {
-            return response()->json([
-                "success" => false,
-                "message" => "somethings, went wrong"
-            ], 404);
+            return apiReturn(null, ['Sorry, Something went wrong, please try again'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function checkout(Request $request)
+    {
+
+        try {
+            $order = Order::create([
+                'uuid' => Order::generateUuid(),
+                'user_id' => auth()->id(),
+                'type' => Order::PHARMACY,
+                'address_id' => $request->address_id
+            ]);
+            foreach ($request->items as $item) {
+                $drug = Drug::findOrFail($item['id']);
+                PharmacyOrder::create([
+                    'order_id' => $order->id,
+                    'drug_id' => $drug->id,
+                    // 'quantity' => $item['quantity'],
+                    'purchase_price' => $drug->price - (5 / 100) * $drug->price,
+                    'sell_price' => $drug->price,
+                ]);
+            }
+
+            $data = new StoreOrderResource($order);
+
+            // event(new NewOrder($order));     // notify the user
+
+            return apiReturn($data, null, Response::HTTP_OK);
+
+        } catch (Exception $e) {
+            return apiReturn($e, [$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

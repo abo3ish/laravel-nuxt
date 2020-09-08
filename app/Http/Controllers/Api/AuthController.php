@@ -37,7 +37,7 @@ class AuthController extends Controller
 
         $data = collect(["ads" => $ads, "user" => $data]);
 
-        return apiReturn($data, true, '', Response::HTTP_OK);
+        return apiReturn($data, null, Response::HTTP_OK);
 
         return response()->json([
             'token' => $token,
@@ -48,6 +48,7 @@ class AuthController extends Controller
     public function socialLogin(Request $request)
     {
         $socialUser = Socialite::driver(strtolower($request->social_provider))->userFromToken($request->access_token);
+
         if ($user = User::where('social_id', $socialUser->getId())
             ->where('social_provider', strtolower($request->social_provider))
             ->first()
@@ -60,7 +61,9 @@ class AuthController extends Controller
 
             $data = collect(["ads" => $ads, "user" => $data]);
 
-            return apiReturn($data, true, '', Response::HTTP_OK);
+            return apiReturn($data, null, Response::HTTP_OK);
+        } else {
+
         }
     }
 

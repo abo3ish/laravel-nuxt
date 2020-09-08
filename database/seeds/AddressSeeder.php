@@ -14,7 +14,7 @@ class AddressSeeder extends Seeder
     {
        Address::create([
            'user_id' => 1,
-           'city_id' => 1,
+           'area_id' => 1,
            'street' => 'elshershaby',
            'building_number' => 1,
            'floor_number' => 1,

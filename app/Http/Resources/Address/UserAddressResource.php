@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Address;
 
-use App\Models\City;
+use App\Models\Area;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserAddressResource extends JsonResource
@@ -17,7 +17,7 @@ class UserAddressResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'city' => City::find($this->city_id)->name,
+            'area' => Area::find($this->area_id)->name,
             'street' => $this->street,
             'building_number' => $this->street,
             'floor_number' => $this->street,

@@ -16,7 +16,8 @@ class AdvertisementResource extends JsonResource
     {
         return [
             'slug' => $this->slug,
-            'image' => $this->image
+            'image' => $this->image,
+            'position' => $this->position
         ];
     }
 }

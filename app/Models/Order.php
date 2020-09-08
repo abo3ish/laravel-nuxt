@@ -10,6 +10,9 @@ class Order extends Model
         'uuid', 'user_id', 'address_id', 'type', 'service_provider_id', 'price_to_pay', 'tax_price', 'discount_price', 'actual_price', 'status', 'is_collected'
     ];
 
+    public const SERVICE = 'service';
+    public const PHARMACY = 'pharmacy';
+
     public static function whatIsMyStatus($status)
     {
         switch ($status) {
@@ -48,19 +51,19 @@ class Order extends Model
 
     public function services()
     {
-        return $this->HasMany(OrderService::class);
+        return $this->HasMany(ServiceOrder::class);
     }
 
     public function drugs()
     {
-        return $this->HasMany(OrderDrug::class);
+        return $this->HasMany(DrugOrder::class);
     }
 
     public function getServicesStringAttribute()
     {
         $string = '';
-        foreach($this->services as $orderService) {
-            $string .= $orderService->service->title . ', ';
+        foreach($this->services as $ServiceOrder) {
+            $string .= $ServiceOrder->service->title . ', ';
         }
         return trim($string, ", ");
     }
@@ -68,5 +71,15 @@ class Order extends Model
     public function getStatusStringAttribute()
     {
         return Self::whatIsMyStatus($this->status);
+    }
+
+    public static function generateUuid()
+    {
+        $uuid = random_int(1000000, 9999999);
+
+        if (Self::where('uuid', $uuid)->first()) {
+            self::generateUuid();
+        }
+        return $uuid;
     }
 }

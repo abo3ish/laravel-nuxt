@@ -20,7 +20,7 @@ class ExaminationServiceResource extends JsonResource
             'examination_id' => $this->examination_id,
             'icon' => $this->icon,
             'sub_services' => $this->childs()->count() ? Self::collection(collect($this->childs)) : [],
-            'url' => '',
+            // 'url' => '',
             'estmation_from' => $this->estimation_from,
             'estimation_to' => $this->estimation_to
         ];

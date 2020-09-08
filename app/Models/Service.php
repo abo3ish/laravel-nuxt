@@ -10,4 +10,9 @@ class Service extends Model
     {
         return $this->hasMany(Self::class, 'parent_id');
     }
+
+    public function examination()
+    {
+        return $this->belongsTo(Examination::class);
+    }
 }

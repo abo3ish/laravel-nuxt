@@ -21,7 +21,7 @@ class ExaminationController extends ApiBaseController
         $sections = Examination::all();
 
         $examinations = ExaminationResource::collection($sections);
-        return apiReturn($examinations, true, '', Response::HTTP_OK);
+        return apiReturn($examinations, null, Response::HTTP_OK);
 
     }
 

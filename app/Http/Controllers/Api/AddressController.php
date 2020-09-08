@@ -30,7 +30,7 @@ class AddressController extends ApiBaseController
     {
         $address = Address::create([
             'user_id' => auth()->id(),
-            'city_id' => $request->city_id,
+            'area_id' => $request->area_id,
             'street' => $request->street,
             'building_number' => $request->building_number,
             'floor_number' => $request->floor_number,
@@ -39,7 +39,7 @@ class AddressController extends ApiBaseController
             'lng' => $request->lng,
         ]);
         $data = new AddressResource($address);
-        return apiReturn($data, true, '', Response::HTTP_OK);
+        return apiReturn($data, null, Response::HTTP_OK);
     }
 
     /**

@@ -17,15 +17,20 @@ class AdvertisementSeeder extends Seeder
          *****************************/
         Advertisement::create([
             'image' => 'homeAd1.png',
-            'slug' => 'home'
+            'slug' => 'home',
+            'position' => 'top'
         ]);
         Advertisement::create([
             'image' => 'homeAd2.png',
-            'slug' => 'home'
+            'slug' => 'home',
+            'position' => 'top'
+
         ]);
         Advertisement::create([
             'image' => 'homeAd3.png',
-            'slug' => 'home'
+            'slug' => 'home',
+            'position' => 'top'
+
         ]);
 
 
@@ -34,15 +39,21 @@ class AdvertisementSeeder extends Seeder
          *****************************/
         Advertisement::create([
             'image' => 'examinationAd1.png',
-            'slug' => 'examination'
+            'slug' => 'examination',
+            'position' => 'top'
+
         ]);
         Advertisement::create([
             'image' => 'examinationAd2.png',
-            'slug' => 'examination'
+            'slug' => 'examination',
+            'position' => 'top'
+
         ]);
         Advertisement::create([
             'image' => 'examinationAd3.png',
-            'slug' => 'examination'
+            'slug' => 'examination',
+            'position' => 'top'
+
         ]);
 
 
@@ -51,15 +62,21 @@ class AdvertisementSeeder extends Seeder
          *****************************/
         Advertisement::create([
             'image' => 'doctorAd1.png',
-            'slug' => 'doctor'
+            'slug' => 'doctor',
+            'position' => 'bottom'
+
         ]);
         Advertisement::create([
             'image' => 'doctorAd2.png',
-            'slug' => 'doctor'
+            'slug' => 'doctor',
+            'position' => 'bottom'
+
         ]);
         Advertisement::create([
             'image' => 'doctorAd3.png',
-            'slug' => 'doctor'
+            'slug' => 'doctor',
+            'position' => 'bottom'
+
         ]);
 
 
@@ -68,15 +85,21 @@ class AdvertisementSeeder extends Seeder
          *****************************/
         Advertisement::create([
             'image' => 'laboratoryAd1.png',
-            'slug' => 'laboratory'
+            'slug' => 'laboratory',
+            'position' => 'bottom'
+
         ]);
         Advertisement::create([
             'image' => 'laboratoryAd2.png',
-            'slug' => 'laboratory'
+            'slug' => 'laboratory',
+            'position' => 'bottom'
+
         ]);
         Advertisement::create([
             'image' => 'laboratoryAd3.png',
-            'slug' => 'laboratory'
+            'slug' => 'laboratory',
+            'position' => 'bottom'
+
         ]);
     }
 }

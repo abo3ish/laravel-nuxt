@@ -20,7 +20,7 @@ class ExaminationOrderController extends ApiBaseController
     public function index()
     {
         $data = ExaminationOrder::where('user_id', auth()->id())->get();
-        return apiReturn($data, true, '', Response::HTTP_OK);
+        return apiReturn($data, null, Response::HTTP_OK);
     }
 
     /**

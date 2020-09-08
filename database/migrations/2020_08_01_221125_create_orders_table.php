@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
+            $table->uuid('uuid')->unique()->index();
             $table->foreignId('user_id')->costrained();
             $table->foreignId('service_provider_id')->nullable()->costrained()->onDelete('set null');
             $table->float('price_to_pay')->default(0)->nullable();
@@ -25,7 +25,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('address_id');
             $table->integer('status')->default(0);
             $table->boolean('is_collected')->default(false);
-            $table->enum('type', ['service', 'drug']);
+            $table->enum('type', ['service', 'pharmacy']);
             $table->timestamps();
         });
     }

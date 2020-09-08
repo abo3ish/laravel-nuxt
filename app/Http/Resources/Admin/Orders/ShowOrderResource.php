@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Admin\Orders;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Admin\OrderServices\OrderServiceResource;
+use App\Http\Resources\Admin\ServiceOrders\ServiceOrderResource;
 
 class ShowOrderResource extends JsonResource
 {
@@ -23,7 +23,7 @@ class ShowOrderResource extends JsonResource
             ],
             'address' => $this->address->street,
             'type' => $this->type,
-            'services' => OrderServiceResource::collection($this->services),
+            'services' => ServiceOrderResource::collection($this->services),
             'service_provider' => $this->serviceProvider ? [
                 'id' => $this->serviceProvider->id,
                 'name' => $this->serviceProvider->name,
