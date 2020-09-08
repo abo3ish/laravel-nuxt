@@ -10,7 +10,7 @@ module.exports = {
 
   env: {
     apiUrl: process.env.API_URL || process.env.APP_URL + '/api/admin',
-    appName: process.env.APP_NAME || 'Laravel Nuxt',
+    appName: process.env.APP_NAME || 'كشف ودوا',
     appLocale: process.env.APP_LOCALE || 'ar',
     githubAuth: !!process.env.GITHUB_CLIENT_ID
   },
@@ -21,7 +21,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { hid: 'description', name: 'description', content: 'كشف ودوا' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -56,7 +56,7 @@ module.exports = {
   },
 
   axios: {
-    baseURL: 'http://localhost:7000/api/admin'
+    baseURL: process.env.API_URL
   },
 
   css: [
