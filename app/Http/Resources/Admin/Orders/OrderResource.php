@@ -30,7 +30,8 @@ class OrderResource extends JsonResource
             'status' => [
                 'code' => $this->status,
                 'string' => $this->status_string
-            ]
+            ],
+            'created_at' => $this->created_at
         ];
     }
 }

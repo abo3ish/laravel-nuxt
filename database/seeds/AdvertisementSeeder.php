@@ -101,5 +101,51 @@ class AdvertisementSeeder extends Seeder
             'position' => 'bottom'
 
         ]);
+
+
+
+        /*****************************
+            Pharmacy Categories
+         *****************************/
+        Advertisement::create([
+            'image' => 'pharmacyCategoryAd1.png',
+            'slug' => 'pharmacy-category',
+            'position' => 'top'
+
+        ]);
+        Advertisement::create([
+            'image' => 'pharmacyCategoryAd2.png',
+            'slug' => 'pharmacy-category',
+            'position' => 'top'
+
+        ]);
+        Advertisement::create([
+            'image' => 'pharmacyCategoryAd3.png',
+            'slug' => 'pharmacy-category',
+            'position' => 'top'
+
+        ]);
+
+        /*****************************
+            Pharmacy Drugs
+         *****************************/
+        Advertisement::create([
+            'image' => 'drugAd1.png',
+            'slug' => 'drugs',
+            'position' => 'bottom'
+
+        ]);
+        Advertisement::create([
+            'image' => 'drugAd2.png',
+            'slug' => 'drugs',
+            'position' => 'bottom'
+
+        ]);
+        Advertisement::create([
+            'image' => 'drugAd3.png',
+            'slug' => 'drugs',
+            'position' => 'bottom'
+
+        ]);
     }
 }

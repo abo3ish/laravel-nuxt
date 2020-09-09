@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Drug;
 use Illuminate\Http\Request;
+use App\Models\Advertisement;
 use App\Models\PharmacyCategory;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\Drug\DrugResource;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Api\ApiBaseController;
-use App\Http\Resources\Api\Drug\DrugResource;
+use App\Http\Resources\Api\Advertisement\AdvertisementResource;
 use App\Http\Resources\Api\PharmacyCategory\PharmacyCategoryResource;
-use App\Models\Drug;
 
 class PharmacyCategoryController extends ApiBaseController
 {
     public function index()
     {
         $categories = PharmacyCategory::where('status', 1)->where('parent_id', null)->get();
-        return apiReturn(PharmacyCategoryResource::collection($categories), null, Response::HTTP_OK);
+        $data['categories'] = PharmacyCategoryResource::collection($categories);
+        $data['ads'] = AdvertisementResource::collection(Advertisement::where('slug', 'pharmacy-category')->get());
+        return apiReturn($data, null, Response::HTTP_OK);
     }
 
     public function show(PharmacyCategory $pharmacyCategory)

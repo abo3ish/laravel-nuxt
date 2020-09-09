@@ -150,7 +150,7 @@ return [
     'required_claims' => [
         'iss',
         'iat',
-        'exp',
+        // 'exp',           uncommect if expire time needed
         'nbf',
         'sub',
         'jti',
