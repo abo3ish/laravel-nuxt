@@ -18,7 +18,8 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "pusher/pusher-php-server": "^4.1",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth": "^1.0",
+        "laravel/telescope": "^3.5"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

@@ -24,7 +24,8 @@ class AuthController extends Controller
         $token = $this->guard()->attempt($this->credentials($request));
 
         if (!$token) {
-            return false;
+            return apiReturn([], ['wrong credentials'], Response::HTTP_UNAUTHORIZED);
+
         }
 
         $user = $this->guard()->user();
@@ -38,11 +39,6 @@ class AuthController extends Controller
         $data = collect(["ads" => $ads, "user" => $data]);
 
         return apiReturn($data, null, Response::HTTP_OK);
-
-        return response()->json([
-            'token' => $token,
-            'user' => $user                 // make resource for the user
-        ]);
     }
 
     public function socialLogin(Request $request)
