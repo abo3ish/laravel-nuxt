@@ -41,6 +41,6 @@ class KafshInstall extends Command
         $this->call('migrate:fresh', [
             '--seed' => true
         ]);
-        DB::unprepared(file_get_contents('database/sql/drugs.sql'));
+        DB::unprepared(file_get_contents('database/schema/drugs.sql'));
     }
 }
