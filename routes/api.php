@@ -47,6 +47,7 @@ Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'Api'], functio
     /*
         Pharmacy
     */
+    Route::get('pharmacy-categories/{pharmacyCategory}/sub', 'PharmacyCategoryController@subCategories');
     Route::resource('pharmacy-categories', 'PharmacyCategoryController');
     Route::post('cart/checkout', 'CartController@checkout');
 });

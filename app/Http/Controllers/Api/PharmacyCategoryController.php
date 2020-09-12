@@ -43,4 +43,12 @@ class PharmacyCategoryController extends ApiBaseController
         ];
         return apiReturn($data, null, Response::HTTP_OK);
     }
+
+    public function subCategories(PharmacyCategory $pharmacyCategory)
+    {
+        $categories = PharmacyCategory::where('status', 1)->where('parent_id', $pharmacyCategory->id)->get();
+        $data['categories'] = PharmacyCategoryResource::collection($categories);
+        $data['ads'] = AdvertisementResource::collection(Advertisement::where('slug', 'pharmacy-category')->get());
+        return apiReturn($data, null, Response::HTTP_OK);
+    }
 }
