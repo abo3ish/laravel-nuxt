@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->index();
+            $table->integer('uuid')->unique()->index();
             $table->foreignId('user_id')->costrained();
             $table->foreignId('service_provider_id')->nullable()->costrained()->onDelete('set null');
             $table->float('price_to_pay')->default(0)->nullable();

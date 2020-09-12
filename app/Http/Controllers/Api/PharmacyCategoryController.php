@@ -26,6 +26,21 @@ class PharmacyCategoryController extends ApiBaseController
     public function show(PharmacyCategory $pharmacyCategory)
     {
         $drugs = Drug::where('category_id', $pharmacyCategory->id)->paginate(20);
-        return apiReturn(DrugResource::collection($drugs), null, Response::HTTP_OK);
+        $data = DrugResource::collection($drugs);
+
+        $data = [
+            'drugs' => $data->items(),
+            'pagination' => [
+                'per_page' => $data->perPage(),
+                'current_page' => $data->currentPage(),
+                'next_page_url' => $data->nextPageUrl(),
+                'previous_page_url' => $data->previousPageUrl(),
+                'first_item' => $data->firstItem(),
+                'last_item' => $data->lastItem(),
+                'last_page' => $data->lastPage(),
+                'total' => $data->total(),
+            ]
+        ];
+        return apiReturn($data, null, Response::HTTP_OK);
     }
 }
