@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\ApiBaseController;
+use App\Http\Traits\AdvertisementTrait;
 use App\Models\Advertisement;
 use Illuminate\Http\Request;
 
-class AdvertisementController extends Controller
+class AdvertisementController extends ApiBaseController
 {
+    use AdvertisementTrait;
     /**
      * Display a listing of the resource.
      *
@@ -81,5 +84,11 @@ class AdvertisementController extends Controller
     public function destroy(Advertisement $advertisement)
     {
         //
+    }
+
+    public function showSplashAd()
+    {
+        $ad['ads'] = $this->getPageAd('splash');
+        return apiReturn($ad);
     }
 }

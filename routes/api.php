@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 require_once __DIR__ . '/admin.php';
 
 Route::group(['middleware' => 'guest:api'], function () {
+    Route::get('splash-ad', 'Api\AdvertisementController@showSplashAd');
+
     Route::post('login', 'Api\AuthController@login');
     Route::post('login/social', 'Api\AuthController@socialLogin');
     Route::post('register', 'Api\RegisterController@register');

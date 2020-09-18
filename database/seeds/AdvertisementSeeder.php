@@ -13,6 +13,15 @@ class AdvertisementSeeder extends Seeder
     public function run()
     {
         /*****************************
+            Splash Ads
+         *****************************/
+        Advertisement::create([
+            'image' => 'splashAd1.png',
+            'slug' => 'splash',
+            'position' => 'full'
+        ]);
+
+        /*****************************
             Home Ads
          *****************************/
         Advertisement::create([
@@ -55,6 +64,18 @@ class AdvertisementSeeder extends Seeder
             'position' => 'top'
 
         ]);
+        Advertisement::create([
+            'image' => 'examinationAd4.png',
+            'slug' => 'examination',
+            'position' => 'bottom'
+
+        ]);
+        Advertisement::create([
+            'image' => 'examinationAd5.png',
+            'slug' => 'examination',
+            'position' => 'bottom'
+
+        ]);
 
 
         /*****************************
@@ -78,6 +99,18 @@ class AdvertisementSeeder extends Seeder
             'position' => 'bottom'
 
         ]);
+        Advertisement::create([
+            'image' => 'doctorAd4.png',
+            'slug' => 'doctor',
+            'position' => 'top'
+
+        ]);
+        Advertisement::create([
+            'image' => 'doctorAd5.png',
+            'slug' => 'doctor',
+            'position' => 'top'
+
+        ]);
 
 
         /*****************************
@@ -99,6 +132,18 @@ class AdvertisementSeeder extends Seeder
             'image' => 'laboratoryAd3.png',
             'slug' => 'laboratory',
             'position' => 'bottom'
+
+        ]);
+        Advertisement::create([
+            'image' => 'laboratoryAd5.png',
+            'slug' => 'laboratory',
+            'position' => 'top'
+
+        ]);
+        Advertisement::create([
+            'image' => 'laboratoryAd5.png',
+            'slug' => 'laboratory',
+            'position' => 'top'
 
         ]);
 
@@ -125,6 +170,18 @@ class AdvertisementSeeder extends Seeder
             'position' => 'top'
 
         ]);
+        Advertisement::create([
+            'image' => 'pharmacyCategoryAd4.png',
+            'slug' => 'pharmacy-category',
+            'position' => 'bottom'
+
+        ]);
+        Advertisement::create([
+            'image' => 'pharmacyCategoryAd5.png',
+            'slug' => 'pharmacy-category',
+            'position' => 'bottom'
+
+        ]);
 
         /*****************************
             Pharmacy Drugs
@@ -145,6 +202,18 @@ class AdvertisementSeeder extends Seeder
             'image' => 'drugAd3.png',
             'slug' => 'drugs',
             'position' => 'bottom'
+
+        ]);
+        Advertisement::create([
+            'image' => 'drugAd4.png',
+            'slug' => 'drugs',
+            'position' => 'top'
+
+        ]);
+        Advertisement::create([
+            'image' => 'drugAd5.png',
+            'slug' => 'drugs',
+            'position' => 'top'
 
         ]);
     }
