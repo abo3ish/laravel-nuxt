@@ -15,9 +15,9 @@ class AdvertisementResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'slug' => $this->slug,
+            // 'slug' => $this->slug,
             'image' => $this->image,
-            'position' => $this->position
+            // 'position' => $this->position
         ];
     }
 }

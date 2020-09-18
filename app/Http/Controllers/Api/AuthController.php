@@ -12,11 +12,11 @@ use App\Http\Resources\User\MeResource;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use App\Http\Resources\Api\Advertisement\AdvertisementResource;
+use App\Http\Traits\AdvertisementTrait;
 
 class AuthController extends Controller
 {
-    use AuthenticatesUsers, UserProviderTrait;
+    use AuthenticatesUsers, UserProviderTrait, AdvertisementTrait;
 
 
     public function login(Request $request)
@@ -34,7 +34,7 @@ class AuthController extends Controller
         $this->addToDevices($request->device_type, $request->details, $user, $request->ip(), 'login');
         $user->token = $token;
         $data = new MeResource($user);
-        $ads = AdvertisementResource::collection(Advertisement::where('slug', 'home')->get());
+        $ads = $this->getPageAd('home');
 
         $data = collect(["ads" => $ads, "user" => $data]);
 
@@ -53,7 +53,7 @@ class AuthController extends Controller
 
             $user->token = $token;
             $data = new MeResource($user);
-            $ads = AdvertisementResource::collection(Advertisement::where('slug', 'home')->get());
+            $ads = $this->getPageAd('home');
 
             $data = collect(["ads" => $ads, "user" => $data]);
 
