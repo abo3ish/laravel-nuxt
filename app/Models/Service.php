@@ -3,9 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Service extends Model
 {
+    protected $fillable = [
+        'title',
+        'description',
+        'icon',
+        'service_provider_id',
+        'estimation_from',
+        'estimation_to',
+        'purchase_price',
+        'sell_price',
+        'examination_id',
+        'parent_id',
+        'slug'
+    ];
+
     public function childs()
     {
         return $this->hasMany(Self::class, 'parent_id');
@@ -14,5 +29,10 @@ class Service extends Model
     public function examination()
     {
         return $this->belongsTo(Examination::class);
+    }
+
+    public function getIconUrlAttribute()
+    {
+        return Storage::exists(iconPath($this->icon)) ? url(Storage::url(iconPath($this->icon))) : null;
     }
 }

@@ -20,7 +20,7 @@ class PharmacyCategoryResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'icon' => $this->icon,
+            'icon' => $this->icon_url,
             'url' => $this->childs()->count() ? '' : route('pharmacy-categories.show', $this->id),
             'slug' => $this->slug,
             // 'sub_categories' => $this->childs()->count() ? Self::collection(collect($this->childs)) : [],

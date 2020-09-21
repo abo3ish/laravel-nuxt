@@ -20,7 +20,7 @@ class ExaminationSeeder extends Seeder
         $homeExamination = Examination::create([
             'title' => 'كشف منزلي',
             'description' => 'وصف للعنصر قد يمتد لسطرين او اكثر',
-            'icon' => '',
+            'icon' => 'examinWhite.png',
             'slug' => 'doctor',
             'accept_multi' => false,
         ]);
@@ -32,7 +32,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $homeExamination->id,
             'title' => 'طبيب عام',
-            'icon' => '',
+            'icon' => 'doctor.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -43,7 +43,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $homeExamination->id,
             'title' => 'طبيب أطفال',
-            'icon' => '',
+            'icon' => 'pediatrician.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -54,7 +54,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $homeExamination->id,
             'title' => 'طبيب باطنة عام',
-            'icon' => '',
+            'icon' => 'heart.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -66,7 +66,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $homeExamination->id,
             'title' => 'طبيب عظام',
-            'icon' => '',
+            'icon' => 'bones.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -81,7 +81,7 @@ class ExaminationSeeder extends Seeder
         $nursing = Examination::create([
             'title' => ' تمريض منزلي',
             'description' => 'وصف للعنصر قد يمتد لسطرين او اكثر',
-            'icon' => '',
+            'icon' => 'nurseCapWhite.png',
             'slug' => 'nurse',
         ]);
         $nurseServiceProvider = ServiceProviderType::where('title', 'nurse')->first();
@@ -89,7 +89,7 @@ class ExaminationSeeder extends Seeder
         $expressServices = Service::create([
             'examination_id' => $nursing->id,
             'title' => 'خدمات سريعة',
-            'icon' => '',
+            'icon' => 'nurse.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -102,7 +102,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $nursing->id,
             'title' => 'قياس ضغط/سكر',
-            'icon' => '',
+            'icon' => 'blood-pressure-gauge.png',
             'parent_id' => $expressServices->id,
             'estimation_from' => 150,
             'estimation_to' => 300,
@@ -114,7 +114,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $nursing->id,
             'title' => 'تركيب كانيولا/محلول',
-            'icon' => '',
+            'icon' => 'canula.png',
             'parent_id' => $expressServices->id,
             'estimation_from' => 150,
             'estimation_to' => 300,
@@ -126,7 +126,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $nursing->id,
             'title' => 'حقن عضل',
-            'icon' => '',
+            'icon' => 'syringe.png',
             'parent_id' => $expressServices->id,
             'estimation_from' => 150,
             'estimation_to' => 300,
@@ -139,7 +139,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $nursing->id,
             'title' => 'قسطرة بولية ورايل للتغذية',
-            'icon' => '',
+            'icon' => 'catheter.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -150,7 +150,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $nursing->id,
             'title' => 'العناية بالجروج',
-            'icon' => '',
+            'icon' => 'plaster.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -161,7 +161,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $nursing->id,
             'title' => 'جلسة تنفس للأطفال والكبار',
-            'icon' => '',
+            'icon' => 'oxygen.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -172,7 +172,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $nursing->id,
             'title' => 'رعاية كبار سن 24 ساعة',
-            'icon' => '',
+            'icon' => 'elder.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -183,7 +183,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $nursing->id,
             'title' => 'رعاية بعد العمليات',
-            'icon' => '',
+            'icon' => 'insurance.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -195,11 +195,11 @@ class ExaminationSeeder extends Seeder
         /************************************
             Physical Therapy
          *************************************/
-        // $physicalTherapy = Examination::create([
-        //     'title' => ' علاج طبيعي',
-        //     'description' => ' وصف للعنصر قد يمتد لسطرين او اكثر  وصف للعنصر قد يمتد لسطرين او اكثر ،',
-        //     'icon' => ''
-        // ]);
+        $physicalTherapy = Examination::create([
+            'title' => ' علاج طبيعي',
+            'description' => ' وصف للعنصر قد يمتد لسطرين او اكثر  وصف للعنصر قد يمتد لسطرين او اكثر ،',
+            'icon' => 'physiotherapy.png'
+        ]);
 
 
         /************************************
@@ -209,7 +209,7 @@ class ExaminationSeeder extends Seeder
         $rays = Examination::create([
             'title' => 'أشعة بالمنزل',
             'description' => ' وصف للعنصر قد يمتد لسطرين او اكثر  وصف للعنصر قد يمتد لسطرين او اكثر ،',
-            'icon' => '',
+            'icon' => 'skeletonWhite.png',
             'slug' => 'scan',
         ]);
         $radiologistServiceProvider = ServiceProviderType::where('title', 'radiologist')->first();
@@ -217,7 +217,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $rays->id,
             'title' => 'x-rays',
-            'icon' => '',
+            'icon' => 'skeleton.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -228,7 +228,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $rays->id,
             'title' => 'سونار',
-            'icon' => '',
+            'icon' => 'sonar.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -252,7 +252,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $rays->id,
             'title' => 'رسم قلب',
-            'icon' => '',
+            'icon' => 'ecg.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -264,7 +264,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $rays->id,
             'title' => 'ايكو',
-            'icon' => '',
+            'icon' => 'eco.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -280,7 +280,7 @@ class ExaminationSeeder extends Seeder
         $tests = Examination::create([
             'title' => ' تحاليل ',
             'description' => 'وصف للعنصر قد يمتد لسطرين او اكثر',
-            'icon' => '',
+            'icon' => 'microscopeWhite.png',
             'slug' => 'laboratory',
         ]);
         $laboratoryServiceProvider = ServiceProviderType::where('title', 'laboratory')->first();
@@ -288,7 +288,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $tests->id,
             'title' => 'عينة دم',
-            'icon' => '',
+            'icon' => 'blood-drop.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -300,7 +300,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $tests->id,
             'title' => 'عينة بول',
-            'icon' => '',
+            'icon' => 'jar.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -312,7 +312,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $tests->id,
             'title' => 'عينة براز',
-            'icon' => '',
+            'icon' => 'shit.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,
@@ -324,7 +324,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $tests->id,
             'title' => 'عينة حيوانات منوية',
-            'icon' => '',
+            'icon' => 'semen.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,

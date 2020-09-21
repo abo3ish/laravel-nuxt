@@ -20,7 +20,7 @@ class ExaminationResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'icon' => $this->icon,
+            'icon' => $this->icon_url,
             'accept_multi' => $this->accept_multi,
             'services' => ExaminationServiceResource::collection($this->services()->where('parent_id', null)->get()),
             'ads' => $this->getPageAd($this->slug),

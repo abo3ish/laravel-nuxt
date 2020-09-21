@@ -15,7 +15,7 @@ class PharmacyCategorySeeder extends Seeder
         $drugs = PharmacyCategory::create([
             'title' => 'الادوية',
             'description' => '',
-            'icon' => '',
+            'icon' => 'drugs-jar.png',
             'slug' => 'drugs'
         ]);
 
@@ -25,34 +25,34 @@ class PharmacyCategorySeeder extends Seeder
         $kids = PharmacyCategory::create([
             'title' => 'الالبان ومستلزمات االاطفال',
             'description' => '',
-            'icon' => '',
+            'icon' => 'motherWhite.png',
             'slug' => 'kids'
         ]);
         PharmacyCategory::create([
             'title' => 'البان واغذية اطفال',
             'description' => '',
-            'icon' => '',
+            'icon' => 'pacifier.png',
             'slug' => '',
             'parent_id' => $kids->id
         ]);
         PharmacyCategory::create([
             'title' => 'حفاضات الطفال',
             'description' => '',
-            'icon' => '',
+            'icon' => 'newborn.png',
             'slug' => '',
             'parent_id' => $kids->id
         ]);
         PharmacyCategory::create([
             'title' => 'مستلزمات رضاعة',
             'description' => '',
-            'icon' => '',
+            'icon' => 'baby-products.png',
             'slug' => '',
             'parent_id' => $kids->id
         ]);
         PharmacyCategory::create([
             'title' => 'المنظفات والعناية بالطفل',
             'description' => '',
-            'icon' => '',
+            'icon' => 'maternity.png',
             'slug' => '',
             'parent_id' => $kids->id
         ]);
@@ -63,41 +63,41 @@ class PharmacyCategorySeeder extends Seeder
         $beauty = PharmacyCategory::create([
             'title' => 'التجميل والعناية الشخصية',
             'description' => '',
-            'icon' => '',
+            'icon' => 'beauty.png',
             'slug' => 'beauty'
         ]);
         PharmacyCategory::create([
             'title' => 'صحة وجمال والمرأة',
             'description' => '',
-            'icon' => '',
+            'icon' => 'make-upWhite.png',
             'slug' => '',
             'parent_id' => $beauty->id
         ]);
         PharmacyCategory::create([
             'title' => 'مستلزمات الرجال',
             'description' => '',
-            'icon' => '',
+            'icon' => 'man.png',
             'slug' => '',
             'parent_id' => $beauty->id
         ]);
         PharmacyCategory::create([
             'title' => 'مسلتزمات الاستحمام',
             'description' => '',
-            'icon' => '',
+            'icon' => 'gel.png',
             'slug' => '',
             'parent_id' => $beauty->id
         ]);
         PharmacyCategory::create([
             'title' => 'العناية بالفم',
             'description' => '',
-            'icon' => '',
+            'icon' => 'toothbrush.png',
             'slug' => '',
             'parent_id' => $beauty->id
         ]);
         PharmacyCategory::create([
             'title' => 'الصحة الجنسية',
             'description' => '',
-            'icon' => '',
+            'icon' => 'sexual-transmitted-disease.png',
             'slug' => '',
             'parent_id' => $beauty->id
         ]);
@@ -108,41 +108,41 @@ class PharmacyCategorySeeder extends Seeder
         $women = PharmacyCategory::create([
             'title' => 'صحة وجمال المرأة',
             'description' => '',
-            'icon' => '',
+            'icon' => 'make-upWhite.png',
             'slug' => 'women'
         ]);
         PharmacyCategory::create([
             'title' => 'الفوط والعناية النسائية',
             'description' => '',
-            'icon' => '',
+            'icon' => 'sanitary-towel.png',
             'slug' => '',
             'parent_id' => $women->id
         ]);
         PharmacyCategory::create([
             'title' => 'مستحضرات التجميل',
             'description' => '',
-            'icon' => '',
+            'icon' => 'cosmetics.png',
             'slug' => '',
             'parent_id' => $women->id
         ]);
         PharmacyCategory::create([
             'title' => 'منتجات التجميل الطبية',
             'description' => '',
-            'icon' => '',
+            'icon' => 'skincare.png',
             'slug' => '',
             'parent_id' => $women->id
         ]);
         PharmacyCategory::create([
             'title' => 'العناية بالبشرة',
             'description' => '',
-            'icon' => '',
+            'icon' => 'skin.png',
             'slug' => '',
             'parent_id' => $women->id
         ]);
         PharmacyCategory::create([
             'title' => 'العدسات اللاصقة',
             'description' => '',
-            'icon' => '',
+            'icon' => 'lenses.png',
             'slug' => '',
             'parent_id' => $women->id
         ]);
@@ -153,14 +153,14 @@ class PharmacyCategorySeeder extends Seeder
         $supplies = PharmacyCategory::create([
             'title' => 'أجهزة ومستلزمات طبية',
             'description' => '(قطن-شاش-سرنجات-كانيولا-اجهزة طبية...)',
-            'icon' => '',
+            'icon' => 'medicalTools.png',
             'slug' => 'supplies'
         ]);
 
         $gym = PharmacyCategory::create([
             'title' => 'المكملات العذائية والجيم',
             'description' => '',
-            'icon' => '',
+            'icon' => 'gym.png',
             'slug' => 'gym'
         ]);
     }

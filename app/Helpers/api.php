@@ -9,3 +9,11 @@ function apiReturn($data = null, $error = null, $code = 200)
     ], $code);
 }
 
+function iconPath($icon = null)
+{
+    return 'public/images/icons/' . $icon;
+}
+function AdPath($ad = null)
+{
+    return 'public/images/ads/' . $ad;
+}
