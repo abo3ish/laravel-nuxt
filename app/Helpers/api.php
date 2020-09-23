@@ -13,9 +13,15 @@ function iconPath($icon = null)
 {
     return 'images/icons/' . $icon;
 }
-function AdPath($ad = null)
+
+function adPath($ad = null)
 {
     return 'images/ads/' . $ad;
+}
+
+function drugPath($drug = null)
+{
+    return 'images/drugs/' . $drug;
 }
 
 function getIcon($icon)
@@ -25,5 +31,10 @@ function getIcon($icon)
 
 function getAd($ad)
 {
-    return file_exists(AdPath($ad)) ? url((AdPath($ad))) : url(AdPath('homeAd1.png'));
+    return file_exists(adPath($ad)) ? url((adPath($ad))) : url(adPath('homeAd1.png'));
+}
+
+function getDrugImage($drug)
+{
+    return file_exists(drugPath($drug)) ? url((drugPath($drug))) : null;
 }
