@@ -19,6 +19,17 @@ Route::group(['middleware' => 'guest:api'], function () {
 
     Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
     Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
+
+    /*
+        Examinations
+    */
+    Route::get('/examinations', 'ExaminationController@index');
+
+    /*
+        Pharmacy
+    */
+    Route::get('pharmacy-categories/{pharmacyCategory}/sub', 'PharmacyCategoryController@subCategories');
+    Route::resource('pharmacy-categories', 'PharmacyCategoryController');
 });
 
 
@@ -29,8 +40,6 @@ Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'Api'], functio
     Route::post('logout', 'AuthController@logout');
 
 
-    // Examinations
-    Route::get('/examinations', 'ExaminationController@index');
 
     // Examination services Types
     Route::get('examination-service-types/{examinationServiceType}', 'ExaminationServiceTypeController@show');
@@ -46,11 +55,7 @@ Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'Api'], functio
     Route::resource('orders', 'OrderController');
 
 
-    /*
-        Pharmacy
-    */
-    Route::get('pharmacy-categories/{pharmacyCategory}/sub', 'PharmacyCategoryController@subCategories');
-    Route::resource('pharmacy-categories', 'PharmacyCategoryController');
+
     Route::post('cart/checkout', 'CartController@checkout');
 });
 
