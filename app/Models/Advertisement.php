@@ -15,6 +15,6 @@ class Advertisement extends Model
 
     public function getImageUrlAttribute()
     {
-        return Storage::exists(AdPath($this->image)) ? url(Storage::url(AdPath($this->image))) : url(Storage::url(AdPath('homeAd1.png')));
+        return Storage::exists(AdPath($this->image)) ? secure_url(Storage::url(AdPath($this->image))) : secure_url(Storage::url(AdPath('homeAd1.png')));
     }
 }
