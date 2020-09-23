@@ -11,9 +11,19 @@ function apiReturn($data = null, $error = null, $code = 200)
 
 function iconPath($icon = null)
 {
-    return 'public/images/icons/' . $icon;
+    return 'images/icons/' . $icon;
 }
 function AdPath($ad = null)
 {
-    return 'public/images/ads/' . $ad;
+    return 'images/ads/' . $ad;
+}
+
+function getIcon($icon)
+{
+    return file_exists(iconPath($icon)) ? url((iconPath($icon))) : null;
+}
+
+function getAd($ad)
+{
+    return file_exists(AdPath($ad)) ? url((AdPath($ad))) : url(AdPath('homeAd1.png'));
 }

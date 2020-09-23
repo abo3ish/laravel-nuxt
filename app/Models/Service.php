@@ -33,6 +33,6 @@ class Service extends Model
 
     public function getIconUrlAttribute()
     {
-        return Storage::exists(iconPath($this->icon)) ? url(Storage::url(iconPath($this->icon))) : null;
+        return getIcon($this->icon);
     }
 }
