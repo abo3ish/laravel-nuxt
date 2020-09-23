@@ -4,21 +4,21 @@ use Illuminate\Support\Facades\Route;
 
 require_once __DIR__ . '/admin.php';
 
-Route::group(['middleware' => 'guest:api'], function () {
-    Route::get('splash-ad', 'Api\AdvertisementController@showSplashAd');
+Route::group(['middleware' => 'guest:api', 'namespace' => 'Api'], function () {
+    Route::get('splash-ad', 'AdvertisementController@showSplashAd');
 
-    Route::post('login', 'Api\AuthController@login');
-    Route::post('login/social', 'Api\AuthController@socialLogin');
-    Route::post('register', 'Api\RegisterController@register');
+    Route::post('login', 'AuthController@login');
+    Route::post('login/social', 'AuthController@socialLogin');
+    Route::post('register', 'RegisterController@register');
 
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+    // Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+    // Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-    Route::post('email/verify/{user}', 'Auth\VerificationController@verify')->name('verification.verify');
-    Route::post('email/resend', 'Auth\VerificationController@resend');
+    // Route::post('email/verify/{user}', 'Auth\VerificationController@verify')->name('verification.verify');
+    // Route::post('email/resend', 'Auth\VerificationController@resend');
 
-    Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
-    Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
+    // Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
+    // Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
 
     /*
         Examinations
