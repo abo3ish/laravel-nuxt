@@ -1,12 +1,2 @@
 *
-
-!/images
-!/images/*
-
-!images/ads
-!images/ads/*
-
-!images/ads
-!images/icons/*
-
 !.gitignore
