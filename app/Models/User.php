@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\ResetPassword;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
 {
@@ -19,7 +20,16 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
+        'email_verified_at',
+        'phone',
+        'channel',
+        'push_token',
+        'push_token_type',
+        'social_id',
+        'social_provider',
     ];
 
     /**
@@ -117,5 +127,13 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     public function devices()
     {
         return $this->morphMany(Device::class, 'deviceable');
+    }
+
+    public function updatePushToken($pushToken, $pushTokenType)
+    {
+        $this->update([
+            'push_token' => $pushToken,
+            'push_token_type' => $pushTokenType,
+        ]);
     }
 }

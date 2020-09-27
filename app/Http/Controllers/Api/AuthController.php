@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Models\User;
 use App\Events\Login;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Advertisement;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 use App\Http\Traits\UserProviderTrait;
 use App\Http\Resources\User\MeResource;
+use App\Http\Traits\AdvertisementTrait;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use App\Http\Traits\AdvertisementTrait;
 
 class AuthController extends Controller
 {
@@ -43,13 +46,28 @@ class AuthController extends Controller
 
     public function socialLogin(Request $request)
     {
-        $socialUser = Socialite::driver(strtolower($request->social_provider))->userFromToken($request->access_token);
+        try {
+            $socialUser = Socialite::driver(strtolower($request->social_provider))->userFromToken($request->access_token);
 
-        if ($user = User::where('social_id', $socialUser->getId())
-            ->where('social_provider', strtolower($request->social_provider))
-            ->first()
-        ) {
+            if (!$user = User::where('social_id', $socialUser->getId())
+                ->where('social_provider', strtolower($request->social_provider))
+                ->first()
+            ) {
+
+                $user = User::create([
+                    'name' => $socialUser->getName(),
+                    'email' => $socialUser->getEmail(),
+                    'social_id' => $socialUser->getId(),
+                    'social_provider' => $request->social_provider,
+                    'email_verified_at' => now(),
+                    'remember_token' => Str::random(10),
+                ]);
+            }
             $token = auth()->login($user);
+
+            $this->addToDevices($request->device_type, $request->details, $user, $request->ip(), 'social-login');
+
+            $user->updatePushToken($request->push_token, 'android');
 
             $user->token = $token;
             $data = new MeResource($user);
@@ -58,8 +76,8 @@ class AuthController extends Controller
             $data = collect(["ads" => $ads, "user" => $data]);
 
             return apiReturn($data, null, Response::HTTP_OK);
-        } else {
-
+        } catch (Exception $e) {
+            return apiReturn('Something went wrong', null, Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -76,5 +94,38 @@ class AuthController extends Controller
         return response()->json([
             "success" => true
         ]);
+    }
+
+    public function testFcm($token)
+    {
+
+        if (!$token) {
+            $token = auth()->user()->push_token;
+        }
+
+        $server_key = env('FCM_SERVER_KEY');
+
+        $data = array(
+            'text' => 'Hello this is test notification'
+        );
+
+        if (isset($data['text'])) {
+            $text = $data['text'];
+        } else {
+            $text = $data;
+        }
+        $category = ['text' => $text];
+        if (is_string($data) and json_decode($data)) {
+            $text = json_decode($data, true)['text'];
+            $category = json_decode($data, true);
+        }
+
+
+        $SendPush = Http::withHeaders(['Authorization' => 'key=' . $server_key])->post(env('FCM_API_URL'), [
+            'data' => $category,
+            'registration_ids' => [$token]
+        ])->json();
+
+        return $SendPush;
     }
 }
