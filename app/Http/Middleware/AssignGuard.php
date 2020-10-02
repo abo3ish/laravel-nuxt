@@ -22,8 +22,9 @@ class AssignGuard
                 return $next($request);
             } else {
                 return response()->json([
-                    'success' => false,
-                    'message' => 'Unauthorized'
+                    'data' => null,
+                    'error' => 'Unauthorized',
+                    'code' => 401
                 ], 401);
             }
         }
