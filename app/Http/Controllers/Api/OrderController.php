@@ -70,7 +70,7 @@ class OrderController extends ApiBaseController
 
             $data = new StoreOrderResource($order);
 
-            event(new NewOrder($order));     // notify Admin
+            // event(new NewOrder($order));     // notify Admin
 
             return apiReturn($data, null, Response::HTTP_OK);
 
