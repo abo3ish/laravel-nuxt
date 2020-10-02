@@ -89,6 +89,7 @@ class AdvertisementController extends ApiBaseController
     public function showSplashAd()
     {
         $ad['ads'] = $this->getPageAd('splash');
+        $ad['ads']['home'] = $this->getPageAd('home');
         return apiReturn($ad);
     }
 }
