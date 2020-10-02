@@ -84,6 +84,12 @@ class AddressController extends ApiBaseController
      */
     public function destroy(Address $address)
     {
-        //
+        if (auth()->user()->id == $address->user_id) {
+            $address->delete();
+
+            return apiReturn(null, null, 200);
+        } else {
+            return apiReturn(null, 'Permision Denied', Response::HTTP_FORBIDDEN);
+        }
     }
 }
