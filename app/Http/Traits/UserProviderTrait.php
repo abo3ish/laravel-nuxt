@@ -23,7 +23,7 @@ trait UserProviderTrait
             'deviceable_ip' => $ip,
             'process_type' => strtolower($operation),
             'device_type' => strtolower($device_type),
-            'details' => strtolower($details) ?? strtolower(request()->userAgent()),
+            'details' => $details ? strtolower($details) : strtolower(request()->userAgent()),
         ];
         Device::create($array);
     }
