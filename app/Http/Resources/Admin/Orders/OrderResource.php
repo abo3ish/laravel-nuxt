@@ -16,6 +16,7 @@ class OrderResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'uuid' => $this->uuid,
             'user' => [
                 'id' => $this->user->id,
                 'name' => $this->user->name
@@ -31,7 +32,8 @@ class OrderResource extends JsonResource
                 'code' => $this->status,
                 'string' => $this->status_string
             ],
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+            'service_provider_type' => $this->serviceProviderType->title,
         ];
     }
 }

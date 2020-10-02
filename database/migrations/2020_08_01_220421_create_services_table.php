@@ -26,6 +26,7 @@ class CreateServicesTable extends Migration
             $table->foreignId('examination_id')->constrained();
             $table->integer('parent_id')->nullable();
             $table->string('slug');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

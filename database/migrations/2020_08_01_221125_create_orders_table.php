@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->integer('uuid')->unique()->index();
             $table->foreignId('user_id')->costrained();
+            $table->foreignId('service_provider_type_id')->costrained();
             $table->foreignId('service_provider_id')->nullable()->costrained()->onDelete('set null');
             $table->float('price_to_pay')->default(0)->nullable();
             $table->float('tax_price')->default(0);

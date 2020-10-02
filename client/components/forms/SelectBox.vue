@@ -32,8 +32,9 @@ export default {
       type: [Array]
     },
     value: {
-      required: true,
-      type: [String, Number]
+      required: false,
+      type: [String, Number],
+      default: null
     },
     name: {
       required: true,

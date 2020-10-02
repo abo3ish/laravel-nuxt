@@ -18,8 +18,9 @@ class ServiceProviderController extends AdminBaseController
         $serviceProviders = ServiceProvider::with('type')->orderBy('created_at', 'desc');
 
         $serviceProviders = $this->filter($serviceProviders);
-        $serviceProviders = $serviceProviders->paginate(5);
+        $serviceProviders = $serviceProviders->paginate(config('kashf.pagination_per_page'));
         $serviceProviders->withPath(url()->full());
+        $serviceProviders = customPagination($serviceProviders);
         return $serviceProviders;
     }
 

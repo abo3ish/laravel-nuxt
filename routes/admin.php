@@ -7,12 +7,28 @@ Route::group(['prefix' => 'admin', 'middleware' => ['guest:api'], 'namespace' =>
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'namespace' => 'Admin'], function () {
+
+    /* User */
     Route::get('me', 'MeController@index');
     Route::get('user', 'MeController@index');
 
+    /* Examinations */
+    Route::get('examinations/all', 'ExaminationController@getAll');
+    Route::resource('examinations', 'ExaminationController');
+
+    /* Service Provider Types */
+    Route::get('service-provider-types/all', 'ServiceProviderTypeController@getAll');
     Route::resource('service-provider-types', 'ServiceProviderTypeController');
+
+    /* Service Providers */
     Route::resource('service-providers', 'ServiceProviderController');
     Route::get('service-providers/search', 'ServiceProviderController@search');
 
+    /* Orders */
     Route::resource('orders', 'OrderController');
+    Route::get('order-statuses', 'OrderController@getOrderStatuses');
+
+    /* Services */
+    Route::get('services/all', 'ServiceController@getAll');
+    Route::resource('services', 'ServiceController');
 });

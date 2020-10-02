@@ -26,19 +26,13 @@
       <form role="form" @submit.prevent="searchFilter()">
         <div class="row">
           <div class="col-2">
-            <label-input-text v-model="filter.name" :label="$t('name')" :type="'text'" :placeholder="'Enter Name'" name="name" />
+            <label-input-text v-model="filter.uuid" :label="$t('order_id')" :type="'number'" :placeholder="'Enter UUID'" name="uuid" />
           </div>
           <div class="col-2">
-            <label-input-text v-model="filter.phone" :label="$t('phone')" :type="'text'" :placeholder="'Enter phone'" name="phone" />
+            <select-box v-model="filter.service_provider_type_id" :label="$t('service_provider_type')" :items="serviceProviderTypes" name="service_provider_type_id" />
           </div>
           <div class="col-2">
-            <label-input-text v-model="filter.email" :label="$t('email')" :type="'email'" :placeholder="'Enter email'" name="email" />
-          </div>
-          <div class="col-2">
-            <label-input-text v-model="filter.address" :label="$t('address')" :type="'text'" :placeholder="'Enter address'" name="address" />
-          </div>
-          <div class="col-2">
-            <select-box v-model="filter.type_id" :label="$t('service_provider_type')" :items="serviceProviderTypes" name="type_id" />
+            <select-box v-model="filter.status" :label="$t('order_status')" :items="orderStatuses" name="status" />
           </div>
           <div class="col-2">
             <b-button
@@ -66,7 +60,7 @@
               </div>
               <div class="card card-body">
                 <b-table
-                  :items="serviceProviders"
+                  :items="orders"
                   :busy.sync="isBusy"
                   :fields="fields"
                   :sort-by.sync="sortBy"
@@ -197,26 +191,31 @@ export default {
       currentPage: 1,
 
       filter: {
-        name: '',
-        age: '',
-        email: '',
-        phone: '',
-        address: '',
-        type_id: ''
+        uuid: '',
+        service_provider_type_id: '',
+        status: ''
       },
 
       query: {},
 
-      serviceProviders: [],
+      orders: [],
       serviceProviderTypes: [],
+      orderStatuses: [
+        { id: '0', title: 'تحت المراجعة' },
+        { id: '1', title: 'تم الموافقة' },
+        { id: '2', title: 'الطلب في الطريق' },
+        { id: '3', title: 'تم التوصيل' }
+      ],
+
       sortBy: 'id',
       sortDesc: true,
       fields: [
-        { key: 'id', sortable: true },
+        { key: 'uuid', sortable: true },
         { key: 'user', sortable: true },
         { key: 'address', sortable: false },
         { key: 'type', sortable: true },
         { key: 'services', sortable: true },
+        { key: 'service_provider_type', sortable: true },
         { key: 'service_provider', sortable: false },
         { key: 'status', sortable: true },
         { key: 'actions', sortable: false }
@@ -234,12 +233,14 @@ export default {
     this.$echo.channel('new-order')
       .listen('NewOrder', (e) => {
         console.log(e)
-        this.serviceProviders.push(e)
+        this.orders.push(e)
       })
 
     this.fetchData().catch((error) => {
       console.log(error)
     })
+    this.fetchServiceProviderTypes()
+    // this.getStatuses()
   },
   methods: {
     async fetchData () {
@@ -250,15 +251,30 @@ export default {
         params: this.query
       })
         .then((res) => {
-          this.rows = res.meta.total
-          this.perPage = res.meta.per_page
-          this.currentPage = res.meta.current_page
-          this.serviceProviders = res.data
+          console.log(res)
+          this.rows = res.pagination.total
+          this.perPage = res.pagination.per_page
+          this.currentPage = res.pagination.current_page
+          this.orders = res.orders
           this.isBusy = false
         })
 
       this.$router.push({ name: 'orders',
-        query: this.query }).catch((err) => {})
+        query: this.query }).catch((err) => {
+        console.log(err)
+      })
+    },
+    getStatuses () {
+      this.$axios.$get('order-statuses').then((res) => {
+        // console.log(res)
+        // this.orderStatuses = res
+      })
+    },
+    fetchServiceProviderTypes () {
+      this.$axios.$get('service-provider-types')
+        .then((res) => {
+          this.serviceProviderTypes = res
+        })
     },
     deleteItem (id, event) {
       event.preventDefault()

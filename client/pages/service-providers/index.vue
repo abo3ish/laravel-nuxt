@@ -215,15 +215,15 @@ export default {
   methods: {
     async fetchData () {
       this.query.page = this.currentPage
-
       this.isBusy = true
+
       await this.$axios.$get('service-providers', {
         params: this.query
       })
         .then((res) => {
-          this.rows = res.total
-          this.perPage = res.per_page
-          this.currentPage = res.current_page
+          this.rows = res.pagination.total
+          this.perPage = res.pagination.per_page
+          this.currentPage = res.pagination.current_page
           this.serviceProviders = res.data
           this.isBusy = false
         })

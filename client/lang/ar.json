@@ -4,6 +4,8 @@
   "service_provider": "مقدم الخدمة",
   "add_new": "أضف جديد",
   "home": "الرئيسية",
+  "service_provider_type_created_sucessfully": "تم انشاء نوع مقدم الخدمة بنجاح",
+  "service_provider_type_updated_sucessfully": "تم تعديل نوع مقدم الخدمة بنجاح",
   "service_provider_created_sucessfully": "تم انشاء مقدم الخدمة بنجاح",
   "service_provider_updated_sucessfully": "تم تعديل مقدم الخدمة بنجاح",
   "service_provider_type": "نوع مقدم الخدمة",
@@ -22,5 +24,9 @@
   "select": "اختر",
   "user": "المستخدم",
   "service": "الخدمة",
-  "status": "الحالة"
+  "status": "الحالة",
+  "orders": "الطلبات",
+  "service_provider_types": "أنواع مقدمين الخدمة",
+  "services": "الخدمات",
+  "examination_type": "نوع الكشف"
 }

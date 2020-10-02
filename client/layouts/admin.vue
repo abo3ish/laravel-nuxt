@@ -27,6 +27,8 @@ export default {
   mounted () {
     this.$echo.channel('new-order')
       .listen('NewOrder', (e) => {
+        console.log(e)
+
         this.$notify({
           group: 'newOrder',
           title: this.$t('new_order'),

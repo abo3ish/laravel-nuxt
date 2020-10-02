@@ -25,18 +25,29 @@ const routes = [
       { path: 'password', name: 'settings.password', component: page('settings/password.vue') }
     ]
   },
+  /* Service Provider Types*/
+  { path: '/service-provider-types', name: 'service-provider-types', component: page('service-provider-types/index.vue') },
+  { path: '/service-provider-types/create', name: 'create-service-provider-type', component: page('service-provider-types/create.vue') },
+  { path: '/service-provider-types/edit/:id', name: 'edit-service-provider-type', component: page('service-provider-types/edit.vue') },
+  { path: '/service-provider-types/:id', name: 'show-service-provider-type', component: page('service-provider-types/show.vue') },
+
   /* Service Providers */
   { path: '/service-providers', name: 'service-providers', component: page('service-providers/index.vue') },
   { path: '/service-providers/create', name: 'create-service-provider', component: page('service-providers/create.vue') },
   { path: '/service-providers/edit/:id', name: 'edit-service-provider', component: page('service-providers/edit.vue') },
   { path: '/service-providers/:id', name: 'show-service-provider', component: page('service-providers/show.vue') },
 
+  /* Services */
+  { path: '/services/', name: 'services', component: page('services/index.vue') },
+  { path: '/services/create', name: 'create-service', component: page('services/create.vue') },
+  { path: '/services/edit/:id', name: 'edit-service', component: page('services/edit.vue') },
+  { path: '/services/:id', name: 'show-service', component: page('services/show.vue') },
+
   /* Orders */
   { path: '/orders/', name: 'orders', component: page('orders/index.vue') },
   { path: '/orders/create', name: 'create-order', component: page('orders/create.vue') },
   { path: '/orders/edit/:id', name: 'edit-order', component: page('orders/edit.vue') },
   { path: '/orders/:id', name: 'show-order', component: page('orders/show.vue') }
-
 ]
 
 export function createRouter () {

@@ -41,9 +41,10 @@ class NewOrder implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return
-        [
+        // return new OrderResource($this->order);
+        return [
             'id' => $this->order->id,
+            'uuid' => $this->order->uuid,
             'user' => [
                 'id' => $this->order->user->id,
                 'name' => $this->order->user->name
@@ -58,7 +59,9 @@ class NewOrder implements ShouldBroadcast
             'status' => [
                 'code' => $this->order->status,
                 'string' => $this->order->status_string
-            ]
+            ],
+            'created_at' => $this->order->created_at,
+            'service_provider_type' => $this->order->serviceProviderType->title,
         ];
     }
 }

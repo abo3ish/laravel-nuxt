@@ -25,7 +25,7 @@ export default {
       type: String
     },
     value: {
-      required: true,
+      required: false,
       type: [String, Number],
       default: ''
     },

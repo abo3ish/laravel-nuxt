@@ -5,8 +5,9 @@
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Address;
-use App\Models\ServiceProvider;
 use Faker\Generator as Faker;
+use App\Models\ServiceProvider;
+use App\Models\ServiceProviderType;
 
 $factory->define(Order::class, function (Faker $faker) {
     return [
@@ -21,6 +22,7 @@ $factory->define(Order::class, function (Faker $faker) {
                 return null;
             }
         },
+        'service_provider_type_id' => ServiceProviderType::all()->random()->id,
         'status' => collect([0, 1, 2, 3])->random(),
     ];
 });

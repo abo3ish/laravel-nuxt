@@ -30,19 +30,7 @@ class OrderController extends ApiBaseController
     {
         $orders = Order::where('user_id', auth()->id())->paginate(5);
         $data = UserHistoryResource::collection($orders);
-        $data = [
-            'orders' => $data->items(),
-            'pagination' => [
-                'per_page' => $data->perPage(),
-                'current_page' => $data->currentPage(),
-                'next_page_url' => $data->nextPageUrl(),
-                'previous_page_url' => $data->previousPageUrl(),
-                'first_item' => $data->firstItem(),
-                'last_item' => $data->lastItem(),
-                'last_page' => $data->lastPage(),
-                'total' => $data->total(),
-            ]
-        ];
+        $data = customPagination($data, 'orders');
 
         return apiReturn($data, null, Response::HTTP_OK);
 
@@ -54,13 +42,16 @@ class OrderController extends ApiBaseController
     public function store(Request $request)
     {
         try {
+            $serviceProviderTypeId = Service::find($request->items[0])->service_provider_type_id;
 
             $order = Order::create([
                 'uuid' => Order::generateUuid(),
                 'user_id' => auth()->id(),
                 'type' => Order::SERVICE,
-                'address_id' => $request->address_id
+                'address_id' => $request->address_id,
+                'service_provider_type_id' => $serviceProviderTypeId
             ]);
+
             if (count($request->items) > 1) {
                 $service = Service::findOrFail($request->items[0]);
                 if (!$service->examination->accept_multi) {
@@ -79,12 +70,12 @@ class OrderController extends ApiBaseController
 
             $data = new StoreOrderResource($order);
 
-            // event(new NewOrder($order));     // notify the user
+            event(new NewOrder($order));     // notify Admin
 
             return apiReturn($data, null, Response::HTTP_OK);
 
         } catch (Exception $e) {
-            return apiReturn($e, 'حدث خطأ ما، برجاء إعادة المحاولة', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return apiReturn($e, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

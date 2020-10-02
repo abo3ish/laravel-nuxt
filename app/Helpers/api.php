@@ -38,3 +38,21 @@ function getDrugImage($drug)
 {
     return file_exists(drugPath($drug)) ? url((drugPath($drug))) : null;
 }
+
+function customPagination($data, $string = 'data')
+{
+    $data = [
+        $string => $data->items(),
+        'pagination' => [
+            'per_page' => $data->perPage(),
+            'current_page' => $data->currentPage(),
+            'next_page_url' => $data->nextPageUrl(),
+            'previous_page_url' => $data->previousPageUrl(),
+            'first_item' => $data->firstItem(),
+            'last_item' => $data->lastItem(),
+            'last_page' => $data->lastPage(),
+            'total' => $data->total(),
+        ]
+    ];
+    return $data;
+}

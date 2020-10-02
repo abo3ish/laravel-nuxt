@@ -7,7 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'uuid', 'user_id', 'address_id', 'type', 'service_provider_id', 'price_to_pay', 'tax_price', 'discount_price', 'actual_price', 'status', 'is_collected'
+        'uuid', 'user_id',
+        'address_id',
+        'type',
+        'service_provider_id',
+        'price_to_pay',
+        'tax_price',
+        'discount_price',
+        'actual_price',
+        'status',
+        'is_collected',
+        'service_provider_type_id'
     ];
 
     public const SERVICE = 'service';
@@ -73,6 +83,16 @@ class Order extends Model
         return Self::whatIsMyStatus($this->status);
     }
 
+    public static function statuses()
+    {
+        return array(
+            '0' => 'تحت المراجعة',
+            '1' => 'تم الموافقة',
+            '2' => 'الطلب في الطريق',
+            '3' => 'تم التوصيل',
+        );
+    }
+
     public static function generateUuid()
     {
         $uuid = random_int(1000000, 9999999);
@@ -81,5 +101,10 @@ class Order extends Model
             self::generateUuid();
         }
         return $uuid;
+    }
+
+    public function serviceProviderType()
+    {
+        return $this->belongsTo(ServiceProviderType::class);
     }
 }

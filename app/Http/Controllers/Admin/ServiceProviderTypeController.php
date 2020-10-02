@@ -14,7 +14,16 @@ class ServiceProviderTypeController extends AdminBaseController
      */
     public function index()
     {
-        return ServiceProviderType::all();
+        $serviceProviderTypes = ServiceProviderType::paginate(config('kashf.pagination_per_page'));
+        return customPagination($serviceProviderTypes);
+
+    }
+
+    public function getAll()
+    {
+        $serviceProviderTypes = ServiceProviderType::get(['id', 'title']);
+        return $serviceProviderTypes;
+
     }
 
     /**
@@ -35,7 +44,13 @@ class ServiceProviderTypeController extends AdminBaseController
      */
     public function store(Request $request)
     {
-        //
+        ServiceProviderType::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'slug' => $request->slug,
+        ]);
+
+        return true;
     }
 
     /**
@@ -46,7 +61,7 @@ class ServiceProviderTypeController extends AdminBaseController
      */
     public function show(ServiceProviderType $serviceProviderType)
     {
-        //
+        return $serviceProviderType;
     }
 
     /**
@@ -69,7 +84,13 @@ class ServiceProviderTypeController extends AdminBaseController
      */
     public function update(Request $request, ServiceProviderType $serviceProviderType)
     {
-        //
+        $serviceProviderType->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'slug' => $request->slug,
+        ]);
+
+        return $serviceProviderType;
     }
 
     /**

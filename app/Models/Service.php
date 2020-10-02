@@ -11,7 +11,7 @@ class Service extends Model
         'title',
         'description',
         'icon',
-        'service_provider_id',
+        'service_provider_type_id',
         'estimation_from',
         'estimation_to',
         'purchase_price',
@@ -26,6 +26,11 @@ class Service extends Model
         return $this->hasMany(Self::class, 'parent_id');
     }
 
+    public function parent()
+    {
+        return $this->hasOne(Self::class, 'id' ,'parent_id');
+    }
+
     public function examination()
     {
         return $this->belongsTo(Examination::class);
@@ -34,5 +39,10 @@ class Service extends Model
     public function getIconUrlAttribute()
     {
         return getIcon($this->icon);
+    }
+
+    public function serviceProviderType()
+    {
+        return $this->belongsTo(ServiceProviderType::class);
     }
 }
