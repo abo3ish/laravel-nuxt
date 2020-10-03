@@ -16,7 +16,7 @@ class AdvertisementSeeder extends Seeder
             Splash Ads
          *****************************/
         Advertisement::create([
-            'image' => 'splashAd1.png',
+            'image' => 'splashAd1.jpg',
             'slug' => 'splash',
             'position' => 'full'
         ]);
@@ -25,7 +25,7 @@ class AdvertisementSeeder extends Seeder
             Home Ads
          *****************************/
         Advertisement::create([
-            'image' => 'homeAd1.png',
+            'image' => 'homeAd1.jpg',
             'slug' => 'home',
             'position' => 'top'
         ]);

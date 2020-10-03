@@ -31,7 +31,7 @@ function getIcon($icon)
 
 function getAd($ad)
 {
-    return file_exists(adPath($ad)) ? url((adPath($ad))) : url(adPath('homeAd1.png'));
+    return file_exists(adPath($ad)) ? url((adPath($ad))) : url(adPath('homeAd1.jpg'));
 }
 
 function getDrugImage($drug)
