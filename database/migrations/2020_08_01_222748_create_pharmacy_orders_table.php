@@ -17,6 +17,7 @@ class CreatePharmacyOrdersTable extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained();
             $table->foreignId('drug_id')->constrained();
+            $table->integer('quantity')->default(1);
             $table->float('purchase_price');
             $table->float('sell_price');
             $table->timestamps();

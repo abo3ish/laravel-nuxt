@@ -39,6 +39,7 @@ class ServiceProviderTypeSeeder extends Seeder
         ]);
         ServiceProviderType::create([
             'title' => 'pharmacy',
+            'slug' => 'pharmacy',
         ]);
     }
 }
