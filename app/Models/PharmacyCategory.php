@@ -18,4 +18,9 @@ class PharmacyCategory extends Model
     {
         return getIcon($this->icon);
     }
+
+    public function drugs()
+    {
+        return $this->hasMany(Drug::class, 'category_id');
+    }
 }

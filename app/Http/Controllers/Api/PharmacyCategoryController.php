@@ -27,22 +27,24 @@ class PharmacyCategoryController extends ApiBaseController
 
     public function show(PharmacyCategory $pharmacyCategory)
     {
-        $drugs = Drug::where('category_id', $pharmacyCategory->id)->paginate(20);
-        $data = DrugResource::collection($drugs);
+        // $drugs = Drug::where('category_id', $pharmacyCategory->id)->paginate(20);
 
-        $data = [
-            'drugs' => $data->items(),
-            'pagination' => [
-                'per_page' => $data->perPage(),
-                'current_page' => $data->currentPage(),
-                'next_page_url' => $data->nextPageUrl(),
-                'previous_page_url' => $data->previousPageUrl(),
-                'first_item' => $data->firstItem(),
-                'last_item' => $data->lastItem(),
-                'last_page' => $data->lastPage(),
-                'total' => $data->total(),
-            ]
-        ];
+        $drugs = $pharmacyCategory->drugs()->paginate(20);
+        $data = DrugResource::collection($drugs);
+        $data = customPagination($data, 'drugs');
+        // $data = [
+        //     'drugs' => $data->items(),
+        //     'pagination' => [
+        //         'per_page' => $data->perPage(),
+        //         'current_page' => $data->currentPage(),
+        //         'next_page_url' => $data->nextPageUrl(),
+        //         'previous_page_url' => $data->previousPageUrl(),
+        //         'first_item' => $data->firstItem(),
+        //         'last_item' => $data->lastItem(),
+        //         'last_page' => $data->lastPage(),
+        //         'total' => $data->total(),
+        //     ]
+        // ];
         return apiReturn($data, null, Response::HTTP_OK);
     }
 

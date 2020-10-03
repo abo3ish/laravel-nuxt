@@ -46,7 +46,7 @@ Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'Api'], functio
     Route::get('examination-service-types/{examinationServiceType}', 'ExaminationServiceTypeController@show');
 
     // Cart
-    Route::resource('cart', 'CartController');
+    // Route::resource('cart', 'CartController');
 
     // Address
     Route::resource('addresses', 'AddressController');
