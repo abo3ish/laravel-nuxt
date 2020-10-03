@@ -36,7 +36,7 @@ function getAd($ad)
 
 function getDrugImage($drug)
 {
-    return file_exists(drugPath($drug)) ? url((drugPath($drug))) : null;
+    return file_exists(drugPath($drug)) ? url((drugPath($drug))) : url((drugPath('drug-default.png')));
 }
 
 function customPagination($data, $string = 'data')
