@@ -26,17 +26,17 @@ function drugPath($drug = null)
 
 function getIcon($icon)
 {
-    return file_exists(iconPath($icon)) ? url((iconPath($icon))) : null;
+    return is_file(iconPath($icon)) ? url((iconPath($icon))) : null;
 }
 
 function getAd($ad)
 {
-    return file_exists(adPath($ad)) ? url((adPath($ad))) : url(adPath('homeAd1.jpg'));
+    return is_file(adPath($ad)) ? url((adPath($ad))) : url(adPath('homeAd1.jpg'));
 }
 
 function getDrugImage($drug)
 {
-    return file_exists(drugPath($drug)) ? url((drugPath($drug))) : url((drugPath('drug-default.png')));
+    return is_file(drugPath($drug)) ? url((drugPath($drug))) : url((drugPath('drug-default.png')));
 }
 
 function customPagination($data, $string = 'data')

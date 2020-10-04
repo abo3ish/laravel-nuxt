@@ -71,12 +71,14 @@
 
               <!-- status -->
               <check-box v-model="form.status" :label="$t('activate')" name="status" />
-              <!-- /.card-body -->
 
+              <!-- Icon -->
               <div class="img-responsive">
                 <input type="file" name="icon" accept="image/*" @change="onFileChange">
                 <img class="img-fluid" :src="form.icon">
               </div>
+              <!-- /.card-body -->
+
               <div class="card-footer">
                 <v-button
                   :loading="form.busy"
@@ -132,7 +134,6 @@ export default {
     }
   },
   mounted () {
-    console.log(process.env)
     this.fetchParents()
     this.fetchServiceProviderTypes()
     this.fetchExaminations()
@@ -178,13 +179,13 @@ export default {
       const selectedImage = e.target.files[0]
       this.createBase64Image(selectedImage)
     },
+
     createBase64Image (fileObject) {
       const reader = new FileReader()
       reader.onload = (e) => {
-        this.image = e.target.result
-        console.log(this.image)
+        this.form.icon = reader.result
       }
-      reader.readAsBinaryString(fileObject)
+      reader.readAsDataURL(fileObject)
     },
 
     async fetchServiceProviderTypes () {

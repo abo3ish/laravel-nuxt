@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Http\Traits\FileTrait;
 use App\Http\Controllers\Admin\AdminBaseController;
 use App\Http\Resources\Admin\Services\ServiceResource;
 use App\Http\Resources\Admin\Services\ShowServiceResource;
 
 class ServiceController extends AdminBaseController
 {
+    use FileTrait;
     /**
      * Display a listing of the resource.
      *
@@ -47,10 +49,12 @@ class ServiceController extends AdminBaseController
      */
     public function store(Request $request)
     {
+        $iconName = $this->uploadImageBase64($request->icon, iconPath(), $request->slug);
+
         Service::create([
             'title' => $request->title,
             'description' => $request->description,
-            'icon' => $request->icon,
+            'icon' => $iconName,
             'service_provider_type_id' => $request->service_provider_type_id,
             'estimation_from' => $request->estimation_from,
             'estimation_to' => $request->estimation_to,
@@ -96,10 +100,12 @@ class ServiceController extends AdminBaseController
      */
     public function update(Request $request, Service $service)
     {
+        $iconName = $this->uploadImageBase64($request->icon, iconPath(), $service->slug);
+
         $service->update([
             'title' => $request->title,
             'description' => $request->description,
-            'icon' => $request->icon,
+            'icon' => $iconName ?? $service->icon,
             'service_provider_type_id' => $request->service_provider_type_id,
             'estimation_from' => $request->estimation_from,
             'estimation_to' => $request->estimation_to,
@@ -111,7 +117,6 @@ class ServiceController extends AdminBaseController
             'status' => $request->status,
         ]);
         return new ShowServiceResource($service);
-
     }
 
     /**
