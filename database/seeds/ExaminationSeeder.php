@@ -20,7 +20,7 @@ class ExaminationSeeder extends Seeder
         $homeExamination = Examination::create([
             'title' => 'كشف منزلي',
             'description' => 'وصف للعنصر قد يمتد لسطرين او اكثر',
-            'icon' => 'examinWhite.png',
+            'icon' => 'examin.png',
             'slug' => 'doctor',
             'accept_multi' => false,
         ]);
@@ -81,7 +81,7 @@ class ExaminationSeeder extends Seeder
         $nursing = Examination::create([
             'title' => ' تمريض منزلي',
             'description' => 'وصف للعنصر قد يمتد لسطرين او اكثر',
-            'icon' => 'nurseCapWhite.png',
+            'icon' => 'nurseCap.png',
             'slug' => 'nurse',
         ]);
         $nurseServiceProvider = ServiceProviderType::where('title', 'nurse')->first();
@@ -209,7 +209,7 @@ class ExaminationSeeder extends Seeder
         $rays = Examination::create([
             'title' => 'أشعة بالمنزل',
             'description' => ' وصف للعنصر قد يمتد لسطرين او اكثر  وصف للعنصر قد يمتد لسطرين او اكثر ،',
-            'icon' => 'skeletonWhite.png',
+            'icon' => 'skeleton.png',
             'slug' => 'scan',
         ]);
         $radiologistServiceProvider = ServiceProviderType::where('title', 'radiologist')->first();
@@ -280,7 +280,7 @@ class ExaminationSeeder extends Seeder
         $tests = Examination::create([
             'title' => ' تحاليل ',
             'description' => 'وصف للعنصر قد يمتد لسطرين او اكثر',
-            'icon' => 'microscopeWhite.png',
+            'icon' => 'microscope.png',
             'slug' => 'laboratory',
         ]);
         $laboratoryServiceProvider = ServiceProviderType::where('title', 'laboratory')->first();
