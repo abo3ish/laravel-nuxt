@@ -1,7 +1,7 @@
 require('dotenv').config()
 const { join } = require('path')
 const { copySync, removeSync } = require('fs-extra')
-
+const APP_URL = 'kashfwedawaa.com'
 module.exports = {
   debug: false,
   mode: 'spa', // Comment this for SSR
@@ -89,7 +89,7 @@ module.exports = {
       '~/plugins/echo.js'
     ],
     key: '94e21d523d92bd874c7e',
-    wsHost: 'localhost',
+    wsHost: APP_URL,
     wsPort: 6001,
     connectOnLogin: true,
     disconnectOnLogout: true
