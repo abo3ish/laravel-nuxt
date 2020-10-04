@@ -25,7 +25,7 @@ class PharmacyCategorySeeder extends Seeder
         $kids = PharmacyCategory::create([
             'title' => 'الالبان ومستلزمات االاطفال',
             'description' => '',
-            'icon' => 'motherWhite.png',
+            'icon' => 'mother.png',
             'slug' => 'kids'
         ]);
         PharmacyCategory::create([
@@ -69,7 +69,7 @@ class PharmacyCategorySeeder extends Seeder
         PharmacyCategory::create([
             'title' => 'صحة وجمال والمرأة',
             'description' => '',
-            'icon' => 'make-upWhite.png',
+            'icon' => 'make-up.png',
             'slug' => '',
             'parent_id' => $beauty->id
         ]);
@@ -108,7 +108,7 @@ class PharmacyCategorySeeder extends Seeder
         $women = PharmacyCategory::create([
             'title' => 'صحة وجمال المرأة',
             'description' => '',
-            'icon' => 'make-upWhite.png',
+            'icon' => 'make-up.png',
             'slug' => 'women'
         ]);
         PharmacyCategory::create([
