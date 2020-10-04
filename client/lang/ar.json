@@ -4,6 +4,7 @@
   "service_provider": "مقدم الخدمة",
   "add_new": "أضف جديد",
   "home": "الرئيسية",
+  "users": "المستخدمين",
   "service_provider_type_created_sucessfully": "تم انشاء نوع مقدم الخدمة بنجاح",
   "service_provider_type_updated_sucessfully": "تم تعديل نوع مقدم الخدمة بنجاح",
   "service_provider_created_sucessfully": "تم انشاء مقدم الخدمة بنجاح",
@@ -28,5 +29,6 @@
   "orders": "الطلبات",
   "service_provider_types": "أنواع مقدمين الخدمة",
   "services": "الخدمات",
-  "examination_type": "نوع الكشف"
+  "examination_type": "نوع الكشف",
+  "orders_count": "عدد الطلبات "
 }

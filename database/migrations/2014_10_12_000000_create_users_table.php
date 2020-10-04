@@ -20,11 +20,13 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('phone')->nullable();
+            $table->boolean('status')->default(true);
             $table->string('channel')->nullable();
             $table->string('push_token')->nullable();
             $table->string('push_token_type')->nullable();
             $table->bigInteger('social_id')->nullable();
             $table->string('social_provider')->nullable();
+            $table->dateTime('last_seen')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

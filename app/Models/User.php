@@ -30,6 +30,8 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
         'push_token_type',
         'social_id',
         'social_provider',
+        'last_seen',
+        'status'
     ];
 
     /**
@@ -135,5 +137,16 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
             'push_token' => $pushToken,
             'push_token_type' => $pushTokenType,
         ]);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function getAddressStringAttribute()
+    {
+        $address = $this->addresses()->orderBy('created_at', 'desc')->first();
+        return $address ? $address->street  . "-" . $address->area->name : '';
     }
 }

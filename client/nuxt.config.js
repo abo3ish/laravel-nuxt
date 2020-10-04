@@ -1,7 +1,7 @@
 require('dotenv').config()
 const { join } = require('path')
 const { copySync, removeSync } = require('fs-extra')
-const APP_URL = 'kashfwedawaa.com'
+const APP_URL = 'kashfwedawaa.test'
 module.exports = {
   debug: false,
   mode: 'spa', // Comment this for SSR

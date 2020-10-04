@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>{{ $t('service_providers') }}</h1>
+            <h1>{{ $t('users') }}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-left">
@@ -14,12 +14,12 @@
                 </nuxt-link>
               </li>
               <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'service-providers'}">
-                  {{ $t('service_providers') }}
+                <nuxt-link :to="{name: 'users'}">
+                  {{ $t('users') }}
                 </nuxt-link>
               </li>
               <li class="breadcrumb-item active">
-                <!-- {{ serviceProvider.name }} -->
+                <!-- {{ user.name }} -->
               </li>
             </ol>
           </div>
@@ -33,8 +33,8 @@
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">
-              {{ serviceProvider.name + " - " + serviceProvider.type.title }}
-              <n-link :to="{name: 'edit-service-provider' }">
+              {{ user.name }}
+              <n-link :to="{name: 'edit-user' }">
                 <button class="btn btn-outline-light float-left">
                   {{ $t('edit') }}
                 </button>
@@ -49,15 +49,7 @@
             <div class="form-group">
               <label for="balance">{{ $t('name') }} : </label>
               <code>
-                {{ serviceProvider.name }} <br>
-              </code>
-            </div>
-
-            <!-- Age -->
-            <div class="form-group">
-              <label for="balance">{{ $t('age') }} : </label>
-              <code>
-                {{ serviceProvider.age }}
+                {{ user.name }} <br>
               </code>
             </div>
 
@@ -65,7 +57,7 @@
             <div class="form-group">
               <label for="balance">{{ $t('email') }} : </label>
               <code>
-                {{ serviceProvider.email }}
+                {{ user.email }}
               </code>
             </div>
 
@@ -73,7 +65,7 @@
             <div class="form-group">
               <label for="balance">{{ $t('status') }} : </label>
               <code>
-                {{ serviceProvider.status ? $t('active') : $t('not_active') }} <br>
+                {{ user.status ? $t('active') : $t('not_active') }} <br>
               </code>
             </div>
 
@@ -81,15 +73,7 @@
             <div class="form-group">
               <label for="balance">{{ $t('address') }} : </label>
               <code id="address">
-                {{ serviceProvider.address }} <br>
-              </code>
-            </div>
-
-            <!-- Type -->
-            <div class="form-group">
-              <label for="balance">{{ $t('service_provider_type') }} : </label>
-              <code>
-                {{ serviceProvider.type.title }} <br>
+                {{ user.address }} <br>
               </code>
             </div>
 
@@ -97,7 +81,7 @@
             <div class="form-group">
               <label>{{ $t('last_seen') }} : </label>
               <code>
-                {{ $moment(String(serviceProvider.last_seen)).format('LLLL') }} <br>
+                {{ $moment(String(user.last_seen)).format('LLLL') }} <br>
               </code>
             </div>
 
@@ -106,12 +90,12 @@
               <!-- Orders link -->
               <label for="balance">{{ $t('orders') }} : </label>
               <code>
-                <nuxt-link :to="{name: 'orders', query: {service_provider_id: serviceProvider.id}}">{{ $t('orders') }}</nuxt-link> |
+                <nuxt-link :to="{name: 'orders', query: {user_id: user.id}}">{{ $t('orders') }}</nuxt-link> |
               </code>
               <!-- Orders Count -->
               <label for="balance">{{ $t('orders_count') }} : </label>
               <code>
-                {{ serviceProvider.orders.length }}
+                {{ user.orders_count }}
               </code>
             </div>
 
@@ -119,12 +103,52 @@
             <div class="form-group">
               <label>{{ $t('created_at') }} : </label>
               <code>
-                {{ $moment(String(serviceProvider.created_at)).format('LLLL') }} <br>
+                {{ $moment(String(user.created_at)).format('LLLL') }} <br>
               </code>
             </div>
           </div>
         </div>
-      <!-- /.card -->
+        <!-- /.card -->
+        <!-- Addresses -->
+        <div class="card card-primary">
+          <div class="card card-header">
+            Addresses
+          </div>
+          <div class="card card-body">
+            <b-table :items="user.addresses" :fields="addressFields">
+              <template v-slot:cell(area)="data">
+                <span v-if="data.item.area">{{ data.item.area.name }}</span>
+              </template>
+              <template v-slot:cell(actions)="data">
+                <!-- Show -->
+                <b-button
+                  :to="{ name: 'show-address', params: { id: data.item.id }}"
+                  variant="info"
+                  size="sm"
+                >
+                  Show
+                </b-button>
+                <!-- Edit -->
+                <b-button
+                  :to="{ name: 'edit-address', params: { id: data.item.id }}"
+                  variant="secondary"
+                  size="sm"
+                >
+                  Edit
+                </b-button>
+                <!-- Delete -->
+                <b-button
+                  variant="danger"
+                  size="sm"
+                  @click.stop.prevent="deleteItem(data.item.id, $event)"
+                >
+                  Delete
+                </b-button>
+              </template>
+            </b-table>
+          </div>
+        </div>
+        <!-- ./Addresses -->
       </div>
     </div>
   </div>
@@ -132,79 +156,44 @@
 
 <script>
 
-import Form from 'vform'
-import LabelInputText from '~/components/forms/LabelInputText'
-import SelectBox from '~/components/forms/SelectBox'
-import CheckBox from '~/components/forms/CheckBox'
-
 export default {
   middleware: 'auth',
   layout: 'admin',
-  components: {
-    LabelInputText,
-    SelectBox,
-    CheckBox
-  },
+
   data: () => {
     return {
-      serviceProvider: {
+      user: {
         id: '',
         name: '',
-        phone: '',
         email: '',
-        age: '',
-        address: '',
-        status: '',
-        orders: [],
-        type: {
-          id: '',
-          title: ''
-        },
-        last_seen: '',
-        created_at: ''
+        phone: '',
+        channel: '',
+        push_token: '',
+        push_token_type: '',
+        social_id: '',
+        social_provider: '',
+        status: ''
       },
-      orders: [],
-      options: [],
-      form: new Form({
-        service_provider_id: '',
-        price_to_pay: ''
-      })
+      addressFields: [
+        'id',
+        'area',
+        'street',
+        'building_number',
+        'floor_number',
+        'flat_number',
+        'actions'
+      ]
     }
   },
   async mounted () {
-    // this.fetchServiceProviderTypes()
     await this.fetchData()
   },
   methods: {
     async fetchData () {
-      await this.$axios.$get('service-providers/' + this.$route.params.id)
+      await this.$axios.$get('users/' + this.$route.params.id)
         .then((res) => {
-          this.serviceProvider = res
+          this.user = res
         })
-    },
-    update () {
-      this.form.put('/orders/' + this.$route.params.id, this.form)
-        .then((res) => {
-          console.log(res)
-          this.order = res.data
-        })
-
-      this.$notify({
-        group: 'feedback',
-        title: this.$t('service_provider_updated_sucessfully'),
-        type: 'success'
-      })
-    },
-    fetchOptions (search, loading) {
-      loading(true)
-      setTimeout(() => {
-        this.$axios.$get('service-providers', { params: { name: search } })
-          .then((res) => {
-            this.options = res.data
-            console.log(res.data)
-            loading(false)
-          })
-      }, 300)
     }
   }
 }

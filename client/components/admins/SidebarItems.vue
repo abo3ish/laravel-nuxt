@@ -12,6 +12,12 @@
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
+          <nuxt-link :to="{ name: 'users' }" class="nav-link active">
+            <i class="fa fa-circle-o nav-icon" />
+            <p>{{ $t('users') }}</p>
+          </nuxt-link>
+        </li>
+        <li class="nav-item">
           <nuxt-link :to="{ name: 'service-providers' }" class="nav-link active">
             <i class="fa fa-circle-o nav-icon" />
             <p>{{ $t('service_providers') }}</p>

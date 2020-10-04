@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Admin\AdminBaseController;
 use Illuminate\Http\Request;
 use App\Models\ServiceProvider;
+use App\Http\Controllers\Admin\AdminBaseController;
+use App\Http\Resources\Admin\ServiceProvider\ShowServiceProviderResource;
 
 class ServiceProviderController extends AdminBaseController
 {
@@ -64,7 +65,7 @@ class ServiceProviderController extends AdminBaseController
      */
     public function show(ServiceProvider $serviceProvider)
     {
-        return $serviceProvider;
+        return new ShowServiceProviderResource($serviceProvider->load('orders'));
     }
 
     /**

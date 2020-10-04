@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,5 +41,15 @@ class ServiceProvider extends Authenticatable implements JWTSubject
     public function devices()
     {
         return $this->morphMany(Device::class, 'deviceable');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function serviceProviderType()
+    {
+        return $this->belongsTo(ServiceProviderType::class, 'type_id');
     }
 }

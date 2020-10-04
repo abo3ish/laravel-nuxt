@@ -26,14 +26,18 @@
       <form role="form" @submit.prevent="searchFilter()">
         <div class="row">
           <div class="col-2">
-            <label-input-text v-model="filter.uuid" :label="$t('order_id')" :type="'number'" :placeholder="'Enter UUID'" name="uuid" />
+            <label-input-text v-model="filter.name" :label="$t('name')" :type="'text'" :placeholder="'Enter Name'" name="name" />
           </div>
           <div class="col-2">
-            <select-box v-model="filter.service_provider_type_id" :label="$t('service_provider_type')" :items="serviceProviderTypes" name="service_provider_type_id" />
+            <label-input-text v-model="filter.phone" :label="$t('phone')" :type="'text'" :placeholder="'Enter phone'" name="phone" />
           </div>
           <div class="col-2">
-            <select-box v-model="filter.status" :label="$t('order_status')" :items="orderStatuses" name="status" />
+            <label-input-text v-model="filter.email" :label="$t('email')" :type="'email'" :placeholder="'Enter email'" name="email" />
           </div>
+          <div class="col-2">
+            <label-input-text v-model="filter.address" :label="$t('address')" :type="'text'" :placeholder="'Enter address'" name="address" />
+          </div>
+
           <div class="col-2">
             <b-button
               type="submit"
@@ -52,7 +56,7 @@
           <div class="col-sm-12">
             <div class="card card-primary">
               <div class="card-header">
-                <n-link :to="{name: 'create-service-provider' }">
+                <n-link :to="{name: 'create-user' }">
                   <button class="btn btn-outline-light float-left">
                     {{ $t('add_new') }}
                   </button>
@@ -60,7 +64,7 @@
               </div>
               <div class="card card-body">
                 <b-table
-                  :items="orders"
+                  :items="users"
                   :busy.sync="isBusy"
                   :fields="fields"
                   :sort-by.sync="sortBy"
@@ -73,51 +77,25 @@
                   show-empty
                   stacked="md"
                 >
-                  <!-- user -->
-                  <template v-slot:cell(user)="data">
-                    <span>{{ data.item.user.name }}</span>
-                  </template>
-
-                  <!-- Address -->
-                  <template v-slot:cell(address)="data">
-                    <span>{{ data.item.address }}</span>
-                  </template>
-
                   <!-- Type -->
                   <template v-slot:cell(type)="data">
-                    <span>{{ data.item.type }}</span>
-                  </template>
-
-                  <!-- Order items -->
-                  <template v-slot:cell(services)="data">
-                    <span>{{ data.item.services }}</span>
-                  </template>
-
-                  <!-- Service Provider -->
-                  <template v-slot:cell(service_provider)="data">
-                    <span v-if="data.item.service_provider">{{ data.item.service_provider.name }}</span>
+                    <span>{{ data.item.type.title }}</span>
                   </template>
 
                   <!-- Status -->
                   <template v-slot:cell(status)="data">
-                    <b-badge v-if="data.item.status.code == 0" variant="warning">
-                      {{ data.item.status.string }}
+                    <b-badge v-if="data.item.status" variant="success">
+                      {{ $t('activated') }}
                     </b-badge>
-                    <b-badge v-if="data.item.status.code == 1" variant="primary">
-                      {{ data.item.status.string }}
-                    </b-badge>
-                    <b-badge v-else-if="data.item.status.code == 2" variant="secondary">
-                      {{ data.item.status.string }}
-                    </b-badge>
-                    <b-badge v-else-if="data.item.status.code == 3" variant="success">
-                      {{ data.item.status.string }}
+                    <b-badge v-else variant="danger">
+                      {{ $t('not_activated') }}
                     </b-badge>
                   </template>
 
                   <!-- Last Seen -->
-                  <template v-slot:cell(created_at)="data">
-                    <span v-if="data.item.created_at">
-                      {{ $moment(String(data.item.created_at)).format('LLLL') }}
+                  <template v-slot:cell(last_seen)="data">
+                    <span v-if="data.item.last_seen">
+                      {{ $moment(String(data.item.last_seen)).format('LLLL') }}
                     </span>
                   </template>
 
@@ -125,7 +103,7 @@
                   <template v-slot:cell(actions)="data">
                     <!-- Show -->
                     <b-button
-                      :to="{ name: 'show-order', params: { id: data.item.id }}"
+                      :to="{ name: 'show-user', params: { id: data.item.id }}"
                       variant="info"
                       size="sm"
                     >
@@ -133,7 +111,7 @@
                     </b-button>
                     <!-- Edit -->
                     <b-button
-                      :to="{ name: 'edit-order', params: { id: data.item.id }}"
+                      :to="{ name: 'edit-user', params: { id: data.item.id }}"
                       variant="secondary"
                       size="sm"
                     >
@@ -185,41 +163,34 @@ export default {
   },
   data () {
     return {
+      users: [],
+
       isBusy: false,
       rows: 1,
       perPage: 0,
       currentPage: 1,
 
       filter: {
-        uuid: '',
-        service_provider_type_id: '',
-        status: '',
-        service_provider_id: ''
+        name: '',
+        age: '',
+        email: '',
+        phone: '',
+        address: ''
       },
 
       query: {},
 
-      orders: [],
-      serviceProviderTypes: [],
-      orderStatuses: [
-        { id: '0', title: 'تحت المراجعة' },
-        { id: '1', title: 'تم الموافقة' },
-        { id: '2', title: 'الطلب في الطريق' },
-        { id: '3', title: 'تم التوصيل' }
-      ],
-
       sortBy: 'id',
-      sortDesc: true,
+      sortDesc: false,
       fields: [
-        { key: 'uuid', sortable: true },
-        { key: 'user', sortable: true },
+        { key: 'id', sortable: true },
+        { key: 'name', sortable: true },
+        { key: 'email', sortable: true },
+        { key: 'phone', sortable: true },
         { key: 'address', sortable: false },
-        { key: 'type', sortable: true },
-        { key: 'services', sortable: true },
-        { key: 'service_provider_type', sortable: true },
-        { key: 'service_provider', sortable: true },
+        { key: 'social_provider', sortable: true },
+        { key: 'last_seen', sortable: true },
         { key: 'status', sortable: true },
-        { key: 'created_at', sortable: true },
         { key: 'actions', sortable: false }
       ]
     }
@@ -232,50 +203,28 @@ export default {
     }
   },
   mounted () {
-    this.$echo.channel('new-order')
-      .listen('NewOrder', (e) => {
-        console.log(e)
-        this.orders.push(e)
-      })
-
     this.fetchData().catch((error) => {
       console.log(error)
     })
-    this.fetchServiceProviderTypes()
-    // this.getStatuses()
   },
   methods: {
     async fetchData () {
       this.query.page = this.currentPage
-
       this.isBusy = true
-      await this.$axios.$get('orders', {
+
+      await this.$axios.$get('users', {
         params: this.query
       })
         .then((res) => {
           this.rows = res.pagination.total
           this.perPage = res.pagination.per_page
           this.currentPage = res.pagination.current_page
-          this.orders = res.orders
+          this.users = res.users
           this.isBusy = false
         })
 
-      this.$router.push({ name: 'orders',
-        query: this.query }).catch((err) => {
-        console.log(err)
-      })
-    },
-    getStatuses () {
-      this.$axios.$get('order-statuses').then((res) => {
-        // console.log(res)
-        // this.orderStatuses = res
-      })
-    },
-    fetchServiceProviderTypes () {
-      this.$axios.$get('service-provider-types/all')
-        .then((res) => {
-          this.serviceProviderTypes = res
-        })
+      this.$router.replace({ name: 'users',
+        query: this.query })
     },
     deleteItem (id, event) {
       event.preventDefault()

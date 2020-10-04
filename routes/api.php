@@ -9,7 +9,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::post('login', 'AuthController@login');
     Route::post('login/social', 'AuthController@socialLogin');
-    Route::post('register', 'RegisterController@register');
+    // Route::post('register', 'RegisterController@register');
     Route::get('test/fcm/{token}', 'AuthController@testFcm');
 
     // Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');

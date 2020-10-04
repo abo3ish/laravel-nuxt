@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>{{ $t('service_providers') }}</h1>
+            <h1>{{ $t('users') }}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-left">
@@ -14,12 +14,12 @@
                 </nuxt-link>
               </li>
               <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'service-providers'}">
-                  {{ $t('service_providers') }}
+                <nuxt-link :to="{name: 'users'}">
+                  {{ $t('users') }}
                 </nuxt-link>
               </li>
               <li class="breadcrumb-item active">
-                <!-- {{ serviceProvider.name }} -->
+                <!-- {{ user.name }} -->
               </li>
             </ol>
           </div>
@@ -33,7 +33,7 @@
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">
-              {{ serviceProvider.name + " - " + serviceProvider.type.title }}
+              {{ user.name + " - " + user.type.title }}
               <n-link :to="{name: 'edit-service-provider' }">
                 <button class="btn btn-outline-light float-left">
                   {{ $t('edit') }}
@@ -49,7 +49,7 @@
             <div class="form-group">
               <label for="balance">{{ $t('name') }} : </label>
               <code>
-                {{ serviceProvider.name }} <br>
+                {{ user.name }} <br>
               </code>
             </div>
 
@@ -57,7 +57,7 @@
             <div class="form-group">
               <label for="balance">{{ $t('age') }} : </label>
               <code>
-                {{ serviceProvider.age }}
+                {{ user.age }}
               </code>
             </div>
 
@@ -65,7 +65,7 @@
             <div class="form-group">
               <label for="balance">{{ $t('email') }} : </label>
               <code>
-                {{ serviceProvider.email }}
+                {{ user.email }}
               </code>
             </div>
 
@@ -73,7 +73,7 @@
             <div class="form-group">
               <label for="balance">{{ $t('status') }} : </label>
               <code>
-                {{ serviceProvider.status ? $t('active') : $t('not_active') }} <br>
+                {{ user.status ? $t('active') : $t('not_active') }} <br>
               </code>
             </div>
 
@@ -81,7 +81,7 @@
             <div class="form-group">
               <label for="balance">{{ $t('address') }} : </label>
               <code id="address">
-                {{ serviceProvider.address }} <br>
+                {{ user.address }} <br>
               </code>
             </div>
 
@@ -89,7 +89,7 @@
             <div class="form-group">
               <label for="balance">{{ $t('service_provider_type') }} : </label>
               <code>
-                {{ serviceProvider.type.title }} <br>
+                {{ user.type.title }} <br>
               </code>
             </div>
 
@@ -97,7 +97,7 @@
             <div class="form-group">
               <label>{{ $t('last_seen') }} : </label>
               <code>
-                {{ $moment(String(serviceProvider.last_seen)).format('LLLL') }} <br>
+                {{ $moment(String(user.last_seen)).format('LLLL') }} <br>
               </code>
             </div>
 
@@ -106,12 +106,12 @@
               <!-- Orders link -->
               <label for="balance">{{ $t('orders') }} : </label>
               <code>
-                <nuxt-link :to="{name: 'orders', query: {service_provider_id: serviceProvider.id}}">{{ $t('orders') }}</nuxt-link> |
+                <nuxt-link :to="{name: 'orders', query: {service_provider_id: user.id}}">{{ $t('orders') }}</nuxt-link> |
               </code>
               <!-- Orders Count -->
               <label for="balance">{{ $t('orders_count') }} : </label>
               <code>
-                {{ serviceProvider.orders.length }}
+                {{ user.orders.length }}
               </code>
             </div>
 
@@ -119,7 +119,7 @@
             <div class="form-group">
               <label>{{ $t('created_at') }} : </label>
               <code>
-                {{ $moment(String(serviceProvider.created_at)).format('LLLL') }} <br>
+                {{ $moment(String(user.created_at)).format('LLLL') }} <br>
               </code>
             </div>
           </div>
@@ -147,7 +147,7 @@ export default {
   },
   data: () => {
     return {
-      serviceProvider: {
+      user: {
         id: '',
         name: '',
         phone: '',
@@ -172,14 +172,13 @@ export default {
     }
   },
   async mounted () {
-    // this.fetchServiceProviderTypes()
     await this.fetchData()
   },
   methods: {
     async fetchData () {
-      await this.$axios.$get('service-providers/' + this.$route.params.id)
+      await this.$axios.$get('users/' + this.$route.params.id)
         .then((res) => {
-          this.serviceProvider = res
+          this.user = res
         })
     },
     update () {
@@ -198,7 +197,7 @@ export default {
     fetchOptions (search, loading) {
       loading(true)
       setTimeout(() => {
-        this.$axios.$get('service-providers', { params: { name: search } })
+        this.$axios.$get('users', { params: { name: search } })
           .then((res) => {
             this.options = res.data
             console.log(res.data)
