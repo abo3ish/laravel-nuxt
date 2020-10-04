@@ -112,10 +112,36 @@
         <!-- Addresses -->
         <div class="card card-primary">
           <div class="card card-header">
+            Notification
+          </div>
+          <div class="card card-body">
+            <form role="form" @submit.prevent="sendFCM()">
+              <!-- Title -->
+              <label-input-text v-model="form.title" :label="$t('fcm_title')" :type="'text'" :placeholder="'Enter Notification Title'" name="title" />
+
+              <!-- Bdody -->
+              <label-input-text v-model="form.body" :label="$t('fcm_body')" :type="'text'" :placeholder="'Enter Notification Body'" name="body" />
+
+              <div class="card-footer">
+                <v-button
+                  :loading="form.busy"
+                  type="success"
+                >
+                  {{ $t('send') }}
+                </v-button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- ./Addresses -->
+
+        <!-- Addresses -->
+        <div class="card card-primary">
+          <div class="card card-header">
             Addresses
           </div>
           <div class="card card-body">
-            <b-table :items="user.addresses" :fields="addressFields">
+            <b-table :items="user.addresses" :fields="addressFields" show-empty>
               <template v-slot:cell(area)="data">
                 <span v-if="data.item.area">{{ data.item.area.name }}</span>
               </template>
@@ -155,10 +181,15 @@
 </template>
 
 <script>
+import Form from 'vform'
+import LabelInputText from '~/components/forms/LabelInputText'
 
 export default {
   middleware: 'auth',
   layout: 'admin',
+  components: {
+    LabelInputText
+  },
 
   data: () => {
     return {
@@ -182,17 +213,43 @@ export default {
         'floor_number',
         'flat_number',
         'actions'
-      ]
+      ],
+      form: new Form({
+        title: 'كشف ودوا',
+        body: '',
+        // data: [],
+        user_id: ''
+      })
     }
   },
-  async mounted () {
-    await this.fetchData()
+  mounted () {
+    this.fetchData()
   },
   methods: {
-    async fetchData () {
-      await this.$axios.$get('users/' + this.$route.params.id)
+    fetchData () {
+      this.$axios.$get('users/' + this.$route.params.id)
         .then((res) => {
           this.user = res
+        })
+    },
+    async sendFCM () {
+      console.log('sending')
+      this.form.user_id = this.user.id
+      await this.form.post('/fcm', this.form)
+        .then((res) => {
+          if (res.data > 0) {
+            this.$notify({
+              group: 'feedback',
+              title: this.$t('notification_sent_successfully'),
+              type: 'success'
+            })
+          } else {
+            this.$notify({
+              group: 'feedback',
+              title: this.$t('notification_failed'),
+              type: 'error'
+            })
+          }
         })
     }
   }

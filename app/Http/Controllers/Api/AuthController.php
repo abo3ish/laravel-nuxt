@@ -13,13 +13,14 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Traits\UserProviderTrait;
 use App\Http\Resources\User\MeResource;
 use App\Http\Traits\AdvertisementTrait;
+use App\Http\Traits\FCMTrait;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class AuthController extends Controller
 {
-    use AuthenticatesUsers, UserProviderTrait, AdvertisementTrait;
+    use AuthenticatesUsers, UserProviderTrait, AdvertisementTrait, FCMTrait;
 
 
     public function login(Request $request)
@@ -28,7 +29,6 @@ class AuthController extends Controller
 
         if (!$token) {
             return apiReturn([], ['wrong credentials'], Response::HTTP_UNAUTHORIZED);
-
         }
 
         $user = $this->guard()->user();
@@ -51,8 +51,7 @@ class AuthController extends Controller
 
             if (!$user = User::where('social_id', $socialUser->getId())
                 ->where('social_provider', strtolower($request->social_provider))
-                ->first()
-            ) {
+                ->first()) {
 
                 $user = User::create([
                     'name' => $socialUser->getName(),
@@ -103,29 +102,11 @@ class AuthController extends Controller
             $token = auth()->user()->push_token;
         }
 
-        $server_key = env('FCM_SERVER_KEY');
-
-        $data = array(
-            'text' => 'Hello this is test notification'
+        return $this->sendFCM(
+            'كشف ودوا',
+            'رسالة اختبار',
+            '',
+            $token
         );
-
-        if (isset($data['text'])) {
-            $text = $data['text'];
-        } else {
-            $text = $data;
-        }
-        $category = ['text' => $text];
-        if (is_string($data) and json_decode($data)) {
-            $text = json_decode($data, true)['text'];
-            $category = json_decode($data, true);
-        }
-
-
-        $SendPush = Http::withHeaders(['Authorization' => 'key=' . $server_key])->post(env('FCM_API_URL'), [
-            'data' => $category,
-            'registration_ids' => [$token]
-        ])->json();
-
-        return $SendPush;
     }
 }

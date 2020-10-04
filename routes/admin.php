@@ -35,4 +35,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'name
     /* Services */
     Route::get('services/all', 'ServiceController@getAll');
     Route::resource('services', 'ServiceController');
+
+    Route::post('fcm', 'NotificationController@sendFCMNotification');
 });

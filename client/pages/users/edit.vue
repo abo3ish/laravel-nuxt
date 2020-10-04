@@ -180,7 +180,6 @@ export default {
     this.fetchData()
   },
   methods: {
-
     fetchData () {
       this.$axios.$get('users/' + this.$route.params.id + '/edit')
         .then((res) => {
