@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading v-if="!order.id" />
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -147,6 +148,7 @@ import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
 import SelectBox from '~/components/forms/SelectBox'
 import CheckBox from '~/components/forms/CheckBox'
+import Loading from '~/components/global/loading'
 
 export default {
   middleware: 'auth',
@@ -154,12 +156,14 @@ export default {
   components: {
     LabelInputText,
     SelectBox,
-    CheckBox
+    CheckBox,
+    Loading
   },
   data: () => {
     return {
       serviceProviderTypes: [],
       order: {
+        id: '',
         user: {},
         status: {},
         address: '',

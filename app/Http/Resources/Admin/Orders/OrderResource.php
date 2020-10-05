@@ -23,7 +23,7 @@ class OrderResource extends JsonResource
             ],
             'address' => $this->address->street,
             'type' => $this->type,
-            'services' => mb_substr($this->services_string, 0, 20, 'UTF-8'),
+            'items' => mb_substr($this->items_string, 0, 20, 'UTF-8'),
             'service_provider' => $this->serviceProvider ? [
                 'id' => $this->serviceProvider->id,
                 'name' => $this->serviceProvider->name,

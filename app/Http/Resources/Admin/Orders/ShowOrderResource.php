@@ -23,7 +23,7 @@ class ShowOrderResource extends JsonResource
             ],
             'address' => $this->address->street,
             'type' => $this->type,
-            'services' => ServiceOrderResource::collection($this->services),
+            'services' => ServiceOrderResource::collection($this->serviceOrders),
             'service_provider' => $this->serviceProvider ? [
                 'id' => $this->serviceProvider->id,
                 'name' => $this->serviceProvider->name,

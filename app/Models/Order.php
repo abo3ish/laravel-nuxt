@@ -80,7 +80,7 @@ class Order extends Model
     public function getServicesStringAttribute()
     {
         $string = '';
-        foreach($this->services as $ServiceOrder) {
+        foreach($this->serviceOrders as $ServiceOrder) {
             $string .= $ServiceOrder->service->title . ', ';
         }
         return trim($string, ", ");
@@ -133,6 +133,7 @@ class Order extends Model
                 foreach ($this->serviceOrders as $ServiceOrder) {
                     $string .= $ServiceOrder->service->title . ', ';
                 }
+                return $string;
                 break;
 
             case Order::PHARMACY:

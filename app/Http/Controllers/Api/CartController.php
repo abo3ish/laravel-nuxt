@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use App\Models\Drug;
 use App\Models\Order;
+use App\Models\DrugOrder;
 use Illuminate\Http\Request;
-use App\Models\PharmacyOrder;
+use App\Models\ServiceProviderType;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\Api\Order\StoreOrderResource;
-use App\Models\ServiceProviderType;
 
 class CartController extends Controller
 {
@@ -29,7 +29,7 @@ class CartController extends Controller
             ]);
             foreach ($request->items as $item) {
                 $drug = Drug::findOrFail($item['id']);
-                PharmacyOrder::create([
+                DrugOrder::create([
                     'order_id' => $order->id,
                     'drug_id' => $drug->id,
                     'quantity' => $item['quantity'],

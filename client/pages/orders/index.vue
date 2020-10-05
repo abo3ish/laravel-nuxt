@@ -96,7 +96,7 @@
 
                   <!-- Order items -->
                   <template v-slot:cell(services)="data">
-                    <span>{{ data.item.services }}</span>
+                    <span>{{ data.item.items }}</span>
                   </template>
 
                   <!-- Service Provider -->
@@ -221,7 +221,7 @@ export default {
         { key: 'user', sortable: true },
         { key: 'address', sortable: false },
         { key: 'type', sortable: true },
-        { key: 'services', sortable: true },
+        { key: 'items', sortable: true },
         { key: 'service_provider_type', sortable: true },
         { key: 'service_provider', sortable: true },
         { key: 'status', sortable: true },

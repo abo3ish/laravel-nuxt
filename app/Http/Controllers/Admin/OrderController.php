@@ -13,7 +13,7 @@ class OrderController extends AdminController
 {
     public function index()
     {
-        $orders = Order::with(['user', 'serviceProvider', 'address', 'services'])->orderBy('created_at', 'desc');
+        $orders = Order::with(['user', 'serviceProvider', 'address', 'serviceOrders'])->orderBy('created_at', 'desc');
 
         $orders = $this->filter($orders);
         $orders = $orders->paginate(config('kashf.pagination_per_page'));
