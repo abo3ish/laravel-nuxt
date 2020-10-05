@@ -124,13 +124,13 @@ export default {
     }
   },
   mounted () {
+    console.log(process.env.myName)
     this.fetchData()
   },
   methods: {
     async fetchData () {
       await this.$axios.$get('/home')
         .then((res) => {
-          console.log(res)
           this.statistics = res
         })
     }
