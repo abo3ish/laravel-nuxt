@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Drug;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Api\ApiBaseController;
 use App\Http\Resources\Api\Drug\DrugResource;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\Api\ApiBaseController;
 
 class DrugController extends ApiBaseController
 {
@@ -25,7 +26,10 @@ class DrugController extends ApiBaseController
         }
         $drugs = $drugs->paginate(config('kashf.pagination_per_page'));
         $drugs = DrugResource::collection($drugs);
-        return customPagination($drugs, 'drugs');
+
+        $drugs = customPagination($drugs, 'drugs');
+        return apiReturn($drugs, null, Response::HTTP_OK);
+
     }
 
     /**

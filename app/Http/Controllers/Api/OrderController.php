@@ -33,7 +33,8 @@ class OrderController extends ApiBaseController
 
     public function show(Order $order)
     {
-        return new ShowOrderResource($order);
+        $order = new ShowOrderResource($order);
+        return apiReturn($order, null, Response::HTTP_OK);
     }
 
     /*
