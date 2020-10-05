@@ -73,6 +73,12 @@
                   show-empty
                   stacked="md"
                 >
+                  <template v-slot:table-busy>
+                    <div class="text-center text-primary my-2">
+                      <b-spinner variant="primary" class="align-middle" />
+                      <strong>تحميل...</strong>
+                    </div>
+                  </template>
                   <!-- user -->
                   <template v-slot:cell(user)="data">
                     <span>{{ data.item.user.name }}</span>
@@ -257,8 +263,8 @@ export default {
           this.perPage = res.pagination.per_page
           this.currentPage = res.pagination.current_page
           this.orders = res.orders
-          this.isBusy = false
         })
+      this.isBusy = false
 
       this.$router.push({ name: 'orders',
         query: this.query }).catch((err) => {

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading v-if="!user.id" />
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -127,6 +128,7 @@
                   :loading="form.busy"
                   type="success"
                 >
+                  <b-spinner v-if="form.busy" small type="grow" />
                   {{ $t('send') }}
                 </v-button>
               </div>
@@ -183,12 +185,14 @@
 <script>
 import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
-
+import Loading from '~/components/global/loading'
 export default {
+
   middleware: 'auth',
   layout: 'admin',
   components: {
-    LabelInputText
+    LabelInputText,
+    Loading
   },
 
   data: () => {
@@ -257,8 +261,8 @@ export default {
 </script>
 
 <style scoped>
-  .loader {
+  /* .loader {
     text-align: center;
     color: #bbbbbb;
-  }
+  } */
 </style>

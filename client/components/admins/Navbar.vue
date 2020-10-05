@@ -131,7 +131,7 @@ export default {
       await this.$auth.logout()
 
       // Redirect to login.
-      // this.$router.push({ name: 'login' })
+      this.$router.push({ name: 'login' })
     }
   }
 }

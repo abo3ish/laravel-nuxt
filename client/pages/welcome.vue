@@ -2,11 +2,7 @@
   <div>
     <div class="text-center">
       <div class="title mb-4">
-        <span class="laravel">Laravel</span><span class="nuxt">Nuxt</span>
-      </div>
-
-      <div class="links">
-        <a href="https://github.com/cretueusebiu/laravel-nuxt">github.com/cretueusebiu/laravel-nuxt</a>
+        <span class="laravel">كشف </span><span class="nuxt">ودوا</span>
       </div>
     </div>
   </div>
@@ -17,10 +13,12 @@ export default {
   head () {
     return { title: this.$t('home') }
   },
-
   data: () => ({
     title: process.env.appName
-  })
+  }),
+  mounted () {
+    console.log(process.env.APP_URL)
+  }
 }
 </script>
 

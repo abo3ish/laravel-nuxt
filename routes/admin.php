@@ -12,6 +12,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'name
     Route::get('me', 'MeController@index');
     Route::get('user', 'MeController@index');
 
+    /* Home */
+    Route::get('/home', 'HomeController@index');
+
     /* Users */
     Route::get('users/all', 'UserController@getAll');
     Route::resource('users', 'UserController');

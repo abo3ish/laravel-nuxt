@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\DrugOrder;
+use App\Models\ServiceOrder;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -55,17 +57,22 @@ class Order extends Model
         return $this->belongsTo(ServiceProvider::class);
     }
 
+    public function serviceProviderType()
+    {
+        return $this->belongsTo(ServiceProviderType::class);
+    }
+
     public function address()
     {
         return $this->belongsTo(Address::class);
     }
 
-    public function services()
+    public function serviceOrders()
     {
         return $this->HasMany(ServiceOrder::class);
     }
 
-    public function drugs()
+    public function drugOrders()
     {
         return $this->HasMany(DrugOrder::class);
     }
@@ -104,8 +111,36 @@ class Order extends Model
         return $uuid;
     }
 
-    public function serviceProviderType()
+    public function getItems()
     {
-        return $this->belongsTo(ServiceProviderType::class);
+        switch ($this->type) {
+            case Order::SERVICE:
+                $items = $this->serviceOrders;
+                break;
+
+            case Order::PHARMACY:
+                $items = $this->drugOrders;
+                break;
+        }
+        return $items;
+    }
+
+    public function getItemsStringAttribute()
+    {
+        $string = '';
+        switch ($this->type) {
+            case Order::SERVICE:
+                foreach ($this->serviceOrders as $ServiceOrder) {
+                    $string .= $ServiceOrder->service->title . ', ';
+                }
+                break;
+
+            case Order::PHARMACY:
+                foreach ($this->drugOrders as $drugOrder) {
+                    $string .= $drugOrder->drug->name . ', ';
+                }
+                break;
+        }
+        return trim($string, ", ");
     }
 }

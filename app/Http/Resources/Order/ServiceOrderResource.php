@@ -15,13 +15,12 @@ class ServiceOrderResource extends JsonResource
      */
     public function toArray($request)
     {
-        $service = Service::find($this->service_id);
         return [
-            'order_id' => $this->order_id,
             'service' => [
-                'id' => $service->id,
-                'title' => $service->title
+                'id' => $this->service->id,
+                'title' => $this->service->title
             ],
+            'price_to_pay' => $this->sell_price
         ];
     }
 }

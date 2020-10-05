@@ -23,7 +23,6 @@ export default ({ app, store, redirect, $axios }) => {
     request.baseURL = process.env.apiUrl
 
     const token = app.store.$axios.defaults.headers.common.Authorization
-    // console.log(token)
     if (token) {
       request.headers.common.Authorization = token
     }

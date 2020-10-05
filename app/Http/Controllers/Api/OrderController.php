@@ -8,15 +8,10 @@ use App\Models\Service;
 use App\Events\NewOrder;
 use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
-use App\Models\ExaminationOrder;
-use Illuminate\Support\Collection;
-use App\Http\Controllers\Controller;
-use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Api\ApiBaseController;
-use App\Http\Resources\Order\AllOrdersResource;
-use Illuminate\Pagination\LengthAwarePaginator;
-use App\Http\Resources\Order\UserHistoryResource;
+use App\Http\Resources\Api\Order\ShowOrderResource;
+use App\Http\Resources\Order\OrderHistoryResource;
 use App\Http\Resources\Api\Order\StoreOrderResource;
 
 class OrderController extends ApiBaseController
@@ -29,11 +24,16 @@ class OrderController extends ApiBaseController
     public function index()
     {
         $orders = Order::where('user_id', auth()->id())->paginate(5);
-        $data = UserHistoryResource::collection($orders);
+        $data = OrderHistoryResource::collection($orders);
         $data = customPagination($data, 'orders');
 
         return apiReturn($data, null, Response::HTTP_OK);
 
+    }
+
+    public function show(Order $order)
+    {
+        return new ShowOrderResource($order);
     }
 
     /*

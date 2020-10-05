@@ -1,11 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Drug;
+use App\Models\User;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Models\ServiceProvider;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Resources\Admin\Home\HomeResource;
+use App\Models\ServiceOrder;
 
-class DrugController extends Controller
+class HomeController extends AdminController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +20,18 @@ class DrugController extends Controller
      */
     public function index()
     {
-        //
+        $usersCount = User::count();
+        $ServiceProvidersCount = ServiceProvider::count();
+        $ordersCount = Order::count();
+        $servicesCount = ServiceOrder::count();
+
+
+        return [
+            'users_count' => $usersCount,
+            'service_providers_count' => $ServiceProvidersCount,
+            'orders_count' => $ordersCount,
+            'services_count' => $servicesCount,
+        ];
     }
 
     /**
@@ -41,10 +58,10 @@ class DrugController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Drug  $drug
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Drug $drug)
+    public function show($id)
     {
         //
     }
@@ -52,10 +69,10 @@ class DrugController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Drug  $drug
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Drug $drug)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +81,10 @@ class DrugController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Drug  $drug
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Drug $drug)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +92,10 @@ class DrugController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Drug  $drug
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Drug $drug)
+    public function destroy($id)
     {
         //
     }

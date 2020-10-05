@@ -31,6 +31,7 @@ Route::group(['namespace' => 'Api'], function () {
     */
     Route::get('pharmacy-categories/{pharmacyCategory}/sub', 'PharmacyCategoryController@subCategories');
     Route::resource('pharmacy-categories', 'PharmacyCategoryController');
+    Route::get('drugs', 'DrugController@index');
 });
 
 

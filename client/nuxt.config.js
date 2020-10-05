@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv')
 const { join } = require('path')
 const { copySync, removeSync } = require('fs-extra')
 const APP_URL = 'kashfwedawaa.test'
@@ -12,7 +12,8 @@ module.exports = {
     apiUrl: process.env.API_URL || process.env.APP_URL + '/api/admin',
     appName: process.env.APP_NAME || 'كشف ودوا',
     appLocale: process.env.APP_LOCALE || 'ar',
-    githubAuth: !!process.env.GITHUB_CLIENT_ID
+    githubAuth: !!process.env.GITHUB_CLIENT_ID,
+    appUrl: process.env.APP_URL
   },
 
   head: {
@@ -74,7 +75,7 @@ module.exports = {
     '~plugins/bootstrap',
     '~plugins/admin-lte',
     '~plugins/nuxt-client-init', // Comment this for SSR
-    '~plugins/vue-notification', // Comment this for SSR,
+    '~plugins/vue-notification',
     '~plugins/vue-select'
   ],
 

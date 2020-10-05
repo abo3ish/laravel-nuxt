@@ -79,6 +79,14 @@
                   show-empty
                   stacked="md"
                 >
+                  <!-- Spinner -->
+                  <template v-slot:table-busy>
+                    <div class="text-center text-primary my-2">
+                      <b-spinner variant="primary" class="align-middle" />
+                      <strong>...تحميل</strong>
+                    </div>
+                  </template>
+
                   <!-- Service Provider Type -->
                   <template v-slot:cell(service_provider_type)="data">
                     <nuxt-link :to="{name: 'edit-service-provider-type/' + data.item.service_provider_type.id}">

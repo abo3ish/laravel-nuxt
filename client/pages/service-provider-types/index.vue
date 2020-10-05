@@ -49,6 +49,13 @@
                   show-empty
                   stacked="md"
                 >
+                  <!-- Spinner -->
+                  <template v-slot:table-busy>
+                    <div class="text-center text-primary my-2">
+                      <b-spinner variant="primary" class="align-middle" />
+                      <strong>...تحميل</strong>
+                    </div>
+                  </template>
                   <!-- Type -->
                   <template v-slot:cell(type)="data">
                     <span>{{ data.item.type.title }}</span>
