@@ -18,7 +18,8 @@ class ServiceOrderResource extends JsonResource
         return [
             'service' => [
                 'id' => $this->service->id,
-                'title' => $this->service->title
+                'title' => $this->service->title,
+                'description' => $this->service->description,
             ],
             'price_to_pay' => $this->sell_price
         ];

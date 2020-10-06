@@ -32,7 +32,9 @@
                 <div class="icon">
                   <i class="ion ion-bag" />
                 </div>
-                <a href="#" class="small-box-footer">اطلاعات بیشتر <fa icon="arrow-circle-left" /></a>
+                <nuxt-link :to="{name: 'users'}" class="small-box-footer">
+                  اضغط للمزيد <fa icon="arrow-circle-left" />
+                </nuxt-link>
               </div>
             </div>
             <!-- ./col -->
@@ -47,7 +49,9 @@
                 <div class="icon">
                   <i class="ion ion-stats-bars" />
                 </div>
-                <a href="#" class="small-box-footer">اطلاعات بیشتر <fa icon="arrow-circle-left" /></a>
+                <nuxt-link :to="{name: 'service-providers'}" class="small-box-footer">
+                  اضغط للمزيد <fa icon="arrow-circle-left" />
+                </nuxt-link>
               </div>
             </div>
             <!-- ./col -->
@@ -62,7 +66,9 @@
                 <div class="icon">
                   <i class="ion ion-person-add" />
                 </div>
-                <a href="#" class="small-box-footer">اطلاعات بیشتر <fa icon="arrow-circle-left" /></a>
+                <nuxt-link :to="{name: 'orders'}" class="small-box-footer">
+                  اضغط للمزيد <fa icon="arrow-circle-left" />
+                </nuxt-link>
               </div>
             </div>
             <!-- ./col -->
@@ -77,7 +83,9 @@
                 <div class="icon">
                   <i class="ion ion-pie-graph" />
                 </div>
-                <a href="#" class="small-box-footer">اطلاعات بیشتر <fa icon="arrow-circle-left" /></a>
+                <nuxt-link :to="{name: 'services'}" class="small-box-footer">
+                  اضغط للمزيد <fa icon="arrow-circle-left" />
+                </nuxt-link>
               </div>
             </div>
           <!-- ./col -->

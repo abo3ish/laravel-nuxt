@@ -21,6 +21,9 @@ Route::group(['namespace' => 'Api'], function () {
     // Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
     // Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
 
+    // All Areas
+    Route::get('areas', 'AreaController@index');
+
     /*
         Examinations
     */
@@ -51,7 +54,6 @@ Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'Api'], functio
 
     // Address
     Route::resource('addresses', 'AddressController');
-    Route::get('areas', 'AreaController@index');
 
     // Examination Order
     Route::resource('orders', 'OrderController');
