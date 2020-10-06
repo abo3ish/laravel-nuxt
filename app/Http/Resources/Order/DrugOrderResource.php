@@ -15,7 +15,7 @@ class DrugOrderResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'drugs' => [
+            'drug' => [
                 'id' => $this->drug->id,
                 'title' => $this->drug->name,
                 'image' => $this->drug->image_url
