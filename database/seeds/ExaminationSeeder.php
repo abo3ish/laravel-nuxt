@@ -240,7 +240,7 @@ class ExaminationSeeder extends Seeder
         Service::create([
             'examination_id' => $rays->id,
             'title' => 'دوبلار',
-            'icon' => '',
+            'icon' => 'doppler.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
             'purchase_price' => 200,

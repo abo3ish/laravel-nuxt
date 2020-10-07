@@ -56,7 +56,7 @@ class OrderController extends ApiBaseController
             if (count($request->items) > 1) {
                 $service = Service::findOrFail($request->items[0]);
                 if (!$service->examination->accept_multi) {
-                    throw new Exception();
+                    return apiReturn(null, "You can not choose more than one service.", Response::HTTP_OK);
                 }
             }
             foreach ($request->items as $item) {
@@ -88,5 +88,46 @@ class OrderController extends ApiBaseController
             $this->generateUuid();
         }
         return $uuid;
+    }
+
+    public function reorder(Order $order)
+    {
+        $serviceOrders = $order->serviceOrders;
+        // dd($serviceOrders);
+        try {
+            $serviceProviderTypeId = Service::find($serviceOrders->first()->service->id)->service_provider_type_id;
+
+            $order = Order::create([
+                'uuid' => Order::generateUuid(),
+                'user_id' => auth()->id(),
+                'type' => Order::SERVICE,
+                'address_id' => $order->address_id,
+                'service_provider_type_id' => $serviceProviderTypeId
+            ]);
+
+            if (count($serviceOrders) > 1) {
+                $service = Service::findOrFail($serviceOrders->first()->service->id);
+                if (!$service->examination->accept_multi) {
+                    return apiReturn(null, "You can not choose more than one service.", Response::HTTP_OK);
+                }
+            }
+            foreach ($serviceOrders as $serviceOrder) {
+                $service = Service::findOrFail($serviceOrder->service->id);
+                ServiceOrder::create([
+                    'order_id' => $order->id,
+                    'service_id' => $service->id,
+                    'purchase_price' => $service->purchase_price,
+                    'sell_price' => $service->sell_price,
+                ]);
+            }
+
+            $data = new StoreOrderResource($order);
+
+            // event(new NewOrder($order));     // notify Admin
+
+            return apiReturn($data, null, Response::HTTP_OK);
+        } catch (Exception $e) {
+            return apiReturn($e, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

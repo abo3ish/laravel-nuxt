@@ -56,6 +56,7 @@ Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'Api'], functio
     Route::resource('addresses', 'AddressController');
 
     // Examination Order
+    Route::post('reorder/{order}', 'OrderController@reorder');
     Route::resource('orders', 'OrderController');
 
 
