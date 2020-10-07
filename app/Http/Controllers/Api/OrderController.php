@@ -23,7 +23,7 @@ class OrderController extends ApiBaseController
      */
     public function index()
     {
-        $orders = Order::where('user_id', auth()->id())->paginate(config('kashf.pagination_per_small_page'));
+        $orders = Order::orderBy('created_at', 'desc')->where('user_id', auth()->id())->paginate(config('kashf.pagination_per_small_page'));
         $data = OrderHistoryResource::collection($orders);
         $data = customPagination($data, 'orders');
 
