@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
+
 function apiReturn($data = null, $error = null, $code = 200)
 {
     return response()->json([
@@ -22,6 +24,16 @@ function adPath($ad = null)
 function drugPath($drug = null)
 {
     return 'images/drugs/' . $drug;
+}
+
+function getOrderImagePath($img = null)
+{
+    return storage_path('app/private/images/' . $img);
+}
+
+function getOrderAudioPath($audio = null)
+{
+    return storage_path('app/private/audios/' . $audio);
 }
 
 function getIcon($icon)

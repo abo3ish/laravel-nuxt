@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Models\DrugOrder;
 use App\Models\ServiceOrder;
+use Intervention\Image\Facades\Image;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Order extends Model
 {
@@ -80,7 +82,7 @@ class Order extends Model
     public function getServicesStringAttribute()
     {
         $string = '';
-        foreach($this->serviceOrders as $ServiceOrder) {
+        foreach ($this->serviceOrders as $ServiceOrder) {
             $string .= $ServiceOrder->service->title . ', ';
         }
         return trim($string, ", ");
@@ -143,5 +145,45 @@ class Order extends Model
                 break;
         }
         return trim($string, ", ");
+    }
+
+    public function attachments()
+    {
+        return $this->hasMany(OrderAttachment::class);
+    }
+
+    public function createOrderAttachment($file, $type)
+    {
+        $directory = 'private/' . $type . 's';
+        $fileName = $this->id . "-" . auth()->user()->name . "-" .  random_int(1000, 999999) . "." . $file->extension();
+        $file->storeAs($directory, $fileName);
+
+        OrderAttachment::create([
+            'order_id' => $this->id,
+            'type' => $type,
+            'name' => $fileName,
+            'size' => ($file->getSize() / (1024 * 1024)),
+            'extension' => $file->extension()
+        ]);
+    }
+
+    public function createOrderTextAttachment($text)
+    {
+        $fileName = $this->id . "-text-" . auth()->user()->name . "-" .  random_int(1000, 999999) . ".png";
+        $image = Image::make(public_path('images') . "/background-white.png");
+        $directory = getOrderImagePath();
+
+        $image->text($text, 50, 100, function ($font) {
+            $font->file(resource_path('fonts/FontsFree-Net-OperatorMono-Medium.ttf'));
+            $font->size(30);
+        })->save($directory . "/" . $fileName);
+
+        OrderAttachment::create([
+            'order_id' => $this->id,
+            'type' => 'text',
+            'name' => $fileName,
+            'size' => ($image->filesize() / (1024)),
+            'extension' => 'png'
+        ]);
     }
 }
