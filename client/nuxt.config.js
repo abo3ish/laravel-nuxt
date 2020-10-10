@@ -80,14 +80,14 @@ module.exports = {
   ],
 
   buildModules: [
-    '@nuxtjs/moment',
-    '@nuxtjs/laravel-echo'
+    '@nuxtjs/moment'
+    // '@nuxtjs/laravel-echo'
   ],
 
   echo: {
     broadcaster: 'pusher',
     plugins: [
-      '~/plugins/echo.js'
+      // '~/plugins/echo.js'
     ],
     key: '94e21d523d92bd874c7e',
     wsHost: process.env.SOCKET_URL,

@@ -17,7 +17,7 @@ export default {
     title: process.env.appName
   }),
   mounted () {
-    console.log(process.env.APP_URL)
+    //
   }
 }
 </script>

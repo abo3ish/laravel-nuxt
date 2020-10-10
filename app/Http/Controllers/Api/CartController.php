@@ -18,7 +18,7 @@ class CartController extends Controller
 {
     public function checkout(Request $request)
     {
-        $items = json_decode($request->items);
+        $items = json_decode(json_encode($request->items));
 
         try {
             DB::beginTransaction();

@@ -238,11 +238,7 @@ export default {
     }
   },
   mounted () {
-    this.$echo.channel('new-order')
-      .listen('NewOrder', (e) => {
-        console.log(e)
-        this.orders.push(e)
-      })
+    // this.listenToNewOrder()
 
     this.fetchData().catch((error) => {
       console.log(error)
@@ -297,6 +293,13 @@ export default {
       for (const key in filter) {
         query[key] = filter[key]
       }
+    },
+    listenToNewOrder () {
+      this.$echo.channel('new-order')
+        .listen('NewOrder', (e) => {
+          console.log(e)
+          this.orders.push(e)
+        })
     }
   }
 }
