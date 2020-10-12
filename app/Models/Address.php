@@ -18,4 +18,9 @@ class Address extends Model
     {
         return $this->belongsTo(Area::class);
     }
+
+    public function getAddressStringAttribute()
+    {
+        return $this->building_number . " " . $this->street . ", " . $this->area->name;
+    }
 }

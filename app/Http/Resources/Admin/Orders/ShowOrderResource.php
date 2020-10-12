@@ -2,11 +2,14 @@
 
 namespace App\Http\Resources\Admin\Orders;
 
+use App\Http\Traits\Admin\ResourceTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Admin\ServiceOrders\ServiceOrderResource;
+use App\Http\Resources\Admin\Orders\DrugOrderResource;
+use App\Http\Resources\Admin\Orders\ServiceOrderResource;
 
 class ShowOrderResource extends JsonResource
 {
+    use ResourceTrait;
     /**
      * Transform the resource into an array.
      *
@@ -17,17 +20,19 @@ class ShowOrderResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'uuid' => $this->uuid,
             'user' => [
                 'id' => $this->user->id,
-                'name' => $this->user->name
+                'name' => $this->user->name,
+                'phone' => $this->user->phone,
             ],
-            'address' => $this->address->street,
+            'address' => $this->address->address_string,
+            'area' => $this->address->area,
             'type' => $this->type,
-            'services' => ServiceOrderResource::collection($this->serviceOrders),
-            'service_provider' => $this->serviceProvider ? [
-                'id' => $this->serviceProvider->id,
-                'name' => $this->serviceProvider->name,
-            ] : null,
+            'services' => $this->getServiceOrderResource($this),
+            'drugs' => $this->getDrugOrderResource($this),
+            'attachments' => $this->attachments,
+            'service_provider' => $this->serviceProvider ?? null,
             'status' => [
                 'code' => $this->status,
                 'string' => $this->status_string
@@ -39,6 +44,11 @@ class ShowOrderResource extends JsonResource
                 'actual_price' => $this->actual_price,
             ],
             'is_collected' => $this->is_collected,
+            'service_provider_type' => [
+                'id' => $this->serviceProviderType->id,
+                'title' => $this->serviceProviderType->title
+            ],
+            'created_at' => $this->created_at,
         ];
     }
 }

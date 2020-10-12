@@ -25,8 +25,8 @@ class DatabaseSeeder extends Seeder
             PharmacyCategorySeeder::class,
         ]);
 
-        factory(ServiceProvider::class, 50)->create();
-        factory(Order::class, 50)->create();
-        factory(ServiceOrder::class, 100)->create();
+        factory(ServiceProvider::class, 500)->create();
+        factory(Order::class, 500)->create();
+        factory(ServiceOrder::class, 1000)->create();
     }
 }

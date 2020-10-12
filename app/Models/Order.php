@@ -31,19 +31,19 @@ class Order extends Model
     public static function whatIsMyStatus($status)
     {
         switch ($status) {
-            case '0':
+            case '1':
                 return 'تحت المراجعة';
                 break;
 
-            case '1':
+            case '2':
                 return 'تم الموافقة';
                 break;
 
-            case '2':
+            case '3':
                 return ' الطلب في الطريق';
                 break;
 
-            case '3':
+            case '4':
                 return 'تم التوصيل';
                 break;
         }
@@ -79,6 +79,11 @@ class Order extends Model
         return $this->HasMany(DrugOrder::class);
     }
 
+    public function attachments()
+    {
+        return $this->hasMany(OrderAttachment::class);
+    }
+
     public function getServicesStringAttribute()
     {
         $string = '';
@@ -96,11 +101,34 @@ class Order extends Model
     public static function statuses()
     {
         return array(
-            '0' => 'تحت المراجعة',
-            '1' => 'تم الموافقة',
-            '2' => 'الطلب في الطريق',
-            '3' => 'تم التوصيل',
+            '1' => 'تحت المراجعة',
+            '2' => 'تم الموافقة',
+            '3' => 'الطلب في الطريق',
+            '4' => 'تم التوصيل',
         );
+    }
+
+    public static function statusCodes()
+    {
+        $statuses = [
+            [
+                'code' => 1,
+                'string' => 'تحت المراجعة'
+            ],
+            [
+                'code' => 2,
+                'string' => 'تم الموافقة',
+            ],
+            [
+                'code' => 3,
+                'string' => 'الطلب في الطريق',
+            ],
+            [
+                'code' => 4,
+                'string' => 'تم التوصيل',
+            ],
+        ];
+        return $statuses;
     }
 
     public static function generateUuid()
@@ -145,11 +173,6 @@ class Order extends Model
                 break;
         }
         return trim($string, ", ");
-    }
-
-    public function attachments()
-    {
-        return $this->hasMany(OrderAttachment::class);
     }
 
     public function createOrderAttachment($file, $type)

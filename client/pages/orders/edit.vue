@@ -55,7 +55,7 @@
                 </code>
               </div>
 
-              <!-- Services -->
+              <!-- Order Type -->
               <div class="form-group">
                 <label for="balance">{{ $t('type') }} : </label>
                 <code>
@@ -63,12 +63,18 @@
                 </code>
               </div>
 
-              <!-- Services -->
+              <!-- Order Type -->
               <div class="form-group">
-                <label for="balance">{{ $t('services') }} : </label>
-                <code v-for="service in order.services" :key="service.id">
-                  {{ service.service.title }} |
-                </code>
+                <label for="balance">{{ $t('orders') }} : </label>
+                <!-- Serviecs -->
+                <b-badge v-for="service in order.services" :key="service.id" pill variant="primary" class="p-2 m-2 w-30">
+                  {{ service.title }}
+                </b-badge>
+
+                <!-- Drugs -->
+                <b-badge v-for="drug in order.drugs" :key="drug.id" pill variant="info">
+                  {{ drug.title }}
+                </b-badge>
               </div>
 
               <!-- Status -->
@@ -76,6 +82,14 @@
                 <label for="balance">{{ $t('status') }} : </label>
                 <code>
                   {{ order.status.string }} <br>
+                </code>
+              </div>
+
+              <!-- Service Provider Type-->
+              <div class="form-group">
+                <label for="balance">{{ $t('service_provider_type') }} : </label>
+                <code>
+                  {{ order.service_provider_type.title }} <br>
                 </code>
               </div>
 
@@ -95,6 +109,14 @@
                 </code>
               </div>
 
+              <!-- Area -->
+              <div class="form-group">
+                <label for="balance">{{ $t('area') }} : </label>
+                <code id="area">
+                  {{ order.area.name }} <br>
+                </code>
+              </div>
+
               <!-- Form  -->
               <form @submit.prevent="update()">
                 <!-- Service Provider -->
@@ -102,26 +124,59 @@
                   <label id="service-provider">Service Provider</label>
                   <v-select
                     v-model="form.service_provider_id"
-                    :options="options"
+                    :options="serviceProviderOptions"
                     :filterable="false"
                     :reduce="provider => provider.id"
-                    @search="fetchOptions"
+                    @search="fetchServiceProviderOptions"
                   >
-                    <template slot="option" slot-scope="option">
+                    <template #option="{ name }">
                       <div class="d-center">
-                        {{ option.name }}
+                        {{ name }}
+                        <img src="https://via.placeholder.com/40/40">
                       </div>
                     </template>
-                    <template slot="selected-option" slot-scope="option">
+                    <template #selected-option="{ name }">
                       <div class="selected d-center">
-                        {{ option.name }}
+                        <strong>
+                          {{ name }}
+                        </strong>
+                        <img src="https://via.placeholder.com/40/40">
+
+                        <span />
                       </div>
                     </template>
                   </v-select>
                 </div>
+                <!-- /.Service Provider -->
+
+                <!-- Order Status -->
+                <div class="form-group">
+                  <label id="status">{{ $t('status') }}</label>
+                  <v-select
+                    v-model="form.status"
+                    :options="statusOptions"
+                    :filterable="false"
+                    :reduce="status => status.code"
+                  >
+                    <template #option="{ string }">
+                      <div class="d-center">
+                        {{ string }}
+                      </div>
+                    </template>
+                    <template #selected-option="{ string }">
+                      <div class="selected d-center">
+                        <strong>
+                          {{ string }}
+                        </strong>
+                        <span />
+                      </div>
+                    </template>
+                  </v-select>
+                </div>
+                <!-- /.Order Status -->
 
                 <div class="form-group">
-                  <LabelInputText v-model="order.prices.price_to_pay" :label="$t('price_to_pay')" :type="'number'" :name="'price_to_pay'" />
+                  <LabelInputText v-model="form.price_to_pay" :label="$t('price_to_pay')" :type="'number'" :name="'price_to_pay'" />
                 </div>
                 <div class="card-footer">
                   <v-button
@@ -166,15 +221,20 @@ export default {
         id: '',
         user: {},
         status: {},
+        area: {},
         address: '',
         type: '',
-        service: [],
+        services: [],
+        drugs: [],
         service_provider: {},
+        service_provider_type: {},
         prices: {}
       },
-      options: [],
+      serviceProviderOptions: [],
+      statusOptions: [],
       form: new Form({
         service_provider_id: '',
+        status: '',
         price_to_pay: ''
       })
     }
@@ -182,13 +242,24 @@ export default {
   async mounted () {
     // this.fetchServiceProviderTypes()
     await this.fetchData()
+    this.fetchOrderStatuses()
   },
   methods: {
     async fetchData () {
       await this.$axios.$get('orders/' + this.$route.params.id)
         .then((res) => {
-          // this.form.fill(res)
+          this.form.service_provider_id = res.service_provider ? res.service_provider.id : null
+          this.form.price_to_pay = res.prices.price_to_pay
+          this.form.status = res.status.code
           this.order = res
+
+          this.statusOptions.push(res.status)
+
+          if (res.service_provider) {
+            this.serviceProviderOptions.push(res.service_provider)
+          } else {
+            this.searchForServiceProviders('', this.order.service_provider_type.id, this.order.area.id)
+          }
         })
     },
     update () {
@@ -206,16 +277,27 @@ export default {
         type: 'success'
       })
     },
-    fetchOptions (search, loading) {
+    fetchServiceProviderOptions (search, loading) {
+      if (search.length === 0) {
+        return
+      }
       loading(true)
       setTimeout(() => {
-        this.$axios.$get('service-providers', { params: { name: search } })
-          .then((res) => {
-            this.options = res.data
-            console.log(res.data)
-            loading(false)
-          })
+        this.searchForServiceProviders(search, this.order.service_provider_type.id, this.order.area.id)
+        loading(false)
       }, 300)
+    },
+    async fetchOrderStatuses () {
+      await this.$axios.$get('order-statuses')
+        .then((res) => {
+          this.statusOptions = res
+        })
+    },
+    async searchForServiceProviders (searchString = '', typeID = null, areaId = null) {
+      await this.$axios.$get('service-providers', { params: { name: searchString, type_id: typeID, area_id: areaId } })
+        .then((res) => {
+          this.serviceProviderOptions = res.data
+        })
     }
   }
 }

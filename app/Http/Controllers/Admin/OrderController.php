@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Resources\Admin\Orders\OrderResource;
+use App\Http\Resources\Admin\Orders\StatusResource;
 use App\Http\Resources\Admin\Orders\ShowOrderResource;
 
 class OrderController extends AdminController
@@ -31,7 +32,9 @@ class OrderController extends AdminController
     public function update(Request $request, Order $order)
     {
         $order->update([
-            'service_provider_id' => $request->service_provider_id
+            'service_provider_id' => $request->service_provider_id,
+            'price_to_pay'  => $request->price_to_pay,
+            'status'  => $request->status,
         ]);
 
         return new ShowOrderResource($order);
@@ -62,6 +65,7 @@ class OrderController extends AdminController
 
     public function getOrderStatuses()
     {
-        return Order::statuses();
+        return collect(Order::statusCodes());
+
     }
 }

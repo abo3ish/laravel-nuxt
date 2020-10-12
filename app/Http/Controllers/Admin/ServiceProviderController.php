@@ -130,6 +130,10 @@ class ServiceProviderController extends AdminBaseController
             $serviceProviders->where('type_id', request('type_id'));
         }
 
+        if (isset(request()->area_id)) {
+            $serviceProviders->where('area_id', request('area_id'));
+        }
+
         if (isset(request()->address)) {
             $serviceProviders->where('address', request('address'));
         }
