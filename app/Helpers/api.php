@@ -26,6 +26,11 @@ function drugPath($drug = null)
     return 'images/drugs/' . $drug;
 }
 
+function serviceProviderPath($serviceProvider = null)
+{
+    return 'images/service-providers/' . $serviceProvider;
+}
+
 function getOrderImagePath($img = null)
 {
     return storage_path('app/private/images/' . $img);
@@ -49,6 +54,11 @@ function getAd($ad)
 function getDrugImage($drug)
 {
     return is_file(drugPath($drug)) ? secure_url((drugPath($drug))) : secure_url((drugPath('drug-default.png')));
+}
+
+function getServiceProviderImage($image)
+{
+    return is_file(serviceProviderPath($image)) ? secure_url((serviceProviderPath($image))) : null;
 }
 
 function customPagination($data, $string = 'data')

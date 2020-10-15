@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Api\ApiBaseController;
+use App\Http\Controllers\ApiBaseController;
 use App\Http\Traits\AdvertisementTrait;
 use App\Models\Advertisement;
 use Illuminate\Http\Request;

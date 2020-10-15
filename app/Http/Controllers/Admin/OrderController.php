@@ -68,4 +68,9 @@ class OrderController extends AdminController
         return collect(Order::statusCodes());
 
     }
+
+    public function getAttachment()
+    {
+        dd("Admin");
+    }
 }

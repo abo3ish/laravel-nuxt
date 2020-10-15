@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\User;
 
+use App\Models\Area;
 use Illuminate\Http\Request;
-use App\Models\ExaminationServiceType;
-use App\Http\Controllers\Api\ApiBaseController;
-use App\Http\Resources\ExaminationServiceType\ExaminationServiceTypeResource;
+use App\Http\Controllers\ApiBaseController;
+use App\Http\Resources\Api\Area\AreaResource;
 
-class ExaminationServiceTypeController extends ApiBaseController
+class AreaController extends ApiBaseController
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,8 @@ class ExaminationServiceTypeController extends ApiBaseController
      */
     public function index()
     {
-       //
+        $areas = Area::where('status', 1)->get();
+        return apiReturn(AreaResource::collection($areas));
     }
 
     /**
@@ -43,10 +44,10 @@ class ExaminationServiceTypeController extends ApiBaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ExaminationServiceType  $examinationServiceType
+     * @param  \App\Models\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function show(ExaminationServiceType $examinationServiceType)
+    public function show(Area $area)
     {
         //
     }
@@ -54,10 +55,10 @@ class ExaminationServiceTypeController extends ApiBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ExaminationServiceType  $examinationServiceType
+     * @param  \App\Models\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function edit(ExaminationServiceType $examinationServiceType)
+    public function edit(Area $area)
     {
         //
     }
@@ -66,10 +67,10 @@ class ExaminationServiceTypeController extends ApiBaseController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ExaminationServiceType  $examinationServiceType
+     * @param  \App\Models\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ExaminationServiceType $examinationServiceType)
+    public function update(Request $request, Area $area)
     {
         //
     }
@@ -77,10 +78,10 @@ class ExaminationServiceTypeController extends ApiBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ExaminationServiceType  $examinationServiceType
+     * @param  \App\Models\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ExaminationServiceType $examinationServiceType)
+    public function destroy(Area $area)
     {
         //
     }

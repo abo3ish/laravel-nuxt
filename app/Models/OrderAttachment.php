@@ -13,4 +13,9 @@ class OrderAttachment extends Model
         'size',
         'extension',
     ];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

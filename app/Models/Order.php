@@ -25,6 +25,12 @@ class Order extends Model
         'service_provider_type_id'
     ];
 
+    protected $dates = [
+        'accepted_at',
+        'created_at',
+        'updated_at',
+    ];
+
     public const SERVICE = 'service';
     public const PHARMACY = 'pharmacy';
 
@@ -185,7 +191,7 @@ class Order extends Model
             'order_id' => $this->id,
             'type' => $type,
             'name' => $fileName,
-            'size' => ($file->getSize() / (1024 * 1024)),
+            'size' => ($file->getSize() / (1024)),
             'extension' => $file->extension()
         ]);
     }

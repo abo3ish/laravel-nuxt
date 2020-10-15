@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\User;
 
 use Exception;
 use App\Models\User;
@@ -35,6 +35,9 @@ class AuthController extends Controller
 
         $this->guard()->setToken($token);
         $this->addToDevices($request->device_type, $request->details, $user, $request->ip(), 'login');
+
+        $user->updatePushToken($request->push_token, 'android');
+
         $user->token = $token;
         $data = new MeResource($user);
         $ads = $this->getPageAd('home');

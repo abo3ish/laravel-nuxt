@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\User;
 
 use Exception;
 use App\Models\Order;
@@ -9,10 +9,11 @@ use App\Events\NewOrder;
 use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Controllers\Api\ApiBaseController;
+use App\Http\Controllers\ApiBaseController;
 use App\Http\Resources\Api\Order\ShowOrderResource;
 use App\Http\Resources\Order\OrderHistoryResource;
 use App\Http\Resources\Api\Order\StoreOrderResource;
+use App\Models\OrderAttachment;
 
 class OrderController extends ApiBaseController
 {
@@ -33,6 +34,7 @@ class OrderController extends ApiBaseController
 
     public function show(Order $order)
     {
+        // dd($order->attachments);
         $order = new ShowOrderResource($order);
         return apiReturn($order, null, Response::HTTP_OK);
     }
@@ -128,6 +130,18 @@ class OrderController extends ApiBaseController
             return apiReturn($data, null, Response::HTTP_OK);
         } catch (Exception $e) {
             return apiReturn($e, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getAttachment(OrderAttachment $attachment)
+    {
+        if ($attachment->order->user_id != auth()->id()) {
+            return apiReturn(null, ["you don't have access to this file"], Response::HTTP_FORBIDDEN);
+        }
+        if ($attachment->type == 'audio') {
+            return  response()->file(getOrderAudioPath($attachment->name));
+        } elseif ($attachment->type == 'image' || $attachment->type == 'text') {
+            return  response()->file(getOrderImagePath($attachment->name));
         }
     }
 }

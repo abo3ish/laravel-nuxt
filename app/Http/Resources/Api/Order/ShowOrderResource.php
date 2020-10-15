@@ -8,6 +8,7 @@ use App\Http\Resources\Order\DrugOrderResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Order\ServiceOrderResource;
 use App\Http\Resources\Admin\Services\ServiceResource;
+use App\Http\Resources\Api\Order\OrderAttachmentResource;
 
 class ShowOrderResource extends JsonResource
 {
@@ -25,6 +26,7 @@ class ShowOrderResource extends JsonResource
             'type' => $this->type,
             'price_to_pay' => $this->price_to_pay,
             'items' => $this->getItemsResource(),
+            'attachments' => OrderAttachmentResource::collection($this->attachments),
             'created_at' => $this->created_at->format('d-m-y h:i')
         ];
     }

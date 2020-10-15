@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\User;
 
 use Tymon\JWTAuth\JWTAuth;
 use Illuminate\Http\Request;

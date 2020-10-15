@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 require_once __DIR__ . '/admin.php';
+require_once __DIR__ . '/serviceProvider.php';
 
-Route::group(['namespace' => 'Api'], function () {
+Route::group(['namespace' => 'User'], function () {
     Route::get('splash-ad', 'AdvertisementController@showSplashAd');
 
     Route::post('login', 'AuthController@login');
@@ -38,7 +39,7 @@ Route::group(['namespace' => 'Api'], function () {
 });
 
 
-Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'Api'], function () {
+Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'User'], function () {
 
     Route::get('/me', 'MeController@index');
     Route::get('user', 'MeController@index');
@@ -49,19 +50,23 @@ Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'Api'], functio
     // Examination services Types
     Route::get('examination-service-types/{examinationServiceType}', 'ExaminationServiceTypeController@show');
 
-    // Cart
-    // Route::resource('cart', 'CartController');
+    //Attachments
+    Route::get('attachments/{attachment}', 'OrderController@getAttachment');
 
     // Address
     Route::resource('addresses', 'AddressController');
 
     // Examination Order
     Route::post('reorder/{order}', 'OrderController@reorder');
+
     Route::resource('orders', 'OrderController');
 
 
-
+    // Checkout
     Route::post('cart/checkout', 'CartController@checkout');
+
+
+
 });
 
 

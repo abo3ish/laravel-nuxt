@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\User;
 
 use Exception;
 use App\Models\Drug;
@@ -25,6 +25,10 @@ class CartController extends Controller
 
             $serviceProviderTypeId = ServiceProviderType::where('slug', 'pharmacy')->first()->id;
 
+            if ( !$request->audios && !$request->images && $request->text == '') {
+                return apiReturn(null, ['your cart is empty'], Response::HTTP_BAD_REQUEST);
+            }
+
             $order = Order::create([
                 'uuid' => Order::generateUuid(),
                 'user_id' => auth()->id(),
@@ -32,15 +36,18 @@ class CartController extends Controller
                 'address_id' => $request->address_id,
                 'service_provider_type_id' => $serviceProviderTypeId
             ]);
-            foreach ($items as $item) {
-                $drug = Drug::findOrFail($item->id);
-                DrugOrder::create([
-                    'order_id' => $order->id,
-                    'drug_id' => $drug->id,
-                    'quantity' => $item->quantity,
-                    'purchase_price' => $drug->price - (5 / 100) * $drug->price,
-                    'sell_price' => $drug->price,
-                ]);
+
+            if ($items && is_array($items)) {
+                foreach ($items as $item) {
+                    $drug = Drug::findOrFail($item->id);
+                    DrugOrder::create([
+                        'order_id' => $order->id,
+                        'drug_id' => $drug->id,
+                        'quantity' => $item->quantity,
+                        'purchase_price' => $drug->price - (5 / 100) * $drug->price,
+                        'sell_price' => $drug->price,
+                    ]);
+                }
             }
 
             if ($request->has('audios')) {

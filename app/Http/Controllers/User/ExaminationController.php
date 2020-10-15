@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\User;
 
 use App\Models\Examination;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Controllers\Api\ApiBaseController;
+use App\Http\Controllers\ApiBaseController;
 use App\Http\Resources\Examination\ExaminationResource;
 use App\Models\Advertisement;
 

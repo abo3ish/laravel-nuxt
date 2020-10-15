@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Models\ExaminationOrder;
 use Illuminate\Support\Facades\DB;
 use App\Models\ExaminationServiceType;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Controllers\Api\ApiBaseController;
+use App\Http\Controllers\ApiBaseController;
 
 class ExaminationOrderController extends ApiBaseController
 {

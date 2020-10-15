@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\User;
 
 use App\Models\Drug;
 use Illuminate\Http\Request;
@@ -9,7 +9,7 @@ use App\Models\PharmacyCategory;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Drug\DrugResource;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Controllers\Api\ApiBaseController;
+use App\Http\Controllers\ApiBaseController;
 use App\Http\Resources\Api\PharmacyCategory\PharmacyCategoryResource;
 use App\Http\Traits\AdvertisementTrait;
 

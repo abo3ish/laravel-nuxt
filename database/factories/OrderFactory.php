@@ -25,5 +25,6 @@ $factory->define(Order::class, function (Faker $faker) {
         'service_provider_type_id' => ServiceProviderType::all()->random()->id,
         'status' => collect([1, 2, 3, 4])->random(),
         'price_to_pay' => $faker->numberBetween(50, 500),
+        'accepted_at' => $faker->dateTime()
     ];
 });

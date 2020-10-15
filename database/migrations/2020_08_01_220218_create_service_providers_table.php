@@ -22,12 +22,15 @@ class CreateServiceProvidersTable extends Migration
             $table->string('address');
             $table->string('email');
             $table->integer('age');
-            $table->string('photo')->nullable();
+            $table->string('image')->nullable();
             $table->string('password');
             $table->integer('rate')->default(5);
             $table->text('note')->nullable();
             $table->boolean('status')->default(true);
+            $table->string('push_token')->nullable();
             $table->dateTime('last_seen')->nullable();
+            $table->double('lat')->nullable();
+            $table->double('lng')->nullable();
             $table->timestamps();
         });
     }

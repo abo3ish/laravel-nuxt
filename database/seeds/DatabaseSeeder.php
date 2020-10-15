@@ -23,10 +23,15 @@ class DatabaseSeeder extends Seeder
             AddressSeeder::class,
             AdvertisementSeeder::class,
             PharmacyCategorySeeder::class,
+            ServiceProviderSeeder::class,
         ]);
 
-        factory(ServiceProvider::class, 500)->create();
-        factory(Order::class, 500)->create();
-        factory(ServiceOrder::class, 1000)->create();
+        factory(ServiceProvider::class, 200)->create();
+        factory(Order::class, 200)->create();
+        factory(ServiceOrder::class, 500)->create();
+
+        // $this->call([
+        //     ServiceProviderSeeder::class
+        // ]);
     }
 }

@@ -10,7 +10,22 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class ServiceProvider extends Authenticatable implements JWTSubject
 {
-    protected $fillable = ['name', 'phone', 'email', 'address', 'type_id', 'password', 'status', 'age'];
+    protected $fillable = [
+        'name',
+        'phone',
+        'email',
+        'address',
+        'type_id',
+        'area_id',
+        'password',
+        'status',
+        'age',
+        'rate',
+        'image',
+        'push_token',
+        'lat',
+        'lng'
+    ];
 
     protected $hidden = ['password'];
 
@@ -48,8 +63,26 @@ class ServiceProvider extends Authenticatable implements JWTSubject
         return $this->hasMany(Order::class);
     }
 
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
+
     public function serviceProviderType()
     {
         return $this->belongsTo(ServiceProviderType::class, 'type_id');
     }
+
+    public function getPhotoUrlAttribute()
+    {
+        return getServiceProviderImage($this->image);
+    }
+
+    public function updatePushToken($pushToken)
+    {
+        $this->update([
+            'push_token' => $pushToken
+        ]);
+    }
+
 }
