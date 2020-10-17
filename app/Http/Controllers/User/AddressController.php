@@ -4,8 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Address;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ApiBaseController;
+use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\Api\Address\AddressResource;
 
 class AddressController extends ApiBaseController
@@ -28,6 +29,18 @@ class AddressController extends ApiBaseController
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'area_id' => 'required',
+            'street' => 'required',
+            'floor_number' => 'required',
+            'flat_number' => 'required',
+            'lat' => 'required',
+            'lng' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return apiReturn(null, $validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
         $address = Address::create([
             'user_id' => auth()->id(),
             'area_id' => $request->area_id,

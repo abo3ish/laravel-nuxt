@@ -87,6 +87,10 @@ class AuthController extends Controller
     {
     }
 
+    public function guard()
+    {
+        return auth()->guard('api');
+    }
 
 
     public function logout()
