@@ -199,6 +199,7 @@ class Order extends Model
 
     public function createOrderTextAttachment($text)
     {
+        // dd($text);
         $fileName = $this->id . "-text-" . auth()->user()->name . "-" .  random_int(1000, 999999) . ".png";
         $image = Image::make(public_path('images') . "/background-white.png");
         $directory = getOrderImagePath();

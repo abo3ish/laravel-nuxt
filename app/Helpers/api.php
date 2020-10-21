@@ -43,22 +43,22 @@ function getOrderAudioPath($audio = null)
 
 function getIcon($icon)
 {
-    return is_file(iconPath($icon)) ? secure_url((iconPath($icon))) : null;
+    return is_file(iconPath($icon)) ? url((iconPath($icon))) : null;
 }
 
 function getAd($ad)
 {
-    return is_file(adPath($ad)) ? secure_url((adPath($ad))) : secure_url(adPath('homeAd1.jpg'));
+    return is_file(adPath($ad)) ? url((adPath($ad))) : url(adPath('homeAd1.jpg'));
 }
 
 function getDrugImage($drug)
 {
-    return is_file(drugPath($drug)) ? secure_url((drugPath($drug))) : secure_url((drugPath('drug-default.png')));
+    return is_file(drugPath($drug)) ? url((drugPath($drug))) : url((drugPath('drug-default.png')));
 }
 
 function getServiceProviderImage($image)
 {
-    return is_file(serviceProviderPath($image)) ? secure_url((serviceProviderPath($image))) : null;
+    return is_file(serviceProviderPath($image)) ? url((serviceProviderPath($image))) : null;
 }
 
 function customPagination($data, $string = 'data')

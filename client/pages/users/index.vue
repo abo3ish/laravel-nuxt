@@ -37,16 +37,8 @@
           <div class="col-2">
             <label-input-text v-model="filter.address" :label="$t('address')" :type="'text'" :placeholder="'Enter address'" name="address" />
           </div>
-
-          <div class="col-2">
-            <b-button
-              type="submit"
-              variant="warning"
-            >
-              {{ $t('search') }}
-            </b-button>
-          </div>
         </div>
+        <submit-button />
       </form>
     </section>
 
@@ -159,14 +151,14 @@
 <script>
 // import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
-import SelectBox from '~/components/forms/SelectBox'
+import SubmitButton from '~/components/forms/SubmitButton'
 
 export default {
   layout: 'admin',
   middleware: 'auth',
   components: {
     LabelInputText,
-    SelectBox
+    SubmitButton,
   },
   data () {
     return {

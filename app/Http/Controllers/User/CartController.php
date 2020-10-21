@@ -18,14 +18,14 @@ class CartController extends Controller
 {
     public function checkout(Request $request)
     {
-        $items = json_decode(json_encode($request->items));
+        $items = json_decode(($request->items));
 
         try {
             DB::beginTransaction();
 
             $serviceProviderTypeId = ServiceProviderType::where('slug', 'pharmacy')->first()->id;
 
-            if ( !$request->audios && !$request->images && $request->text == '') {
+            if (!$request->audios && !$request->images && $request->text == '' && !is_array($items)) {
                 return apiReturn(null, ['your cart is empty'], Response::HTTP_BAD_REQUEST);
             }
 

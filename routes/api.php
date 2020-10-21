@@ -42,6 +42,7 @@ Route::group(['namespace' => 'User'], function () {
 Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'User'], function () {
 
     Route::get('/me', 'MeController@index');
+    Route::put('/me', 'MeController@update');
     Route::get('user', 'MeController@index');
     Route::post('logout', 'AuthController@logout');
 

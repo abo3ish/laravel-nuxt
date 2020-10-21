@@ -36,5 +36,10 @@
   "order_collected": "تم التحصيل",
   "order_not_collected": "لم يتم التحصيل بعد",
   "created_at": "التاريخ",
-  "order_type": "نوع الطلب"
+  "order_type": "نوع الطلب",
+  "scientific_name": "الاسم العلمي",
+  "price": "السعر",
+  "category": "القسم",
+  "edit": "تعديل",
+  "drugs": "الادوية"
 }

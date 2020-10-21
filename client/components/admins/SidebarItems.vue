@@ -41,6 +41,12 @@
             <p> {{ $t('services') }}</p>
           </nuxt-link>
         </li>
+        <li class="nav-item">
+          <nuxt-link :to="{ name: 'drugs' }" class="nav-link">
+            <i class="fa fa-circle-o nav-icon" />
+            <p> {{ $t('drugs') }}</p>
+          </nuxt-link>
+        </li>
       </ul>
     </li>
   </ul>

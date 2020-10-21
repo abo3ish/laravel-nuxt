@@ -10,7 +10,14 @@ class Drug extends Model
 
     public function getImageUrlAttribute()
     {
-        return getDrugImage($this->id . ".png");
+        $image = $this->image ? $this->image : $this->id . ".png";
+        // return $image;
+        return getDrugImage($image);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(PharmacyCategory::class);
     }
 
 }

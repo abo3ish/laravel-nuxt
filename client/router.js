@@ -59,7 +59,13 @@ const routes = [
   { path: '/addresses/', name: 'addresses', component: page('addresses/index.vue') },
   { path: '/addresses/create', name: 'create-address', component: page('addresses/create.vue') },
   { path: '/addresses/edit/:id', name: 'edit-address', component: page('addresses/edit.vue') },
-  { path: '/addresses/:id', name: 'show-address', component: page('addresses/show.vue') }
+  { path: '/addresses/:id', name: 'show-address', component: page('addresses/show.vue') },
+
+  /* Drugs */
+  { path: '/drugs/', name: 'drugs', component: page('drugs/index.vue') },
+  { path: '/drugs/create', name: 'create-drug', component: page('drugs/create.vue') },
+  { path: '/drugs/edit/:id', name: 'edit-drug', component: page('drugs/edit.vue') },
+  { path: '/drugs/:id', name: 'show-drug', component: page('drugs/show.vue') }
 ]
 
 export function createRouter () {

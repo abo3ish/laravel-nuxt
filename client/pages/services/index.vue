@@ -40,15 +40,8 @@
           <div class="col-2">
             <select-box v-model="filter.status" :label="$t('status')" :items="statuses" name="examination_id" />
           </div>
-          <div class="col-2">
-            <b-button
-              type="submit"
-              variant="warning"
-            >
-              {{ $t('search') }}
-            </b-button>
-          </div>
         </div>
+        <submit-button />
       </form>
     </section>
 
@@ -169,6 +162,7 @@
 <script>
 // import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
+import SubmitButton from '~/components/forms/SubmitButton'
 import SelectBox from '~/components/forms/SelectBox'
 
 export default {
@@ -176,6 +170,7 @@ export default {
   middleware: 'auth',
   components: {
     LabelInputText,
+    SubmitButton,
     SelectBox
   },
   data () {

@@ -34,7 +34,6 @@ class OrderController extends ApiBaseController
 
     public function show(Order $order)
     {
-        // dd($order->attachments);
         $order = new ShowOrderResource($order);
         return apiReturn($order, null, Response::HTTP_OK);
     }

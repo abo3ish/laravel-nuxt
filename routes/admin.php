@@ -44,4 +44,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'name
     /* Attachments */
     Route::get('attachments/{attachment}', 'OrderController@getAttachment');
 
+    /* Drugs */
+    Route::get('drugs/all', 'DrugController@getAll');
+    Route::resource('drugs', 'DrugController');
+
+    /* Pharmacy Categories */
+    Route::resource('pharmacy-categories', 'PharmacyCategoryController');
+
 });

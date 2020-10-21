@@ -38,7 +38,7 @@ class ShowOrderResource extends JsonResource
                 return ServiceOrderResource::collection($this->getItems());
                 break;
 
-            default:
+            case Order::PHARMACY:
                 return DrugOrderResource::collection($this->getItems());
                 break;
         }

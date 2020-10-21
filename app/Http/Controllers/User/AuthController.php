@@ -79,7 +79,7 @@ class AuthController extends Controller
 
             return apiReturn($data, null, Response::HTTP_OK);
         } catch (Exception $e) {
-            return apiReturn('Something went wrong', null, Response::HTTP_BAD_REQUEST);
+            return apiReturn($e, null, Response::HTTP_BAD_REQUEST);
         }
     }
 
