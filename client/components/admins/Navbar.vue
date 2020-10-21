@@ -6,16 +6,10 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars" /></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">خانه</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">تماس</a>
-      </li>
     </ul>
 
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
+    <!-- <form class="form-inline ml-3">
       <div class="input-group input-group-sm">
         <input class="form-control form-control-navbar" type="search" placeholder="جستجو" aria-label="Search">
         <div class="input-group-append">
@@ -24,70 +18,34 @@
           </button>
         </div>
       </div>
-    </form>
+    </form> -->
 
     <!-- Right navbar links -->
     <ul class="navbar-nav mr-auto">
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="fa fa-comments" />
-          <span class="badge badge-danger navbar-badge">4</span>
+      <li v-if="user" class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-dark"
+           href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+        >
+          <img :src="user.photo_url" class="rounded-circle profile-photo mr-1">
+          {{ user.name }}
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="https://via.placeholder.com/300/300" alt="User Avatar" class="img-size-50 ml-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  حسام موسوی
-                  <span class="float-left text-sm text-danger"><i class="fa fa-star" /></span>
-                </h3>
-                <p class="text-sm">با من تماس بگیر لطفا...</p>
-                <p class="text-sm text-muted"><i class="fa fa-clock-o mr-1" /> 4 ساعت قبل</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
+        <div class="dropdown-menu">
+          <router-link :to="{ name: 'settings.profile' }" class="dropdown-item pl-3">
+            <fa icon="cog" fixed-width />
+            {{ $t('settings') }}
+          </router-link>
+
           <div class="dropdown-divider" />
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="https://via.placeholder.com/300/300" alt="User Avatar" class="img-size-50 img-circle ml-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  پیمان احمدی
-                  <span class="float-left text-sm text-muted"><i class="fa fa-star" /></span>
-                </h3>
-                <p class="text-sm">من پیامتو دریافت کردم</p>
-                <p class="text-sm text-muted"><i class="fa fa-clock-o mr-1" /> 4 ساعت قبل</p>
-              </div>
-            </div>
-            <!-- Message End -->
+          <a class="dropdown-item pl-3" href="#" @click.prevent="logout">
+            <fa icon="sign-out-alt" fixed-width />
+            {{ $t('logout') }}
           </a>
-          <div class="dropdown-divider" />
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="https://via.placeholder.com/300/300" alt="User Avatar" class="img-size-50 img-circle ml-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  سارا وکیلی
-                  <span class="float-left text-sm text-warning"><i class="fa fa-star" /></span>
-                </h3>
-                <p class="text-sm">پروژه اتون عالی بود مرسی واقعا</p>
-                <p class="text-sm text-muted"><i class="fa fa-clock-o mr-1" />4 ساعت قبل</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider" />
-          <a href="#" class="dropdown-item dropdown-footer">مشاهده همه پیام‌ها</a>
         </div>
       </li>
+      <!-- Messages Dropdown Menu -->
+
       <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="fa fa-bell" />
           <span class="badge badge-warning navbar-badge">15</span>
@@ -117,14 +75,18 @@
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
           <i class="fa fa-th-large" />
         </a>
-      </li>
+      </li> -->
     </ul>
   </nav>
   <!-- /.navbar -->
 </template>
 <script>
 export default {
-
+  computed: {
+    user () {
+      return this.$auth.user
+    }
+  },
   methods: {
     async logout () {
       // Log out the user.

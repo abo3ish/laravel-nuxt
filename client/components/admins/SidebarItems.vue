@@ -3,51 +3,49 @@
     <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
     <li class="nav-item has-treeview menu-open">
-      <a href="#" class="nav-link active">
+      <nuxt-link :to="{ name: 'home' }" class="nav-link">
         <i class="nav-icon fa fa-dashboard" />
         <p>
           {{ $t('home_page') }}
-          <i class="right fa fa-angle-left" />
+          <!-- <i class="right fa fa-angle-left" /> -->
         </p>
-      </a>
-      <ul class="nav nav-treeview">
-        <li class="nav-item">
-          <nuxt-link :to="{ name: 'users' }" class="nav-link active">
-            <i class="fa fa-circle-o nav-icon" />
-            <p>{{ $t('users') }}</p>
-          </nuxt-link>
-        </li>
-        <li class="nav-item">
-          <nuxt-link :to="{ name: 'service-providers' }" class="nav-link active">
-            <i class="fa fa-circle-o nav-icon" />
-            <p>{{ $t('service_providers') }}</p>
-          </nuxt-link>
-        </li>
-        <li class="nav-item">
-          <nuxt-link :to="{ name: 'orders' }" class="nav-link">
-            <i class="fa fa-circle-o nav-icon" />
-            <p> {{ $t('orders') }}</p>
-          </nuxt-link>
-        </li>
-        <li class="nav-item">
-          <nuxt-link :to="{ name: 'service-provider-types' }" class="nav-link">
-            <i class="fa fa-circle-o nav-icon" />
-            <p> {{ $t('service_provider_types') }}</p>
-          </nuxt-link>
-        </li>
-        <li class="nav-item">
-          <nuxt-link :to="{ name: 'services' }" class="nav-link">
-            <i class="fa fa-circle-o nav-icon" />
-            <p> {{ $t('services') }}</p>
-          </nuxt-link>
-        </li>
-        <li class="nav-item">
-          <nuxt-link :to="{ name: 'drugs' }" class="nav-link">
-            <i class="fa fa-circle-o nav-icon" />
-            <p> {{ $t('drugs') }}</p>
-          </nuxt-link>
-        </li>
-      </ul>
+      </nuxt-link>
+    </li>
+    <li class="nav-item">
+      <nuxt-link :to="{ name: 'users' }" class="nav-link">
+        <i class="fa fa-circle-o nav-icon" />
+        <p>{{ $t('users') }}</p>
+      </nuxt-link>
+    </li>
+    <li class="nav-item">
+      <nuxt-link :to="{ name: 'service-providers' }" class="nav-link">
+        <i class="fa fa-circle-o nav-icon" />
+        <p>{{ $t('service_providers') }}</p>
+      </nuxt-link>
+    </li>
+    <li class="nav-item">
+      <nuxt-link :to="{ name: 'orders' }" class="nav-link">
+        <i class="fa fa-circle-o nav-icon" />
+        <p> {{ $t('orders') }}</p>
+      </nuxt-link>
+    </li>
+    <li class="nav-item">
+      <nuxt-link :to="{ name: 'service-provider-types' }" class="nav-link">
+        <i class="fa fa-circle-o nav-icon" />
+        <p> {{ $t('service_provider_types') }}</p>
+      </nuxt-link>
+    </li>
+    <li class="nav-item">
+      <nuxt-link :to="{ name: 'services' }" class="nav-link">
+        <i class="fa fa-circle-o nav-icon" />
+        <p> {{ $t('services') }}</p>
+      </nuxt-link>
+    </li>
+    <li class="nav-item">
+      <nuxt-link :to="{ name: 'drugs' }" class="nav-link">
+        <i class="fa fa-circle-o nav-icon" />
+        <p> {{ $t('drugs') }}</p>
+      </nuxt-link>
     </li>
   </ul>
 </template>

@@ -20,7 +20,6 @@ class AddressResource extends JsonResource
             'street' => $this->street,
             'floor_number' => $this->floor_number,
             'flat_number' => $this->flat_number,
-            'flat_number' => $this->flat_number,
             'building_number' => $this->building_number,
             'lat' => $this->lat,
             'lng' => $this->lng,

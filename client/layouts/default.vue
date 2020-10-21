@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <navbar />
+    <!-- <navbar /> -->
 
     <div class="container mt-4">
       <nuxt />
@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import Navbar from '~/components/users/Navbar'
+// import Navbar from '~/components/users/Navbar'
 export default {
   components: {
-    Navbar
+    // Navbar
   }
 }
 </script>

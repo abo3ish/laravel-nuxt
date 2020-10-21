@@ -1,54 +1,59 @@
 <template>
   <div class="row">
-    <div class="col-lg-8 m-auto">
-      <card :title="$t('login')">
-        <form @submit.prevent="login">
-          <!-- Email -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.email" type="email" name="email" class="form-control" :class="{ 'is-invalid' : errors.email}">
-              <div v-if="errors.email" class="invalid-feedback">
-                {{ errors.email[0] }}
+    <div class="login-box">
+      <div class="login-logo">
+        <h1>
+          كشف
+          <span><b>ودوا</b></span>
+        </h1>
+      </div>
+      <!-- /.login-logo -->
+      <div class="card">
+        <div class="card-body login-card-body">
+          <p v-if="error" class="login-box-msg red">
+            <b-alert show variant="danger">
+              {{ error }}
+            </b-alert>
+          </p>
+
+          <form @submit.prevent="login">
+            <div class="input-group mb-3">
+              <input v-model="form.email" type="email" class="form-control" placeholder="Email">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope" />
+                </div>
               </div>
             </div>
-          </div>
-
-          <!-- Password -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">{{ $t('password') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.password" type="password" name="password" class="form-control" :class="{ 'is-invalid' : errors.email}">
+            <div class="input-group mb-3">
+              <input v-model="form.password" type="password" class="form-control" placeholder="Password">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock" />
+                </div>
+              </div>
             </div>
-          </div>
-
-          <!-- Remember Me -->
-          <div class="form-group row">
-            <div class="col-md-3" />
-            <div class="col-md-7 d-flex">
-              <checkbox v-model="remember" name="remember">
-                {{ $t('remember_me') }}
-              </checkbox>
-
-              <router-link :to="{ name: 'password.request' }" class="small ml-auto my-auto">
-                {{ $t('forgot_password') }}
-              </router-link>
+            <div class="row">
+              <div class="col-8">
+                <div class="icheck-primary">
+                  <input id="remember" type="checkbox">
+                  <label for="remember">
+                    Remember Me
+                  </label>
+                </div>
+              </div>
+              <!-- /.col -->
+              <div class="col-4">
+                <button type="submit" class="btn btn-primary btn-block" :loading="form.busy">
+                  دخول
+                </button>
+              </div>
+              <!-- /.col -->
             </div>
-          </div>
-
-          <div class="form-group row">
-            <div class="col-md-7 offset-md-3 d-flex">
-              <!-- Submit Button -->
-              <v-button :loading="form.busy">
-                {{ $t('login') }}
-              </v-button>
-
-              <!-- GitHub Login Button -->
-              <login-with-github />
-            </div>
-          </div>
-        </form>
-      </card>
+          </form>
+        </div>
+        <!-- /.login-card-body -->
+      </div>
     </div>
   </div>
 </template>
@@ -64,6 +69,7 @@ export default {
       email: '',
       password: ''
     },
+    error: '',
     remember: false
   }),
   methods: {
@@ -72,7 +78,7 @@ export default {
         await this.$auth.loginWith('local', { data: this.form })
         this.$router.push({ name: 'home' })
       } catch (err) {
-        console.log(err)
+        this.error = 'من فضلك تحقق من بياناتك'
       }
     }
   }

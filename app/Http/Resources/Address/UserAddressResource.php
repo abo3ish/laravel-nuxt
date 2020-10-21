@@ -19,9 +19,9 @@ class UserAddressResource extends JsonResource
             'id' => $this->id,
             'area' => Area::find($this->area_id)->name,
             'street' => $this->street,
-            'building_number' => $this->street,
-            'floor_number' => $this->street,
-            'flat_number' => $this->street,
+            'building_number' => $this->building_number,
+            'floor_number' => $this->floor_number,
+            'flat_number' => $this->flat_number,
         ];
     }
 }
