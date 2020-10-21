@@ -106,16 +106,16 @@
 
                   <!-- Status -->
                   <template v-slot:cell(status)="data">
-                    <b-badge v-if="data.item.status.code == 0" variant="warning">
+                    <b-badge v-if="data.item.status.code == 1" variant="warning">
                       {{ data.item.status.string }}
                     </b-badge>
-                    <b-badge v-if="data.item.status.code == 1" variant="primary">
+                    <b-badge v-if="data.item.status.code == 2" variant="primary">
                       {{ data.item.status.string }}
                     </b-badge>
-                    <b-badge v-else-if="data.item.status.code == 2" variant="secondary">
+                    <b-badge v-else-if="data.item.status.code == 3" variant="secondary">
                       {{ data.item.status.string }}
                     </b-badge>
-                    <b-badge v-else-if="data.item.status.code == 3" variant="success">
+                    <b-badge v-else-if="data.item.status.code == 4" variant="success">
                       {{ data.item.status.string }}
                     </b-badge>
                   </template>
