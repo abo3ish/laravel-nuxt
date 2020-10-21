@@ -19,6 +19,7 @@ class CreateOrderAttachmentsTable extends Migration
             $table->string('type');
             $table->string('name');
             $table->string('size');
+            $table->string('mime');
             $table->string('extension');
 
             $table->timestamps();

@@ -40,4 +40,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'name
     Route::resource('services', 'ServiceController');
 
     Route::post('fcm', 'NotificationController@sendFCMNotification');
+
+    /* Attachments */
+    Route::get('attachments/{attachment}', 'OrderController@getAttachment');
+
 });

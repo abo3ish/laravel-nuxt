@@ -81,7 +81,7 @@
             <div class="form-group">
               <label for="address">{{ $t('address') }} : </label>
               <code id="address">
-                {{ order.address.street }} <br>
+                {{ order.address }} <br>
               </code>
             </div>
 
@@ -135,12 +135,31 @@
           </div>
         </div>
         <!-- ./Drugs -->
+
+        <!-- Attachments -->
+        <div v-for="attachment in order.attachments" :key="attachment.id" class="card card-indigo">
+          <b-button v-if="!attachment.ready" variant="primary" @click="loadFile(attachment)">
+            <b-spinner v-if="attachment.loading" small /> Load File
+          </b-button>
+
+          <!-- Audio -->
+          <vue-plyr v-if="attachment.type == 'audio' && attachment.rowFile != ''">
+            <audio>
+              <source :src="attachment.rowFile" :type="attachment.mime">
+            </audio>
+          </vue-plyr>
+
+          <!-- images -->
+          <b-card-img v-if="attachment.type=='text' || attachment.type=='image'" :src="attachment.rowFile" thumbnail fluid />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+// const { ensureFile } = require('fs-extra')
+// import fs from 'fs-extra'
 export default {
   middleware: 'auth',
   layout: 'admin',
@@ -156,11 +175,13 @@ export default {
         status: {},
         services: {},
         drugs: {},
+        attachments: [],
         prices: {},
         created_at: '',
         is_collected: '',
         service_provider_type: '',
-        service_provider: {}
+        service_provider: {},
+        audio: ''
       },
       servicesFields: [
         'title',
@@ -182,11 +203,40 @@ export default {
       this.$axios.$get('/orders/' + this.$route.params.id)
         .then((res) => {
           this.order = res
-          console.log(res)
+        })
+    },
+    playAudio (attachment) {
+      attachment.loading = true
+
+      if (!attachment.rowFile) {
+        this.loadFile(attachment)
+      }
+      // const snd = new Audio(attachment.rowFile)
+
+      // snd.play()
+    },
+    pauseAudio (attachment) {
+      attachment.loading = true
+      if (!attachment.audio) {
+        return
+      }
+      attachment.audio.pause()
+    },
+    async loadFile (attachment) {
+      await this.$axios.$get('/attachments/' + attachment.id, { responseType: 'blob' })
+        .then((res) => {
+          const reader = new FileReader()
+          reader.readAsDataURL(res)
+          reader.onload = () => {
+            attachment.rowFile = reader.result
+            attachment.loading = false
+            attachment.ready = true
+          }
         })
     }
   }
 }
+
 </script>
 
 <style>

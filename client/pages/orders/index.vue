@@ -269,7 +269,6 @@ export default {
     },
     getStatuses () {
       this.$axios.$get('order-statuses').then((res) => {
-        // console.log(res)
         // this.orderStatuses = res
       })
     },
@@ -297,7 +296,6 @@ export default {
     listenToNewOrder () {
       this.$echo.channel('new-order')
         .listen('NewOrder', (e) => {
-          console.log(e)
           this.orders.push(e)
         })
     }

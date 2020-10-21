@@ -108,7 +108,6 @@ export default {
     this.$axios.$get('service-provider-types')
       .then((res) => {
         this.serviceProviderTypes = res
-        console.log(res)
       })
   },
   methods: {

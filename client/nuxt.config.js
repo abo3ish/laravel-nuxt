@@ -61,7 +61,8 @@ module.exports = {
   },
 
   css: [
-    { src: '~assets/sass/app.scss', lang: 'scss' }
+    { src: '~assets/sass/app.scss', lang: 'scss' },
+    'plyr/dist/plyr.css'
   ],
 
   plugins: [
@@ -76,7 +77,8 @@ module.exports = {
     '~plugins/admin-lte',
     '~plugins/nuxt-client-init', // Comment this for SSR
     '~plugins/vue-notification',
-    '~plugins/vue-select'
+    '~plugins/vue-select',
+    '~plugins/vue-plyr'
   ],
 
   buildModules: [

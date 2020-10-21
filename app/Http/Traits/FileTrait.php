@@ -30,4 +30,13 @@ Trait FileTrait {
             return base64_decode($image, true);
         }
     }
+
+    public function getAttachmentPath($attachment)
+    {
+        if ($attachment->type == 'text' || $attachment->type == 'image') {
+            return getOrderImagePath($attachment->name);
+        } elseif ($attachment->type == 'audio') {
+            return getOrderAudioPath($attachment->name);
+        }
+    }
 }

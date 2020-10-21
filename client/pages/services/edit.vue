@@ -143,7 +143,6 @@ export default {
     fetchData () {
       this.$axios.$get('/services/' + this.$route.params.id)
         .then((res) => {
-          console.log(res)
           this.form.fill(res)
         })
     },

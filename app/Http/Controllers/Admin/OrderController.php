@@ -4,14 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Http\Traits\FileTrait;
+use App\Models\OrderAttachment;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Resources\Admin\Orders\OrderResource;
 use App\Http\Resources\Admin\Orders\StatusResource;
 use App\Http\Resources\Admin\Orders\ShowOrderResource;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class OrderController extends AdminController
 {
+    use FileTrait;
+
     public function index()
     {
         $orders = Order::with(['user', 'serviceProvider', 'address', 'serviceOrders'])->orderBy('created_at', 'desc');
@@ -69,8 +75,28 @@ class OrderController extends AdminController
 
     }
 
-    public function getAttachment()
+    public function getAttachment(OrderAttachment $attachment)
     {
-        dd("Admin");
+        $filePath = $this->getAttachmentPath($attachment);
+        $fileName = $attachment->name;
+        return  response()->streamDownload(
+            function () use ($filePath, $fileName) {
+                // Open output stream
+                if ($file = fopen($filePath, 'rb')) {
+                    while (!feof($file) and (connection_status() == 0)) {
+                        print(fread($file, 1024 * 8));
+                        flush();
+                    }
+                    fclose($file);
+                }
+            },
+            200,
+            [
+                'Content-Type' => $attachment->mime,
+                'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+            ]
+        );
+
+        // return response()->file($this->getAttachmentPath($attachment));
     }
 }

@@ -237,7 +237,6 @@ export default {
         })
     },
     async sendFCM () {
-      console.log('sending')
       this.form.user_id = this.user.id
       await this.form.post('/fcm', this.form)
         .then((res) => {

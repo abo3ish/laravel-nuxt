@@ -5,6 +5,7 @@ namespace App\Http\Resources\Admin\Orders;
 use App\Http\Traits\Admin\ResourceTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Admin\Orders\DrugOrderResource;
+use App\Http\Resources\Admin\Orders\AttachmentResource;
 use App\Http\Resources\Admin\Orders\ServiceOrderResource;
 
 class ShowOrderResource extends JsonResource
@@ -31,7 +32,7 @@ class ShowOrderResource extends JsonResource
             'type' => $this->type,
             'services' => $this->getServiceOrderResource($this),
             'drugs' => $this->getDrugOrderResource($this),
-            'attachments' => $this->attachments,
+            'attachments' => AttachmentResource::collection($this->attachments()->orderBy('type')->get()),
             'service_provider' => $this->serviceProvider ?? null,
             'status' => [
                 'code' => $this->status,

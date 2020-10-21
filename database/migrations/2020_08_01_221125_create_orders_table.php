@@ -24,7 +24,7 @@ class CreateOrdersTable extends Migration
             $table->float('discount_price')->default(0);
             $table->float('actual_price')->nullable();
             $table->foreignId('address_id');
-            $table->integer('status')->default(0);
+            $table->integer('status')->default(1);
             $table->dateTime('accepted_at')->nullable();
             $table->boolean('is_collected')->default(false);
             $table->enum('type', ['service', 'pharmacy']);

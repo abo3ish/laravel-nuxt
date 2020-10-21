@@ -185,7 +185,6 @@ export default {
     update () {
       this.form.put('/orders/' + this.$route.params.id, this.form)
         .then((res) => {
-          console.log(res)
           this.order = res.data
         })
 
@@ -201,7 +200,6 @@ export default {
         this.$axios.$get('service-providers', { params: { name: search } })
           .then((res) => {
             this.options = res.data
-            console.log(res.data)
             loading(false)
           })
       }, 300)

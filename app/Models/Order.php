@@ -192,6 +192,7 @@ class Order extends Model
             'type' => $type,
             'name' => $fileName,
             'size' => ($file->getSize() / (1024)),
+            'mime' => $file->getMimeType(),
             'extension' => $file->extension()
         ]);
     }
@@ -212,6 +213,7 @@ class Order extends Model
             'type' => 'text',
             'name' => $fileName,
             'size' => ($image->filesize() / (1024)),
+            'mime' => $image->mime(),
             'extension' => 'png'
         ]);
     }

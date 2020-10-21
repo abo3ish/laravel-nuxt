@@ -132,7 +132,6 @@ export default {
     }
   },
   mounted () {
-    console.log(process.env.myName)
     this.fetchData()
   },
   methods: {
