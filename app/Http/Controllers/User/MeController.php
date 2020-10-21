@@ -36,15 +36,7 @@ class MeController extends ApiBaseController
             'phone' => $request->phone,
         ]);
 
-        $token = auth()->login($user);
-        $user->token = $token;
-
-        $data = new MeResource($user);
-        $ads = $this->getPageAd('home');
-
-        $data = collect(["ads" => $ads, "user" => $data]);
-
-        return apiReturn($data, null, Response::HTTP_OK);
+        return apiReturn('', null, Response::HTTP_OK);
 
     }
 }
