@@ -25,18 +25,22 @@
     <section class="filter content">
       <form role="form" @submit.prevent="searchFilter()">
         <div class="row">
+          <!-- Title -->
           <div class="col-2">
             <label-input-text v-model="filter.title" :label="$t('title')" :type="'text'" :placeholder="'Enter Name'" name="title" />
           </div>
 
+          <!-- Service Provider Type -->
           <div class="col-2">
             <select-box v-model="filter.service_provider_type_id" :label="$t('service_provider_type')" :items="serviceProviderTypes" name="service_provider_type_id" />
           </div>
 
+          <!-- Examination Type -->
           <div class="col-2">
             <select-box v-model="filter.examination_id" :label="$t('examination_type')" :items="examinations" name="examination_id" />
           </div>
 
+          <!-- Status -->
           <div class="col-2">
             <select-box v-model="filter.status" :label="$t('status')" :items="statuses" name="examination_id" />
           </div>
@@ -59,7 +63,7 @@
               </div>
               <div class="card card-body">
                 <b-table
-                  :items="serviceProviders"
+                  :items="services"
                   :busy.sync="isBusy"
                   :fields="fields"
                   :sort-by.sync="sortBy"
@@ -82,11 +86,7 @@
 
                   <!-- Service Provider Type -->
                   <template v-slot:cell(service_provider_type)="data">
-                    <nuxt-link :to="{name: 'edit-service-provider-type/' + data.item.service_provider_type.id}">
-                      <span>
-                        {{ data.item.service_provider_type.title }}
-                      </span>
-                    </nuxt-link>
+                    {{ data.item.service_provider_type.title }}
                   </template>
 
                   <!-- Examination -->
@@ -236,7 +236,7 @@ export default {
           this.rows = res.pagination.total
           this.perPage = res.pagination.per_page
           this.currentPage = res.pagination.current_page
-          this.serviceProviders = res.data
+          this.services = res.data
           this.isBusy = false
         })
 

@@ -10,7 +10,7 @@ Trait FileTrait {
     public function uploadImageBase64($image, $path, $name)
     {
         if (!$this->checkIfValidBase64($image)) {
-             return;
+            return;
         }
         $mimeType = explode("/", Image::make($image)->mime());
 

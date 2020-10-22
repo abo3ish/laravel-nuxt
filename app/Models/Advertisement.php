@@ -10,6 +10,7 @@ class Advertisement extends Model
     protected $fillable = [
         'image',
         'slug',
+        'position',
         'status'
     ];
 

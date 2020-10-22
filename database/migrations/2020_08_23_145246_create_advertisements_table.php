@@ -17,7 +17,7 @@ class CreateAdvertisementsTable extends Migration
             $table->id();
             $table->string('image');
             $table->string('slug');
-            $table->string('position');
+            $table->string('position')->default('top');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

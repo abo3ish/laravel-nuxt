@@ -2,6 +2,7 @@
   <div class="form-group">
     <label v-if="label" :for="idName">{{ label }}</label>
     <select
+      v-if="typeof items[0] === 'object'"
       :id="idName"
       :value="value"
       :name="name"
@@ -13,6 +14,21 @@
       </option>
       <option v-for="item in items" :key="item.id" :value="item.id" :selected="item.id == value ? 'selected' : ''">
         {{ item.title }}
+      </option>
+    </select>
+    <select
+      v-else
+      :id="idName"
+      :value="value"
+      :name="name"
+      class="form-control"
+      @input="updateValue($event.target.value)"
+    >
+      <option value="" selected>
+        {{ $t('select') }}
+      </option>
+      <option v-for="item in items" :key="item" :value="item" :selected="item == value ? 'selected' : ''">
+        {{ item }}
       </option>
     </select>
   </div>

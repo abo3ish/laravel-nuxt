@@ -32,7 +32,7 @@
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">
-              {{ $t('create_new_service_provider') }}
+              {{ $t('create') + " " + $t('new_service_provider') }}
             </h3>
           </div>
           <!-- /.card-header -->
@@ -105,7 +105,7 @@ export default {
     }
   },
   created () {
-    this.$axios.$get('service-provider-types')
+    this.$axios.$get('service-provider-types/all')
       .then((res) => {
         this.serviceProviderTypes = res
       })

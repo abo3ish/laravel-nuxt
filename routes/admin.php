@@ -51,4 +51,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'name
     /* Pharmacy Categories */
     Route::resource('pharmacy-categories', 'PharmacyCategoryController');
 
+    /* Ads */
+    Route::resource('advertisements', 'AdvertisementController');
+
 });

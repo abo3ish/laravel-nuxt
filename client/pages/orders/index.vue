@@ -26,7 +26,7 @@
       <form role="form" @submit.prevent="searchFilter()">
         <div class="row">
           <div class="col-2">
-            <label-input-text v-model="filter.uuid" :label="$t('order_id')" :type="'number'" :placeholder="'Enter UUID'" name="uuid" />
+            <label-input-text v-model="filter.uuid" :label="$t('order_uuid')" :type="'number'" :placeholder="'Enter UUID'" name="uuid" />
           </div>
           <div class="col-2">
             <select-box v-model="filter.service_provider_type_id" :label="$t('service_provider_type')" :items="serviceProviderTypes" name="service_provider_type_id" />
@@ -177,6 +177,7 @@ import SubmitButton from '~/components/forms/SubmitButton'
 import SelectBox from '~/components/forms/SelectBox'
 
 export default {
+  name: 'Orders',
   layout: 'admin',
   middleware: 'auth',
   components: {
@@ -203,10 +204,10 @@ export default {
       orders: [],
       serviceProviderTypes: [],
       orderStatuses: [
-        { id: '0', title: 'تحت المراجعة' },
-        { id: '1', title: 'تم الموافقة' },
-        { id: '2', title: 'الطلب في الطريق' },
-        { id: '3', title: 'تم التوصيل' }
+        { id: '1', title: 'تحت المراجعة' },
+        { id: '2', title: 'تم الموافقة' },
+        { id: '3', title: 'الطلب في الطريق' },
+        { id: '4', title: 'تم التوصيل' }
       ],
 
       sortBy: 'id',
@@ -233,13 +234,10 @@ export default {
     }
   },
   mounted () {
-    // this.listenToNewOrder()
-
     this.fetchData().catch((error) => {
       console.log(error)
     })
     this.fetchServiceProviderTypes()
-    // this.getStatuses()
   },
   methods: {
     async fetchData () {

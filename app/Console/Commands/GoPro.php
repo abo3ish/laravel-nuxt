@@ -48,12 +48,22 @@ class GoPro extends Command
                 'APP_URL=' . $proUrl,
                 file_get_contents($path)
             ));
+            file_put_contents($path, str_replace(
+                'API_URL=' . $testUrl,
+                'API_URL=' . $proUrl,
+                file_get_contents($path)
+            ));
         }
         exec('npm run build');
 
         file_put_contents($path, str_replace(
             'APP_URL=' . $proUrl,
             'APP_URL=' . $testUrl,
+            file_get_contents($path)
+        ));
+        file_put_contents($path, str_replace(
+            'API_URL=' . $proUrl,
+            'API_URL=' . $testUrl,
             file_get_contents($path)
         ));
 

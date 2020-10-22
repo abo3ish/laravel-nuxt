@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>{{ $t('service_providers') }}</h1>
+            <h1>{{ $t('drugs') }}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-left">
@@ -14,7 +14,7 @@
                 </nuxt-link>
               </li>
               <li class="breadcrumb-item active">
-                {{ $t('service_providers') }}
+                {{ $t('drugs') }}
               </li>
             </ol>
           </div>
@@ -132,7 +132,7 @@
 
     <div class="card card-primary">
       <div class="card-header">
-        <!-- {{ $('service_providers') }} -->
+        <!-- {{ $('drugs') }} -->
       </div>
     </div>
   </div>
@@ -212,7 +212,6 @@ export default {
         params: this.query
       })
         .then((res) => {
-          console.log(res)
           this.rows = res.pagination.total
           this.perPage = res.pagination.per_page
           this.currentPage = res.pagination.current_page

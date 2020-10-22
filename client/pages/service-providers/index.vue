@@ -25,18 +25,23 @@
     <section class="filter content">
       <form role="form" @submit.prevent="searchFilter()">
         <div class="row">
+          <!-- Name -->
           <div class="col-2">
             <label-input-text v-model="filter.name" :label="$t('name')" :type="'text'" :placeholder="'Enter Name'" name="name" />
           </div>
+          <!-- Phone -->
           <div class="col-2">
             <label-input-text v-model="filter.phone" :label="$t('phone')" :type="'text'" :placeholder="'Enter phone'" name="phone" />
           </div>
+          <!-- Email -->
           <div class="col-2">
             <label-input-text v-model="filter.email" :label="$t('email')" :type="'email'" :placeholder="'Enter email'" name="email" />
           </div>
+          <!-- Address -->
           <div class="col-2">
             <label-input-text v-model="filter.address" :label="$t('address')" :type="'text'" :placeholder="'Enter address'" name="address" />
           </div>
+          <!-- Type -->
           <div class="col-2">
             <select-box v-model="filter.type_id" :label="$t('service_provider_type')" :items="serviceProviderTypes" name="type_id" />
           </div>
@@ -234,7 +239,7 @@ export default {
         query: this.query })
     },
     fetchServiceProviderTypes () {
-      this.$axios.$get('service-provider-types')
+      this.$axios.$get('service-provider-types/all')
         .then((res) => {
           this.serviceProviderTypes = res
         })

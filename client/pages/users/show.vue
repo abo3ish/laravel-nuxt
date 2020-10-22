@@ -20,7 +20,7 @@
                 </nuxt-link>
               </li>
               <li class="breadcrumb-item active">
-                <!-- {{ user.name }} -->
+                {{ user.name }}
               </li>
             </ol>
           </div>
@@ -65,9 +65,12 @@
             <!-- Status -->
             <div class="form-group">
               <label for="balance">{{ $t('status') }} : </label>
-              <code>
-                {{ user.status ? $t('active') : $t('not_active') }} <br>
-              </code>
+              <b-badge v-if="user.status" variant="success">
+                {{ $t('active') }}
+              </b-badge>
+              <b-badge v-else variant="success">
+                {{ $t('active') }}
+              </b-badge>
             </div>
 
             <!-- Address -->
@@ -81,7 +84,7 @@
             <!-- Last Seen -->
             <div class="form-group">
               <label>{{ $t('last_seen') }} : </label>
-              <code>
+              <code v-if="user.last_seen">
                 {{ $moment(String(user.last_seen)).format('LLLL') }} <br>
               </code>
             </div>
@@ -93,6 +96,7 @@
               <code>
                 <nuxt-link :to="{name: 'orders', query: {user_id: user.id}}">{{ $t('orders') }}</nuxt-link> |
               </code>
+
               <!-- Orders Count -->
               <label for="balance">{{ $t('orders_count') }} : </label>
               <code>

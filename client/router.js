@@ -65,7 +65,13 @@ const routes = [
   { path: '/drugs/', name: 'drugs', component: page('drugs/index.vue') },
   { path: '/drugs/create', name: 'create-drug', component: page('drugs/create.vue') },
   { path: '/drugs/edit/:id', name: 'edit-drug', component: page('drugs/edit.vue') },
-  { path: '/drugs/:id', name: 'show-drug', component: page('drugs/show.vue') }
+  { path: '/drugs/:id', name: 'show-drug', component: page('drugs/show.vue') },
+
+  /* Ads */
+  { path: '/ads/', name: 'ads', component: page('ads/index.vue') },
+  { path: '/ads/create', name: 'create-ad', component: page('ads/create.vue') },
+  { path: '/ads/edit/:id', name: 'edit-ad', component: page('ads/edit.vue') },
+  { path: '/ads/:id', name: 'show-ad', component: page('ads/show.vue') }
 ]
 
 export function createRouter () {

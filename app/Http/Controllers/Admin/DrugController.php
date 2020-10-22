@@ -102,7 +102,7 @@ class DrugController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'category_id' => $request->category_id,
-            'image' => $imageName,
+            'image' => $imageName ?? $drug->image,
         ]);
 
         return new ShowDrugResource($drug);
