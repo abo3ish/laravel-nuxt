@@ -121,12 +121,13 @@
               <form @submit.prevent="update()">
                 <!-- Service Provider -->
                 <div class="form-group">
-                  <label id="service-provider">Service Provider</label>
+                  <label id="service-provider">{{ $t('service_provider') }}</label>
                   <v-select
                     v-model="form.service_provider_id"
                     :options="serviceProviderOptions"
                     :filterable="false"
                     :reduce="provider => provider.id"
+                    label="name"
                     @search="fetchServiceProviderOptions"
                   >
                     <template #option="{ name }">
@@ -157,6 +158,7 @@
                     :options="statusOptions"
                     :filterable="false"
                     :reduce="status => status.code"
+                    label="code"
                   >
                     <template #option="{ string }">
                       <div class="d-center">

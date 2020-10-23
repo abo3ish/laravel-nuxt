@@ -64,7 +64,7 @@
               <label-input-text v-model="form.sell_price" :label="$t('sell_price')" :type="'number'" :placeholder="'Enter sell Price'" name="sell_price" />
 
               <!-- Parent -->
-              <select-box v-model="form.parent_id" :items="parents" :label="$t('parents')" name="parent_id" />
+              <select-box v-model="form.parent_id" :items="parents" :label="$t('parent')" name="parent_id" />
 
               <!-- Slug -->
               <label-input-text v-model="form.slug" :label="$t('slug')" :type="'text'" :placeholder="'Enter Slug'" name="slug" />

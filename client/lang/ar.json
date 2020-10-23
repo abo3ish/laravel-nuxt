@@ -63,5 +63,16 @@
   "push_token_type": "نوع رمز الارسال",
   "push_token": "رمز الارسال",
   "social_provider": "نوع التسجيل",
-  "social_id": "رقم الشبكة الاجتماعية"
+  "social_id": "رقم الشبكة الاجتماعية",
+  "type": "النوع",
+  "area": "المنطقة",
+  "price_to_pay": "المبلغ المتوجب دفعه",
+  "not_assigned": "لم يتم التعيين",
+  "description": "الوصف",
+  "create_new_service": "انشئ خدمة جديدة",
+  "estimation_from": "السعر المتوقع من",
+  "estimation_to": "السعر المتوقع الى",
+  "purchase_price": "سعر الشراء",
+  "sell_price": "سعر البيع",
+  "parent": "الاب"
 }

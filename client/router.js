@@ -7,6 +7,11 @@ Vue.use(Router)
 const page = path => () => import(`~/pages/${path}`).then(m => m.default || m)
 
 const routes = [
+
+  /* Terms and Policy */
+  { path: '/terms', name: 'terms', component: page('terms.vue') },
+  { path: '/policy', name: 'policy', component: page('policy.vue') },
+
   { path: '/', name: 'welcome', component: page('home.vue') },
 
   { path: '/login', name: 'login', component: page('auth/login.vue') },
