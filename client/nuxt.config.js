@@ -49,6 +49,11 @@ module.exports = {
         }
       }
     },
+    cookie: {
+      options: {
+        sameSite: 'lax'
+      }
+    },
     redirect: {
       login: '/login',
       home: '/'
