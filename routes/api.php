@@ -43,6 +43,7 @@ Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'User'], functi
 
     Route::get('/me', 'MeController@index');
     Route::put('/me', 'MeController@update');
+    Route::delete('/me', 'MeController@destroy');
     Route::get('user', 'MeController@index');
     Route::post('logout', 'AuthController@logout');
 

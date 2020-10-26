@@ -15,7 +15,7 @@ class CreateOrderAttachmentsTable extends Migration
     {
         Schema::create('order_attachments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained();
+            $table->foreignId('order_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('type');
             $table->string('name');
             $table->string('size');

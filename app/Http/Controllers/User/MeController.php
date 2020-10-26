@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
+use App\Models\Order;
 use Tymon\JWTAuth\JWTAuth;
 use Illuminate\Http\Request;
 use App\Http\Resources\User\MeResource;
 use App\Http\Traits\AdvertisementTrait;
 use App\Http\Controllers\ApiBaseController;
+use App\Models\Address;
+use App\Models\ExaminationOrder;
 use Symfony\Component\HttpFoundation\Response;
 
 class MeController extends ApiBaseController
@@ -38,5 +41,18 @@ class MeController extends ApiBaseController
 
         return apiReturn('', null, Response::HTTP_OK);
 
+    }
+
+    public function destroy()
+    {
+        $orders = Order::where('user_id', $this->auth->user()->id)->delete();
+        $addresses = Address::where('user_id', $this->auth->user()->id)->delete();
+        $addresses = ExaminationOrder::where('user_id', $this->auth->user()->id)->delete();
+        $user = $this->auth->user();
+        auth()->invalidate();
+        $user->delete();
+
+
+        return apiReturn(null, '');
     }
 }
