@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { scrollBehavior } from '~/utils'
-
 Vue.use(Router)
 
 const page = path => () => import(`~/pages/${path}`).then(m => m.default || m)

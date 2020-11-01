@@ -196,7 +196,8 @@ export default {
         uuid: '',
         service_provider_type_id: '',
         status: '',
-        service_provider_id: ''
+        service_provider_id: '',
+        user_id: ''
       },
 
       query: {},
@@ -229,20 +230,30 @@ export default {
   watch: {
     currentPage: {
       handler (value) {
+        this.query.page = this.currentPage
         this.fetchData()
       }
     }
   },
-  mounted () {
-    this.fetchData().catch((error) => {
-      console.log(error)
+  async mounted () {
+    await this.fetchServiceProviderTypes()
+    await this.fetchData().catch((err) => {
+      console.log(err)
     })
-    this.fetchServiceProviderTypes()
   },
   methods: {
     async fetchData () {
-      this.query.page = this.currentPage
-
+      if (!this.query.page) {
+        if (!this.$route.query.page) {
+          this.query.page = this.currentPage
+        } else {
+          this.query.page = this.$route.query.page
+        }
+      }
+      await this.serializeRouterQuery()
+      this.callApi()
+    },
+    async callApi () {
       this.isBusy = true
       await this.$axios.$get('orders', {
         params: this.query
@@ -255,10 +266,10 @@ export default {
         })
       this.isBusy = false
 
-      this.$router.push({ name: 'orders',
-        query: this.query }).catch((err) => {
-        console.log(err)
-      })
+      this.$router.push({
+        name: 'orders',
+        query: this.query
+      }).catch(() => {})
     },
     getStatuses () {
       this.$axios.$get('order-statuses').then((res) => {
@@ -275,17 +286,24 @@ export default {
       event.preventDefault()
       alert(id)
     },
-    searchFilter () {
+    async searchFilter () {
       this.currentPage = 1
-      this.serializeFilter(this.filter, this.query)
-
-      this.fetchData()
+      await this.serializeFilter()
+      this.callApi()
     },
-    serializeFilter (filter, query) {
-      for (const key in filter) {
-        query[key] = filter[key]
+    serializeFilter () {
+      for (const key in this.filter) {
+        this.query[key] = this.filter[key]
       }
     },
+    serializeRouterQuery () {
+      for (const key in this.$route.query) {
+        if (this.filter.hasOwnProperty(key) && this.$route.query[key]) {
+          this.query[key] = this.filter[key] = this.$route.query[key]
+        }
+      }
+    },
+
     listenToNewOrder () {
       this.$echo.channel('new-order')
         .listen('NewOrder', (e) => {
@@ -295,7 +313,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>
