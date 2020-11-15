@@ -92,6 +92,12 @@ import SelectBox from '~/components/forms/SelectBox'
 
 export default {
   layout: 'admin',
+  middleware: 'auth',
+  head () {
+    return {
+      title: this.$t('create_drug')
+    }
+  },
   components: {
     LabelInputText,
     LabelTextArea,

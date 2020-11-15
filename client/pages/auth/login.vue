@@ -1,15 +1,12 @@
 <template>
   <div class="row">
     <div class="login-box">
-      <div class="login-logo">
-        <h1>
-          كشف
-          <span><b>ودوا</b></span>
-        </h1>
-      </div>
       <!-- /.login-logo -->
       <div class="card">
         <div class="card-body login-card-body">
+          <div class="login-logo">
+            <img src="~/assets/images/logo.jpeg" height="200px">
+          </div>
           <p v-if="error" class="login-box-msg red">
             <b-alert show variant="danger">
               {{ error }}
@@ -38,7 +35,7 @@
                 <div class="icheck-primary">
                   <input id="remember" type="checkbox">
                   <label for="remember">
-                    Remember Me
+                    تذكرني
                   </label>
                 </div>
               </div>
@@ -61,6 +58,8 @@
 <script>
 export default {
   layout: 'default',
+  middleware: 'auth',
+  auth: 'guest',
   head () {
     return { title: this.$t('login') }
   },
@@ -76,7 +75,7 @@ export default {
     async login () {
       try {
         await this.$auth.loginWith('local', { data: this.form })
-        this.$router.push({ name: 'home' })
+        this.$router.push({ name: 'dashboard' })
       } catch (err) {
         this.error = 'من فضلك تحقق من بياناتك'
       }

@@ -77,6 +77,12 @@ import LabelInputText from '~/components/forms/LabelInputText'
 
 export default {
   layout: 'admin',
+  middleware: 'auth',
+  head () {
+    return {
+      title: this.serviceProviderType.title
+    }
+  },
   components: {
     LabelInputText
   },

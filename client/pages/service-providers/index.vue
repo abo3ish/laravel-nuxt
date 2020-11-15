@@ -165,6 +165,11 @@ import SelectBox from '~/components/forms/SelectBox'
 export default {
   layout: 'admin',
   middleware: 'auth',
+  head () {
+    return {
+      title: this.$t('service_providers')
+    }
+  },
   components: {
     LabelInputText,
     SubmitButton,

@@ -74,5 +74,10 @@
   "estimation_to": "السعر المتوقع الى",
   "purchase_price": "سعر الشراء",
   "sell_price": "سعر البيع",
-  "parent": "الاب"
+  "parent": "الاب",
+  "service_provider_not_assigned": "لم يتم تعيين مقدم خدمة",
+  "policy": "سياسة الاستخدام",
+  "terms": "الشروط والاحكام",
+  "dashboard": "لوحة التحكم",
+  "login": "تسجيل دخول"
 }

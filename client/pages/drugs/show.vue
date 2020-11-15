@@ -102,9 +102,13 @@
 <script>
 import Loading from '~/components/global/loading'
 export default {
-
-  middleware: 'auth',
   layout: 'admin',
+  middleware: 'auth',
+  head () {
+    return {
+      title: this.drug.name
+    }
+  },
   components: {
     Loading
   },

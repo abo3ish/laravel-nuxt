@@ -152,14 +152,17 @@
 <script>
 // import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
-import SelectBox from '~/components/forms/SelectBox'
 
 export default {
   layout: 'admin',
   middleware: 'auth',
+  head () {
+    return {
+      title: this.$t('addresses')
+    }
+  },
   components: {
-    LabelInputText,
-    SelectBox
+    LabelInputText
   },
   data () {
     return {

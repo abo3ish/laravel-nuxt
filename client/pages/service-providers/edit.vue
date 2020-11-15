@@ -90,6 +90,12 @@ import CheckBox from '~/components/forms/CheckBox'
 
 export default {
   layout: 'admin',
+  middleware: 'auth',
+  head () {
+    return {
+      title: this.serviceProvider.name
+    }
+  },
   components: {
     LabelInputText,
     SelectBox,
@@ -148,7 +154,7 @@ export default {
     },
     setServiceProviderType () {
       this.serviceProviderTypes.filter((el) => {
-        if (this.serviceProvider.type_id == el.id) {
+        if (this.serviceProvider.type_id === el.id) {
           this.type = el.title
         }
       })

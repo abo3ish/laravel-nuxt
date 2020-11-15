@@ -141,14 +141,18 @@
 
 import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
-import SelectBox from '~/components/forms/SelectBox'
 import CheckBox from '~/components/forms/CheckBox'
 
 export default {
   layout: 'admin',
+  middleware: 'auth',
+  head () {
+    return {
+      title: this.user.name
+    }
+  },
   components: {
     LabelInputText,
-    SelectBox,
     CheckBox
   },
   data: () => {

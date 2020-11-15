@@ -156,9 +156,14 @@ import SubmitButton from '~/components/forms/SubmitButton'
 export default {
   layout: 'admin',
   middleware: 'auth',
+  head () {
+    return {
+      title: this.$t('users')
+    }
+  },
   components: {
     LabelInputText,
-    SubmitButton,
+    SubmitButton
   },
   data () {
     return {

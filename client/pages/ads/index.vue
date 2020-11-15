@@ -152,6 +152,11 @@ import SelectBox from '~/components/forms/SelectBox'
 export default {
   layout: 'admin',
   middleware: 'auth',
+  head () {
+    return {
+      title: this.$t('ads')
+    }
+  },
   components: {
     LabelInputText,
     SubmitButton,

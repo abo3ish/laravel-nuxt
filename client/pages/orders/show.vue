@@ -48,8 +48,16 @@
             <!-- Type -->
             <div class="form-group">
               <label for="type">{{ $t('order_type') }} : </label>
-              <code>
+              <code class="badge badge-info">
                 {{ order.type }} <br>
+              </code>
+            </div>
+
+            <!-- UUID -->
+            <div class="form-group">
+              <label for="type">{{ $t('order_type') }} : </label>
+              <code class="badge badge-danger">
+                {{ order.uuid }} <br>
               </code>
             </div>
 
@@ -161,9 +169,13 @@
 // const { ensureFile } = require('fs-extra')
 // import fs from 'fs-extra'
 export default {
-  middleware: 'auth',
   layout: 'admin',
-
+  middleware: 'auth',
+  head () {
+    return {
+      title: this.order.uuid
+    }
+  },
   data () {
     return {
       order: {

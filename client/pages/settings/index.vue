@@ -25,6 +25,11 @@
 export default {
   layout: 'admin',
   middleware: 'auth',
+  head () {
+    return {
+      title: this.$t('settings')
+    }
+  },
 
   computed: {
     tabs () {

@@ -105,6 +105,12 @@ import CheckBox from '~/components/forms/CheckBox'
 
 export default {
   layout: 'admin',
+  middleware: 'auth',
+  head () {
+    return {
+      title: this.form.title
+    }
+  },
   components: {
     LabelInputText,
     SelectBox,

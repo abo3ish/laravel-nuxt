@@ -132,6 +132,11 @@
 export default {
   layout: 'admin',
   middleware: 'auth',
+  head () {
+    return {
+      title: this.$t('service_provider_types')
+    }
+  },
   data () {
     return {
       isBusy: false,

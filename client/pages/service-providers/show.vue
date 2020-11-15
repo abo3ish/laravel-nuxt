@@ -133,17 +133,14 @@
 <script>
 
 import Form from 'vform'
-import LabelInputText from '~/components/forms/LabelInputText'
-import SelectBox from '~/components/forms/SelectBox'
-import CheckBox from '~/components/forms/CheckBox'
 
 export default {
-  middleware: 'auth',
   layout: 'admin',
-  components: {
-    LabelInputText,
-    SelectBox,
-    CheckBox
+  middleware: 'auth',
+  head () {
+    return {
+      title: this.serviceProvider.name
+    }
   },
   data: () => {
     return {

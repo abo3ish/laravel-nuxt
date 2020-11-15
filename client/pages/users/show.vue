@@ -191,9 +191,13 @@ import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
 import Loading from '~/components/global/loading'
 export default {
-
-  middleware: 'auth',
   layout: 'admin',
+  middleware: 'auth',
+  head () {
+    return {
+      title: this.user.name
+    }
+  },
   components: {
     LabelInputText,
     Loading

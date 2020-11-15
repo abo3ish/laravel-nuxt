@@ -88,9 +88,13 @@
 <script>
 import Loading from '~/components/global/loading'
 export default {
-
-  middleware: 'auth',
   layout: 'admin',
+  middleware: 'auth',
+  head () {
+    return {
+      title: this.ad.slug
+    }
+  },
   components: {
     Loading
   },

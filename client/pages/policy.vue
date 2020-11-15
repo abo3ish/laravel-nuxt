@@ -18,7 +18,7 @@ export default {
   layout: 'default',
   head () {
     return {
-      title: this.$t('terms')
+      title: this.$t('policy')
     }
   }
 }

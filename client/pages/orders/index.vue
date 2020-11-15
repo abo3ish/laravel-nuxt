@@ -180,6 +180,11 @@ export default {
   name: 'Orders',
   layout: 'admin',
   middleware: 'auth',
+  head () {
+    return {
+      title: this.$t('orders')
+    }
+  },
   components: {
     LabelInputText,
     SubmitButton,
