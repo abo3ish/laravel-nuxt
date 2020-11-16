@@ -76,9 +76,8 @@ return [
     */
 
     'middleware' => [
-        'assign.guard:admin',
-        // 'web',
-        // Authorize::class,
+        'web',
+        Authorize::class,
     ],
 
     /*
