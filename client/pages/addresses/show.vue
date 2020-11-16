@@ -97,7 +97,7 @@
             <div class="form-group">
               <label>{{ $t('last_seen') }} : </label>
               <code>
-                {{ $moment(String(user.last_seen)).format('LLLL') }} <br>
+                {{ $moment(String(user.last_seen), "YYYY-MM-DD").format('LLLL') }} <br>
               </code>
             </div>
 
@@ -119,7 +119,7 @@
             <div class="form-group">
               <label>{{ $t('created_at') }} : </label>
               <code>
-                {{ $moment(String(user.created_at)).format('LLLL') }} <br>
+                {{ $moment(String(user.created_at), "YYYY-MM-DD").format('LLLL') }} <br>
               </code>
             </div>
           </div>

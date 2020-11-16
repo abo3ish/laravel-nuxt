@@ -94,7 +94,7 @@
                   <!-- Last Seen -->
                   <template v-slot:cell(last_seen)="data">
                     <span v-if="data.item.last_seen">
-                      {{ $moment(String(data.item.last_seen)).format('LLLL') }}
+                      {{ $moment(String(data.item.last_seen), "YYYY-MM-DD").format('LLLL') }}
                     </span>
                   </template>
 
@@ -207,9 +207,7 @@ export default {
     }
   },
   mounted () {
-    this.fetchData().catch((error) => {
-      console.log(error)
-    })
+    this.fetchData()
   },
   methods: {
     async fetchData () {
@@ -228,7 +226,7 @@ export default {
         })
 
       this.$router.replace({ name: 'users',
-        query: this.query })
+        query: this.query }).catch(() => {})
     },
     deleteItem (id, event) {
       event.preventDefault()

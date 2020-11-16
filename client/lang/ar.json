@@ -41,6 +41,7 @@
   "order_not_collected": "لم يتم التحصيل بعد",
   "created_at": "التاريخ",
   "order_type": "نوع الطلب",
+  "order_number": "رقم الطلب",
   "scientific_name": "الاسم العلمي",
   "price": "السعر",
   "category": "القسم",

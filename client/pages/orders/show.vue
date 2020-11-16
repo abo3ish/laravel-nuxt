@@ -33,7 +33,7 @@
 
             <!-- UUID -->
             <div class="form-group">
-              <label for="type">{{ $t('order_type') }} : </label>
+              <label for="type">{{ $t('order_number') }} : </label>
               <code class="badge badge-danger">
                 {{ order.uuid }} <br>
               </code>
@@ -93,7 +93,7 @@
             <div class="form-group">
               <label>{{ $t('created_at') }} : </label>
               <code>
-                {{ $moment(String(order.created_at)).format('LLLL') }} <br>
+                {{ $moment(String(order.created_at), "YYYY-MM-DD").format('LLLL') }} <br>
               </code>
             </div>
           </div>

@@ -206,9 +206,7 @@ export default {
     }
   },
   mounted () {
-    this.fetchData().catch((error) => {
-      console.log(error)
-    })
+    this.fetchData()
   },
   methods: {
     async fetchData () {
@@ -227,7 +225,7 @@ export default {
         })
 
       this.$router.replace({ name: 'ads',
-        query: this.query })
+        query: this.query }).catch(() => {})
     },
     deleteItem (id, event) {
       event.preventDefault()

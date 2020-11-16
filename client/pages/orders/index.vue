@@ -99,7 +99,7 @@
                   <!-- Last Seen -->
                   <template v-slot:cell(created_at)="data">
                     <span v-if="data.item.created_at">
-                      {{ $moment(String(data.item.created_at)).format('LLLL') }}
+                      {{ $moment(String(data.item.created_at), "YYYY-MM-DD").format('LLLL') }}
                     </span>
                   </template>
 
@@ -150,7 +150,6 @@
         <!-- {{ $('service_providers') }} -->
       </div>
     </div>
-    </header-info>
   </div>
 </template>
 
@@ -228,9 +227,7 @@ export default {
   },
   async mounted () {
     await this.fetchServiceProviderTypes()
-    await this.fetchData().catch((err) => {
-      console.log(err)
-    })
+    await this.fetchData()
   },
   methods: {
     async fetchData () {

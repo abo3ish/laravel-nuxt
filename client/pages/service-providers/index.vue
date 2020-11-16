@@ -220,9 +220,7 @@ export default {
   },
   mounted () {
     this.fetchServiceProviderTypes()
-    this.fetchData().catch((error) => {
-      console.log(error)
-    })
+    this.fetchData()
   },
   methods: {
     async fetchData () {
@@ -241,7 +239,7 @@ export default {
         })
 
       this.$router.replace({ name: 'service-providers',
-        query: this.query })
+        query: this.query }).catch(() => {})
     },
     fetchServiceProviderTypes () {
       this.$axios.$get('service-provider-types/all')

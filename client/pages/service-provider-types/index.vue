@@ -56,33 +56,11 @@
                       <strong>...تحميل</strong>
                     </div>
                   </template>
-                  <!-- Type -->
-                  <template v-slot:cell(type)="data">
-                    <span>{{ data.item.type.title }}</span>
-                  </template>
-
-                  <!-- Status -->
-                  <template v-slot:cell(status)="data">
-                    <b-badge v-if="data.item.status" variant="success">
-                      {{ $t('activated') }}
-                    </b-badge>
-                    <b-badge v-else variant="danger">
-                      {{ $t('not_activated') }}
-                    </b-badge>
-                  </template>
-
-                  <!-- Last Seen -->
-                  <template v-slot:cell(last_seen)="data">
-                    <span v-if="data.item.last_seen">
-                      {{ $moment(String(data.item.last_seen)).format('LLLL') }}
-                    </span>
-                  </template>
-
                   <!-- Actions -->
                   <template v-slot:cell(actions)="data">
                     <!-- Show -->
                     <b-button
-                      :to="{ name: 'show-service-provider', params: { id: data.item.id }}"
+                      :to="{ name: 'show-service-provider-type', params: { id: data.item.id }}"
                       variant="info"
                       size="sm"
                     >
@@ -200,7 +178,7 @@ export default {
       this.currentPage = 1
       this.serializeFilter(this.filter, this.query)
 
-      this.fetchData()
+      this.fetchData().catch(() => {})
     },
     serializeFilter (filter, query) {
       for (const key in filter) {

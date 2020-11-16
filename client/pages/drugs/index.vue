@@ -210,7 +210,7 @@ export default {
         })
 
       this.$router.replace({ name: 'drugs',
-        query: this.query })
+        query: this.query }).catch(() => {})
     },
     deleteItem (id, event) {
       event.preventDefault()
