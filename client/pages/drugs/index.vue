@@ -1,26 +1,9 @@
 <template>
   <div>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('drugs') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ $t('drugs') }}
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+    <header-info
+      :name="'drugs'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'drugs', link: ''}]"
+    />
 
     <section class="filter content">
       <form role="form" @submit.prevent="searchFilter()">
@@ -143,6 +126,7 @@
 import LabelInputText from '~/components/forms/LabelInputText'
 import SubmitButton from '~/components/forms/SubmitButton'
 import SelectBox from '~/components/forms/SelectBox'
+import HeaderInfo from '~/components/page/HeaderInfo'
 
 export default {
   layout: 'admin',
@@ -155,7 +139,8 @@ export default {
   components: {
     LabelInputText,
     SubmitButton,
-    SelectBox
+    SelectBox,
+    HeaderInfo
   },
   data () {
     return {

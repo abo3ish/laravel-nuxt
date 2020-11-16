@@ -10,8 +10,8 @@ const routes = [
   { path: '/', name: 'home', component: page('home.vue') },
 
   /* Terms and Policy */
-  { path: 'terms', name: 'terms', component: page('terms.vue') },
-  { path: 'policy', name: 'policy', component: page('policy.vue') },
+  { path: '/terms', name: 'terms', component: page('terms.vue') },
+  { path: '/policy', name: 'policy', component: page('policy.vue') },
   { path: `/${adminPath}/login`, name: 'login', component: page('auth/login.vue') },
   {path: `/${adminPath}`, component: page('index.vue'),
     children: [

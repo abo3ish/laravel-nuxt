@@ -23,7 +23,7 @@ export default {
     return {
       sliderArrow: 'right',
       items: [
-        { toName: 'home', title: 'home' },
+        { toName: 'dashboard', title: 'home' },
         { toName: 'users', title: 'users' },
         { toName: 'orders', title: 'orders' },
         { toName: 'service-provider-types', title: 'service_provider_types' },

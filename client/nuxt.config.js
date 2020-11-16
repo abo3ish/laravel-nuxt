@@ -25,7 +25,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'كشف ودوا' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favlogo.jpg' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.jpg' }
     ]
   },
 
@@ -36,9 +36,9 @@ module.exports = {
   },
 
   /*
-     ** Auth module configuration
-     ** See https: //auth.nuxtjs.org/guide
-     */
+    ** Auth module configuration
+    ** See https: //auth.nuxtjs.org/guide
+  */
   auth: {
     strategies: {
       local: {

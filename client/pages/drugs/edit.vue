@@ -1,31 +1,9 @@
 <template>
   <div>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('drugs') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'drugs'}">
-                  {{ $t('drugs') }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ drug.name }}
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+    <header-info
+      :name="'drugs'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'drugs', link: 'drugs'}, {name: drug.name, link: '', trans: false}]"
+    />
 
     <div class="row">
       <div class="col-md-12">
@@ -95,6 +73,7 @@ import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
 import LabelTextArea from '~/components/forms/LabelTextArea'
 import SelectBox from '~/components/forms/SelectBox'
+import HeaderInfo from '~/components/page/HeaderInfo'
 
 export default {
   layout: 'admin',
@@ -107,7 +86,8 @@ export default {
   components: {
     LabelInputText,
     LabelTextArea,
-    SelectBox
+    SelectBox,
+    HeaderInfo
   },
   data: () => {
     return {

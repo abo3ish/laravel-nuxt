@@ -1,31 +1,9 @@
 <template>
   <div>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('orders') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'orders'}">
-                  {{ $t('orders') }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ order.uuid }}
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+    <header-info
+      :name="'orders'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'orders', link: 'orders'}, {name: order.uuid, link: '', trans: false}]"
+    />
 
     <div class="row">
       <div class="col-md-12">
@@ -166,11 +144,14 @@
 </template>
 
 <script>
-// const { ensureFile } = require('fs-extra')
-// import fs from 'fs-extra'
+import HeaderInfo from '~/components/page/HeaderInfo'
+
 export default {
   layout: 'admin',
   middleware: 'auth',
+  components: {
+    HeaderInfo
+  },
   head () {
     return {
       title: this.order.uuid

@@ -1,26 +1,9 @@
 <template>
   <div>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('service_providers') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ $t('service_providers') }}
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+    <header-info
+      :name="'orders'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'orders', link: ''}]"
+    />
 
     <section class="filter content">
       <form role="form" @submit.prevent="searchFilter()">
@@ -167,6 +150,7 @@
         <!-- {{ $('service_providers') }} -->
       </div>
     </div>
+    </header-info>
   </div>
 </template>
 
@@ -175,6 +159,7 @@
 import LabelInputText from '~/components/forms/LabelInputText'
 import SubmitButton from '~/components/forms/SubmitButton'
 import SelectBox from '~/components/forms/SelectBox'
+import HeaderInfo from '~/components/page/HeaderInfo'
 
 export default {
   name: 'Orders',
@@ -188,7 +173,8 @@ export default {
   components: {
     LabelInputText,
     SubmitButton,
-    SelectBox
+    SelectBox,
+    HeaderInfo
   },
   data () {
     return {
