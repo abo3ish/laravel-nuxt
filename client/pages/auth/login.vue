@@ -75,7 +75,7 @@ export default {
     async login () {
       try {
         await this.$auth.loginWith('local', { data: this.form })
-        this.$router.push({ name: 'dashboard' })
+        this.$router.push({ name: 'dashboard' }).catch(() => {})
       } catch (err) {
         this.error = 'من فضلك تحقق من بياناتك'
       }
