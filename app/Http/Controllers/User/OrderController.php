@@ -6,17 +6,22 @@ use Exception;
 use App\Models\Order;
 use App\Models\Service;
 use App\Events\NewOrder;
+use App\Models\BillCycle;
 use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use App\Http\Controllers\ApiBaseController;
-use App\Http\Resources\Api\Order\ShowOrderResource;
-use App\Http\Resources\Order\OrderHistoryResource;
-use App\Http\Resources\Api\Order\StoreOrderResource;
+use App\Http\Traits\OrderTrait;
 use App\Models\OrderAttachment;
+use App\Http\Traits\DiscountTrait;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\ApiBaseController;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\Order\OrderHistoryResource;
+use App\Http\Resources\Api\Order\ShowOrderResource;
+use App\Http\Resources\Api\Order\StoreOrderResource;
 
 class OrderController extends ApiBaseController
 {
+    use DiscountTrait, OrderTrait;
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +34,6 @@ class OrderController extends ApiBaseController
         $data = customPagination($data, 'orders');
 
         return apiReturn($data, null, Response::HTTP_OK);
-
     }
 
     public function show(Order $order)
@@ -44,14 +48,22 @@ class OrderController extends ApiBaseController
     public function store(Request $request)
     {
         try {
-            $serviceProviderTypeId = Service::find($request->items[0])->service_provider_type_id;
+            DB::beginTransaction();
+
+            $serviceProviderType = Service::find($request->items[0])->serviceProviderType;
+            $billCycle = BillCycle::where('status', 1)->first();
+            $deliveryPrice = 0;
 
             $order = Order::create([
                 'uuid' => Order::generateUuid(),
                 'user_id' => auth()->id(),
-                'type' => Order::SERVICE,
                 'address_id' => $request->address_id,
-                'service_provider_type_id' => $serviceProviderTypeId
+                'service_provider_type_id' => $serviceProviderType->id,
+                'bill_cycle_id' => $billCycle->id,
+                'type' => Order::SERVICE,
+                'tax_price' => 0,
+                'delivery_price' => $deliveryPrice,
+                'profit_percentage' => $serviceProviderType->profit_percentage,
             ]);
 
             if (count($request->items) > 1) {
@@ -60,23 +72,35 @@ class OrderController extends ApiBaseController
                     return apiReturn(null, "You can not choose more than one service.", Response::HTTP_OK);
                 }
             }
+
+            $actualPrice = 0;
+            $totalDiscount = 0;
             foreach ($request->items as $item) {
+                $actualPrice += $service->price;
                 $service = Service::findOrFail($item);
-                ServiceOrder::create([
+
+                $serviceOrder = ServiceOrder::create([
                     'order_id' => $order->id,
                     'service_id' => $item,
-                    'purchase_price' => $service->purchase_price,
-                    'sell_price' => $service->sell_price,
+                    'price' => $service->price
                 ]);
+                $totalDiscount += $this->handleDiscount($service, $serviceOrder);
             }
+
+            $order->update([
+                'actual_price' => $actualPrice,
+                'subtotal' => $actualPrice - $totalDiscount,
+                'price_to_pay' => ($actualPrice - $totalDiscount) + $deliveryPrice,
+                'discount_price' => $totalDiscount
+            ]);
 
             $data = new StoreOrderResource($order);
 
             // event(new NewOrder($order));     // notify Admin
-
+            DB::commit();
             return apiReturn($data, null, Response::HTTP_OK);
-
         } catch (Exception $e) {
+            DB::rollBack();
             return apiReturn($e, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -117,8 +141,7 @@ class OrderController extends ApiBaseController
                 ServiceOrder::create([
                     'order_id' => $order->id,
                     'service_id' => $service->id,
-                    'purchase_price' => $service->purchase_price,
-                    'sell_price' => $service->sell_price,
+                    'price' => $service->price
                 ]);
             }
 
@@ -142,5 +165,55 @@ class OrderController extends ApiBaseController
         } elseif ($attachment->type == 'image' || $attachment->type == 'text') {
             return  response()->file(getOrderImagePath($attachment->name));
         }
+    }
+
+    public function acceptOrder(Order $order)
+    {
+        $order->update([
+            'status' => 2,
+            'service_provider_id' => auth()->id(),
+            'accepted_at' => now()
+        ]);
+
+        // notifiy user
+    }
+
+    public function startOrder(Order $order)
+    {
+        $order->update([
+            'status' => 3,
+            'started_at' => now()
+        ]);
+    }
+
+    public function arrived(Order $order)
+    {
+        $order->update([
+            'status' => 4,
+            'arrived_at' => now()
+        ]);
+        // notifiy user
+    }
+
+    public function endOrder(Order $order)
+    {
+        $order->update([
+            'status' => 5,
+            'actual_profit' => $this->calculateActualProfit($order),
+            'company_profit' => $this->calculateCompanyProfit($order),
+            'service_provider_profit' => $this->calculateServiceProviderProfit($order),
+            'ended_at' => now()
+        ]);
+
+        // notify User
+    }
+
+    public function cancelOrder(Order $order)
+    {
+        $order->update([
+            'status' => 0,
+            'canceled_at' => now()
+        ]);
+        // notify User
     }
 }

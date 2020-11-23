@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\BillCycle;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        BillCycle::class
     ];
 
     /**
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('new:billcycle')->cron('0 0 * * 0');         // EveryWeek
     }
 
     /**

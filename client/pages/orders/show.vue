@@ -114,7 +114,7 @@
         <!-- Drugs -->
         <div v-if="order.drugs.length" class="card card-primary">
           <div class="card card-header">
-            Services
+            Products
           </div>
           <div class="card card-body">
             <b-table :items="order.drugs" :fields="drugsFields" show-empty />
@@ -183,7 +183,7 @@ export default {
         'price_to_pay'
       ],
       drugsFields: [
-        'title',
+        'name',
         'price_to_pay'
       ]
     }

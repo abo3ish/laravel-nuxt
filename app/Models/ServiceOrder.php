@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServiceOrder extends Model
 {
-    protected $fillable = ['order_id', 'service_id', 'purchase_price', 'sell_price'];
+    protected $fillable = [
+        'order_id',
+        'service_id',
+        'price',
+        'discount_id',
+        'discount_price',
+    ];
 
     public function order()
     {
@@ -16,5 +22,12 @@ class ServiceOrder extends Model
     public function service()
     {
         return $this->belongsTo(Service::class);
+    }
+    public function updateServiceOrderDiscount($discount_id, $price)
+    {
+        $this->update([
+            'discount_id' => $discount_id,
+            'discount_price' => $price
+        ]);
     }
 }

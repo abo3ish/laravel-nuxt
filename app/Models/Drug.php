@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Discount;
 use Illuminate\Database\Eloquent\Model;
 
 class Drug extends Model
@@ -24,6 +25,11 @@ class Drug extends Model
     public function category()
     {
         return $this->belongsTo(PharmacyCategory::class);
+    }
+
+    public function discount()
+    {
+        return $this->morphOne(Discount::class, 'discountable');
     }
 
 }

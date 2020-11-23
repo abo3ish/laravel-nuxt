@@ -17,6 +17,7 @@ class CreateServiceProviderTypesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('description')->nullable();
+            $table->integer('profit_percentage');
             $table->string('slug')->nullable();
             $table->timestamps();
         });

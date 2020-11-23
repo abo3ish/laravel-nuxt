@@ -42,5 +42,6 @@ class KafshInstall extends Command
             '--seed' => true
         ]);
         DB::unprepared(file_get_contents('database/schema/drugs.sql'));
+        $this->call('new:billcycle');
     }
 }

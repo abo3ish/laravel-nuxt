@@ -35,8 +35,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'doctor.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'general_doctor',
             'service_provider_type_id' => $generalDoctorServiceProvider->id
         ]);
@@ -46,8 +45,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'pediatrician.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'children_doctors',
             'service_provider_type_id' => $pediatricianDoctorServiceProvider->id
         ]);
@@ -57,8 +55,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'heart.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'internist',
             'service_provider_type_id' => $internistDoctorServiceProvider->id
 
@@ -69,8 +66,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'bones.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'orthopedic_doctor',
             'service_provider_type_id' => $orthopedicsDoctorServiceProvider->id
         ]);
@@ -84,7 +80,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'nurseCap.png',
             'slug' => 'nurse',
         ]);
-        $nurseServiceProvider = ServiceProviderType::where('title', 'nurse')->first();
+        $nurseServiceProvider = ServiceProviderType::where('slug', 'nurse')->first();
 
         $expressServices = Service::create([
             'examination_id' => $nursing->id,
@@ -92,8 +88,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'nurse.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'quick_services',
             'service_provider_type_id' => $nurseServiceProvider->id
         ]);
@@ -106,8 +101,7 @@ class ExaminationSeeder extends Seeder
             'parent_id' => $expressServices->id,
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'diabetes',
             'service_provider_type_id' => $nurseServiceProvider->id
         ]);
@@ -118,8 +112,7 @@ class ExaminationSeeder extends Seeder
             'parent_id' => $expressServices->id,
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'lotion',
             'service_provider_type_id' => $nurseServiceProvider->id
         ]);
@@ -130,8 +123,7 @@ class ExaminationSeeder extends Seeder
             'parent_id' => $expressServices->id,
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'injection',
             'service_provider_type_id' => $nurseServiceProvider->id
         ]);
@@ -142,8 +134,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'catheter.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'catheter',
             'service_provider_type_id' => $nurseServiceProvider->id
         ]);
@@ -153,8 +144,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'plaster.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'wounds',
             'service_provider_type_id' => $nurseServiceProvider->id
         ]);
@@ -164,8 +154,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'oxygen.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'breathing_session',
             'service_provider_type_id' => $nurseServiceProvider->id
         ]);
@@ -175,8 +164,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'elder.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'elder_sitting',
             'service_provider_type_id' => $nurseServiceProvider->id
         ]);
@@ -186,8 +174,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'insurance.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'surgery_care',
             'service_provider_type_id' => $nurseServiceProvider->id
         ]);
@@ -212,7 +199,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'skeleton.png',
             'slug' => 'scan',
         ]);
-        $radiologistServiceProvider = ServiceProviderType::where('title', 'radiologist')->first();
+        $radiologistServiceProvider = ServiceProviderType::where('slug', 'radiologist')->first();
 
         Service::create([
             'examination_id' => $rays->id,
@@ -220,8 +207,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'skeleton.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'x_rays',
             'service_provider_type_id' => $radiologistServiceProvider->id
         ]);
@@ -231,8 +217,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'sonar.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'sonar',
             'service_provider_type_id' => $radiologistServiceProvider->id
 
@@ -243,8 +228,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'doppler.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'doppler',
             'service_provider_type_id' => $radiologistServiceProvider->id
 
@@ -255,8 +239,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'ecg.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'ekg',
             'service_provider_type_id' => $radiologistServiceProvider->id
 
@@ -267,8 +250,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'eco.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'echo',
             'service_provider_type_id' => $radiologistServiceProvider->id
 
@@ -283,7 +265,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'microscope.png',
             'slug' => 'laboratory',
         ]);
-        $laboratoryServiceProvider = ServiceProviderType::where('title', 'laboratory')->first();
+        $laboratoryServiceProvider = ServiceProviderType::where('slug', 'laboratory')->first();
 
         Service::create([
             'examination_id' => $tests->id,
@@ -291,8 +273,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'blood-drop.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'blood',
             'service_provider_type_id' => $laboratoryServiceProvider->id
 
@@ -303,8 +284,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'jar.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'urin',
             'service_provider_type_id' => $laboratoryServiceProvider->id
 
@@ -315,8 +295,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'shit.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'sonar',
             'service_provider_type_id' => $laboratoryServiceProvider->id
 
@@ -327,8 +306,7 @@ class ExaminationSeeder extends Seeder
             'icon' => 'semen.png',
             'estimation_from' => 150,
             'estimation_to' => 300,
-            'purchase_price' => 200,
-            'sell_price' => 250,
+            'price' => 250,
             'slug' => 'sperm',
             'service_provider_type_id' => $laboratoryServiceProvider->id
 

@@ -51,7 +51,7 @@
 
                 <!-- Drugs -->
                 <b-badge v-for="drug in order.drugs" :key="drug.id" pill variant="info">
-                  {{ drug.title }}
+                  {{ drug.name }}
                 </b-badge>
               </div>
 
@@ -155,9 +155,9 @@
                 </div>
                 <!-- /.Order Status -->
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <LabelInputText v-model="form.price_to_pay" :label="$t('price_to_pay')" :type="'number'" :name="'price_to_pay'" />
-                </div>
+                </div> -->
                 <div class="card-footer">
                   <v-button
                     :loading="form.busy"
@@ -171,6 +171,70 @@
             </div>
           </form>
         </div>
+
+        <!-- Drugs -->
+        <div class="card card-primary">
+          <div class="card card-header">
+            <div class="card-title">
+              Drugs
+              <b-button v-b-modal.modal-center variant="primary" class="btn btn-outline-light float-left">
+                {{ $t('add_new') }}
+              </b-button>
+              <b-modal
+                id="modal-center"
+                size="lg"
+                centered
+                :state="nameState"
+                title="منتج جديد"
+                ok-title="اضف"
+                cancel-title="اغلق"
+                @ok="handleOk"
+              >
+                <form ref="form" @submit.stop.prevent="StoreDrugOrder">
+                  <!-- Drug-->
+                  <div class="form-group">
+                    <label id="drug">{{ $t('drug') }}</label>
+                    <v-select
+                      v-model="drugOrder.drug_id"
+                      :options="drugOptions"
+                      :filterable="false"
+                      :reduce="drug => drug.id"
+                      label="name"
+                      @search="fetchDrugOptions"
+                    >
+                      <template #option="{ name, image }">
+                        <div class="d-center">
+                          {{ name }}
+                          <img :src="image" height="70" width="70">
+                        </div>
+                      </template>
+                      <template #selected-option="{ name, image }">
+                        <div class="selected d-center">
+                          <strong>
+                            {{ name }}
+                          </strong>
+                          <img :src="image" height="70" width="70">
+                          <span />
+                        </div>
+                      </template>
+                    </v-select>
+                  </div>
+                  <!-- /.Drug -->
+
+                  <!-- Quantity -->
+                  <div class="form-group">
+                    <LabelInputText v-model="drugOrder.quantity" :label="$t('quantity')" :type="'number'" :name="'quantity'" :required="true" />
+                  </div>
+                  <!-- /.Quantity -->
+                </form>
+              </b-modal>
+            </div>
+          </div>
+          <div class="card card-body">
+            <b-table :items="order.drugs" :fields="drugsFields" show-empty />
+          </div>
+        </div>
+        <!-- ./Drugs -->
       <!-- /.card -->
       </div>
     </div>
@@ -199,6 +263,7 @@ export default {
   },
   data: () => {
     return {
+      nameState: false,
       serviceProviderTypes: [],
       order: {
         id: '',
@@ -215,12 +280,28 @@ export default {
         prices: {}
       },
       serviceProviderOptions: [],
+      drugOptions: [],
       statusOptions: [],
       form: new Form({
         service_provider_id: '',
         status: '',
         price_to_pay: ''
-      })
+      }),
+      drugsFields: [
+        'name',
+        'price_to_pay'
+      ],
+      drugOrder: {
+        drug_id: '',
+        quantity: ''
+      }
+    }
+  },
+  watch: {
+    'drugOrder.drug_id': {
+      handler (value) {
+        this.updateDrugOrderPrices(value)
+      }
     }
   },
   async mounted () {
@@ -229,6 +310,12 @@ export default {
     this.fetchOrderStatuses()
   },
   methods: {
+    sayHi () {
+      console.log('modal')
+    },
+    sayNo () {
+      console.log('no')
+    },
     async fetchData () {
       await this.$axios.$get('orders/' + this.$route.params.id)
         .then((res) => {
@@ -260,6 +347,12 @@ export default {
         type: 'success'
       })
     },
+    async fetchOrderStatuses () {
+      await this.$axios.$get('order-statuses')
+        .then((res) => {
+          this.statusOptions = res
+        })
+    },
     fetchServiceProviderOptions (search, loading) {
       if (search.length === 0) {
         return
@@ -270,17 +363,44 @@ export default {
         loading(false)
       }, 300)
     },
-    async fetchOrderStatuses () {
-      await this.$axios.$get('order-statuses')
-        .then((res) => {
-          this.statusOptions = res
-        })
-    },
     async searchForServiceProviders (searchString = '', typeID = null, areaId = null) {
       await this.$axios.$get('service-providers', { params: { name: searchString, type_id: typeID, area_id: areaId } })
         .then((res) => {
           this.serviceProviderOptions = res.data
         })
+    },
+    fetchDrugOptions (search, loading) {
+      if (search.length === 0) {
+        return
+      }
+      loading(true)
+      setTimeout(() => {
+        this.searchForDrugs(search)
+        loading(false)
+      }, 300)
+    },
+    async searchForDrugs (searchString = '') {
+      await this.$axios.$get('drugs', { params: { name: searchString } })
+        .then((res) => {
+          this.drugOptions = res.drugs
+        })
+    },
+    StoreDrugOrder () {
+      // el.preventDefault()
+      if (!this.$refs.form.checkValidity()) {
+        return
+      }
+      this.drugOrder.order_id = this.order.id
+      this.$axios.$post('drug-order', this.drugOrder)
+        .then((res) => {
+          console.log(res)
+        })
+    },
+    handleOk (bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault()
+      // Trigger submit handler
+      this.StoreDrugOrder()
     }
   }
 }

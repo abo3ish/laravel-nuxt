@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePharmacyOrdersTable extends Migration
+class CreateBillCyclesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreatePharmacyOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('pharmacy_orders', function (Blueprint $table) {
+        Schema::create('bill_cycles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained();
-            $table->foreignId('drug_id')->constrained();
-            $table->integer('quantity')->default(1);
-            $table->float('purchase_price');
-            $table->float('sell_price');
+            $table->dateTime('from');
+            $table->dateTime('to');
+            $table->boolean('status')->default(false);
+            $table->index('status', 'bill_cycle_status_index');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreatePharmacyOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pharmacy_orders');
+        Schema::dropIfExists('bill_cycles');
     }
 }

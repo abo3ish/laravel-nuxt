@@ -17,8 +17,9 @@ class CreateServiceOrdersTable extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained('orders');
             $table->foreignId('service_id')->constrained('services');
-            $table->float('purchase_price');
-            $table->float('sell_price');
+            $table->foreignId('discount_id')->nullable()->constrained();
+            $table->double('price', 8, 2);
+            $table->double('discount_price', 8, 2)->nullable();
 
             $table->timestamps();
         });

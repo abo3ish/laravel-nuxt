@@ -16,7 +16,7 @@ class DrugOrderResource extends JsonResource
     {
         return [
             'id' => $this->drug->id,
-            'title' => $this->drug->name,
+            'name' => $this->drug->name,
             'image' => $this->drug->image_url,
             'price_to_pay' => $this->sell_price
         ];

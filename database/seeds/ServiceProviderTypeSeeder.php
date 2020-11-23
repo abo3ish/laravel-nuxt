@@ -15,31 +15,42 @@ class ServiceProviderTypeSeeder extends Seeder
         ServiceProviderType::create([
             'title' => 'طبيب أطفال',
             'slug' => 'pediatrician',
+            'profit_percentage' => 20
         ]);
         ServiceProviderType::create([
             'title' => 'طبيب باطنة',
             'slug' => 'internist',
+            'profit_percentage' => 20
         ]);
         ServiceProviderType::create([
             'title' => 'طبيب عام ',
             'slug' => 'general_doctor',
+            'profit_percentage' => 20
         ]);
         ServiceProviderType::create([
             'title' => 'طبيب عظام ',
-            'slug' => 'orthopedics'
+            'slug' => 'orthopedics',
+            'profit_percentage' => 20
         ]);
         ServiceProviderType::create([
-            'title' => 'nurse',
+            'title' => 'تمريض',
+            'slug' => 'nurse',
+            'profit_percentage' => 30
         ]);
         ServiceProviderType::create([
-            'title' => 'laboratory',
+            'title' => 'معمل تحاليل',
+            'slug' => 'laboratory',
+            'profit_percentage' => 20
         ]);
         ServiceProviderType::create([
-            'title' => 'radiologist',
+            'title' => 'أخصائي أشعة',
+            'slug' => 'radiologist',
+            'profit_percentage' => 20
         ]);
         ServiceProviderType::create([
-            'title' => 'pharmacy',
+            'title' => 'صيدلية',
             'slug' => 'pharmacy',
+            'profit_percentage' => 7
         ]);
     }
 }

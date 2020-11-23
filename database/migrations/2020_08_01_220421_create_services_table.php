@@ -21,8 +21,7 @@ class CreateServicesTable extends Migration
             $table->foreignId('service_provider_type_id')->constrained();
             $table->float('estimation_from');
             $table->float('estimation_to');
-            $table->float('purchase_price');
-            $table->float('sell_price');
+            $table->double('price', 8, 2);
             $table->foreignId('examination_id')->constrained();
             $table->integer('parent_id')->nullable();
             $table->string('slug');

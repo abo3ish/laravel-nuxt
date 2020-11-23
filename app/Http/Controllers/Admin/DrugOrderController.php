@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Models\Drug;
 use App\Models\DrugOrder;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\AdminBaseController;
 
-class DrugOrderController extends Controller
+class DrugOrderController extends AdminBaseController
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +37,15 @@ class DrugOrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $drug = Drug::findOrFail($request->drug_id);
+        $drugOrder = DrugOrder::create([
+            'order_id' => $request->order_id,
+            'drug_id' => $request->drug_id,
+            'quantity' => $request->quantity,
+            'price' => $drug->price,
+        ]);
+
+        return $drugOrder;
     }
 
     /**

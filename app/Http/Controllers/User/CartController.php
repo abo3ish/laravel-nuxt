@@ -5,9 +5,13 @@ namespace App\Http\Controllers\User;
 use Exception;
 use App\Models\Drug;
 use App\Models\Order;
+use App\Models\Discount;
+use App\Models\BillCycle;
 use App\Models\DrugOrder;
+use App\Models\DrugCategory;
 use Illuminate\Http\Request;
 use App\Models\OrderAttachment;
+use App\Http\Traits\DiscountTrait;
 use Illuminate\Support\Facades\DB;
 use App\Models\ServiceProviderType;
 use App\Http\Controllers\Controller;
@@ -16,6 +20,8 @@ use App\Http\Resources\Api\Order\StoreOrderResource;
 
 class CartController extends Controller
 {
+    use DiscountTrait;
+
     public function checkout(Request $request)
     {
         $items = json_decode(($request->items));
@@ -23,7 +29,9 @@ class CartController extends Controller
         try {
             DB::beginTransaction();
 
-            $serviceProviderTypeId = ServiceProviderType::where('slug', 'pharmacy')->first()->id;
+            $serviceProviderType = ServiceProviderType::where('slug', 'pharmacy')->first();
+            $billCycle = BillCycle::where('status', 1)->first();
+            $deliveryPrice = 10;
 
             if (!$request->audios && !$request->images && $request->text == '' && !is_array($items)) {
                 return apiReturn(null, ['your cart is empty'], Response::HTTP_BAD_REQUEST);
@@ -32,21 +40,29 @@ class CartController extends Controller
             $order = Order::create([
                 'uuid' => Order::generateUuid(),
                 'user_id' => auth()->id(),
-                'type' => Order::PHARMACY,
                 'address_id' => $request->address_id,
-                'service_provider_type_id' => $serviceProviderTypeId
+                'service_provider_type_id' => $serviceProviderType->id,
+                'bill_cycle_id' => $billCycle->id,
+                'type' => Order::PHARMACY,
+                'tax_price' => 0,
+                'delivery_price' => $deliveryPrice,
+                'profit_percentage' => $serviceProviderType->profit_percentage,
+
             ]);
 
             if ($items && is_array($items)) {
+                $actualPrice = 0;
+                $totalDiscount = 0;
                 foreach ($items as $item) {
                     $drug = Drug::findOrFail($item->id);
-                    DrugOrder::create([
+                    $actualPrice += $drug->price * $item->quantity;
+                    $drugOrder = DrugOrder::create([
                         'order_id' => $order->id,
                         'drug_id' => $drug->id,
                         'quantity' => $item->quantity,
-                        'purchase_price' => $drug->price - (5 / 100) * $drug->price,
-                        'sell_price' => $drug->price,
+                        'price' => $drug->price
                     ]);
+                    $totalDiscount += $this->handleDiscount($drug, $drugOrder);
                 }
             }
 
@@ -66,6 +82,14 @@ class CartController extends Controller
                 $order->createOrderTextAttachment($request->text);
             }
 
+            $order->update([
+                'actual_price' => $actualPrice,
+                'subtotal' => $actualPrice - $totalDiscount,
+                'price_to_pay' => ($actualPrice - $totalDiscount) + $deliveryPrice,
+                'discount_price' => $totalDiscount,
+                'actual_profit' => ($actualPrice * $serviceProviderType->profit_percentage / 100)
+            ]);
+
             $data = new StoreOrderResource($order);
             DB::commit();
             // event(new NewOrder($order));     // notify the user
@@ -73,7 +97,7 @@ class CartController extends Controller
             return apiReturn($data, null, Response::HTTP_OK);
         } catch (Exception $e) {
             DB::rollBack();
-            return apiReturn($e, [$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return apiReturn($e->getLine(), [$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

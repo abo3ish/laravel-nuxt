@@ -9,6 +9,7 @@
         :value="value"
         :placeholder="placeholder"
         class="form-control"
+        :required="required"
         @input="updateValue($event.target.value)"
       >
     </div>
@@ -42,6 +43,11 @@ export default {
     name: {
       required: true,
       type: String
+    },
+    required: {
+      required: false,
+      default: false,
+      type: Boolean
     }
   },
   computed: {

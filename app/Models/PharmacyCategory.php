@@ -7,7 +7,14 @@ use Illuminate\Support\Facades\Storage;
 
 class PharmacyCategory extends Model
 {
-    protected $fillable = ['title', 'description', 'slug', 'icon', 'status', 'parent_id'];
+    protected $fillable = [
+        'title',
+        'description',
+        'slug',
+        'icon',
+        'status',
+        'parent_id'
+    ];
 
     public function childs()
     {
@@ -22,5 +29,10 @@ class PharmacyCategory extends Model
     public function drugs()
     {
         return $this->hasMany(Drug::class, 'category_id');
+    }
+
+    public function discount()
+    {
+        return $this->morphOne('App\Models\Discount', 'discountable');
     }
 }

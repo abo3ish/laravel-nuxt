@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class Service extends Model
 {
@@ -14,8 +13,7 @@ class Service extends Model
         'service_provider_type_id',
         'estimation_from',
         'estimation_to',
-        'purchase_price',
-        'sell_price',
+        'price',
         'examination_id',
         'parent_id',
         'slug'

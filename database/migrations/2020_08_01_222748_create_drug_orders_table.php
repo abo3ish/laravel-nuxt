@@ -17,9 +17,10 @@ class CreateDrugOrdersTable extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained('orders');
             $table->foreignId('drug_id')->constrained();
+            $table->foreignId('discount_id')->nullable()->constrained();
             $table->integer('quantity')->default(1);
-            $table->float('purchase_price');
-            $table->float('sell_price');
+            $table->double('price', 8, 2);
+            $table->double('discount_price', 8, 2)->nullable();
             $table->timestamps();
         });
     }

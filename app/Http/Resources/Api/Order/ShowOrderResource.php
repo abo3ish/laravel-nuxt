@@ -3,11 +3,9 @@
 namespace App\Http\Resources\Api\Order;
 
 use App\Models\Order;
-use App\Http\Resources\Api\Drug\DrugResource;
 use App\Http\Resources\Order\DrugOrderResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Order\ServiceOrderResource;
-use App\Http\Resources\Admin\Services\ServiceResource;
 use App\Http\Resources\Api\Order\OrderAttachmentResource;
 use App\Http\Resources\Api\Order\ServiceProviderResource;
 

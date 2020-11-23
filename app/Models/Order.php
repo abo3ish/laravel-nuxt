@@ -6,7 +6,6 @@ use App\Models\DrugOrder;
 use App\Models\ServiceOrder;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class Order extends Model
 {
@@ -14,16 +13,30 @@ class Order extends Model
         'uuid',
         'user_id',
         'address_id',
-        'type',
+        'service_provider_type_id',
         'service_provider_id',
-        'price_to_pay',
-        'tax_price',
-        'discount_price',
-        'actual_price',
+        'bill_cycle_id',
+        'type',  // service or pharmacy
         'status',
-        'is_collected',
-        'service_provider_type_id'
+        'rate',
+        'tax_price',
+        // 'discount_id',  // Discount for products without promo codes.
+        'discount_price',
+        'delivery_price',
+        'actual_price',  // the order price redardless discount, promo or tax
+        'subtotal',  // the price before applying tax and delivery price (actual_price - discount)
+        'price_to_pay',  // price of what user gonna pay to the service provider (subtotal + tax_price + delivery_price)
+        'is_collected',  // if the order is collected from the service provider.
+        'accepted_at',
+        'arrived_at',
+        'ended_at',
+        'canceled_at',
+        'profit_percentage',  // based on serviceProvider type
+        'actual_profit',  // profit which should be gained before any discount or promotion
+        'company_profit',  // the company gained profit after discount
+        'service_provider_profit'
     ];
+     //TODO: Add property company_profit - service_provider_profit
 
     protected $dates = [
         'accepted_at',
@@ -50,6 +63,10 @@ class Order extends Model
                 break;
 
             case '4':
+                return ' تم وصول مقدم الخدمة';
+                break;
+
+            case '5':
                 return 'تم التوصيل';
                 break;
         }
@@ -110,7 +127,8 @@ class Order extends Model
             '1' => 'تحت المراجعة',
             '2' => 'تم الموافقة',
             '3' => 'الطلب في الطريق',
-            '4' => 'تم التوصيل',
+            '4' => 'تم وصول مقدم الخدمة',
+            '5' => 'تم التوصيل',
         );
     }
 
@@ -131,6 +149,10 @@ class Order extends Model
             ],
             [
                 'code' => 4,
+                'string' => 'تم وصول مقدم الخدمة',
+            ],
+            [
+                'code' => 5,
                 'string' => 'تم التوصيل',
             ],
         ];
@@ -199,7 +221,6 @@ class Order extends Model
 
     public function createOrderTextAttachment($text)
     {
-        // dd($text);
         $fileName = $this->id . "-text-" . auth()->user()->name . "-" .  random_int(1000, 999999) . ".png";
         $image = Image::make(public_path('images') . "/background-white.png");
         $directory = getOrderImagePath();
@@ -217,5 +238,13 @@ class Order extends Model
             'mime' => $image->mime(),
             'extension' => 'png'
         ]);
+    }
+
+    public function StoreDiscount($discount_id, $price)
+    {
+        // $this->update([
+        //     'discount_id' => $discount_id,
+        //     'discount_price' => $price
+        // ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Discount;
 use Illuminate\Database\Eloquent\Model;
 
 class ServiceProviderType extends Model
@@ -11,4 +12,9 @@ class ServiceProviderType extends Model
         'description',
         'slug'
     ];
+
+    public function discount()
+    {
+        return $this->morphOne(Discount::class, 'discountable');
+    }
 }

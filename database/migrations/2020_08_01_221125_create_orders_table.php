@@ -17,17 +17,29 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->integer('uuid')->unique()->index();
             $table->foreignId('user_id')->costrained();
+            $table->foreignId('address_id');
             $table->foreignId('service_provider_type_id')->costrained();
             $table->foreignId('service_provider_id')->nullable()->costrained()->onDelete('set null');
-            $table->float('price_to_pay')->default(0)->nullable();
-            $table->float('tax_price')->default(0);
-            $table->float('discount_price')->default(0);
-            $table->float('actual_price')->nullable();
-            $table->foreignId('address_id');
-            $table->integer('status')->default(1);
-            $table->dateTime('accepted_at')->nullable();
-            $table->boolean('is_collected')->default(false);
+            $table->foreignId('bill_cycle_id')->costrained()->onDelete('set null');
             $table->enum('type', ['service', 'pharmacy']);
+            $table->integer('status')->default(1);
+            $table->integer('rate')->nullable();
+            $table->double('tax_price', 8, 2)->default(0);
+            // $table->foreignId('discount_id')->nullable()->costrained()->onDelete('set null');
+            $table->double('discount_price', 8, 2)->nullable();
+            $table->double('actual_price', 8, 2)->nullable();
+            $table->double('subtotal', 8, 2)->nullable();
+            $table->double('delivery_price', 8, 2)->nullable();
+            $table->double('price_to_pay', 8, 2)->nullable();
+            $table->boolean('is_collected')->default(false);
+            $table->dateTime('accepted_at')->nullable();
+            $table->dateTime('arrived_at')->nullable();
+            $table->dateTime('ended_at')->nullable();
+            $table->dateTime('canceled_at')->nullable();
+            $table->integer('profit_percentage');
+            $table->double('actual_profit', 8, 2)->default(0);  // price
+            $table->double('company_profit', 8, 2)->default(0); // price
+            $table->double('service_provider_profit', 8, 2)->default(0); // price
             $table->timestamps();
         });
     }

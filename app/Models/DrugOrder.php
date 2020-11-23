@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Discount;
 use Illuminate\Database\Eloquent\Model;
 
 class DrugOrder extends Model
@@ -10,8 +11,9 @@ class DrugOrder extends Model
         'order_id',
         'drug_id',
         'quantity',
-        'purchase_price',
-        'sell_price'
+        'price',
+        'discount_id',
+        'discount_price',
     ];
 
     public function order()
@@ -22,5 +24,18 @@ class DrugOrder extends Model
     public function drug()
     {
         return $this->belongsTo(Drug::class);
+    }
+
+    public function discount()
+    {
+        return $this->hasOne(Discount::class);
+    }
+
+    public function updateDrugOrderDiscount($discount_id, $price)
+    {
+        $this->update([
+            'discount_id' => $discount_id,
+            'discount_price' => $price
+        ]);
     }
 }

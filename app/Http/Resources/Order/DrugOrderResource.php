@@ -18,9 +18,12 @@ class DrugOrderResource extends JsonResource
             'drug' => [
                 'id' => $this->drug->id,
                 'title' => $this->drug->name,
-                'image' => $this->drug->image_url
+                'image' => $this->drug->image_url,
+                'quantity' => $this->quantity
             ],
-            'price_to_pay' => $this->sell_price
+            'price' => $this->price * $this->quantity,
+            'price_to_pay' => ($this->price * $this->quantity) - ($this->discount_price),
+            'discount_price' => $this->discount_price
         ];
     }
 }
