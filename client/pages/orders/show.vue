@@ -89,12 +89,32 @@
             </div>
             <!-- /.Service Provider -->
 
-            <!-- Created At-->
-            <div class="form-group">
-              <label>{{ $t('created_at') }} : </label>
-              <code>
-                {{ $moment(String(order.created_at), "YYYY-MM-DD").format('LLLL') }} <br>
-              </code>
+            <!-- Prices -->
+            <div class="row">
+              <div class="col-3">
+                <table class="table table-responsive table-hover">
+                  <tr v-for="price in Object.keys(order.prices)" :key="price.id" class="">
+                    <th>{{ $t(price) }}</th>
+                    <td>{{ order.prices[price] }}</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-3">
+                <table class="table table-responsive table-hover">
+                  <tr v-for="profit in Object.keys(order.profits)" :key="profit.id" class="">
+                    <th>{{ $t(profit) }}</th>
+                    <td>{{ order.profits[profit] }}</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-6">
+                <table class="table table-striped table-responsive table-hover">
+                  <tr v-for="date in Object.keys(order.dates)" :key="date.id">
+                    <th>{{ $t(date) }}</th>
+                    <td>{{ order.dates[date] ? $moment(String(order.dates[date]), "YYYY-MM-DD").format('LLLL') : '' }}</td>
+                  </tr>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -170,21 +190,28 @@ export default {
         drugs: {},
         attachments: [],
         prices: {},
+        profits: {},
         created_at: '',
         is_collected: '',
         service_provider_type: '',
         service_provider: {},
-        audio: ''
+        audio: '',
+        dates: {}
       },
       servicesFields: [
         'title',
         'service_provider_type',
         'estimated_price',
-        'price_to_pay'
+        'price_to_pay',
+        'discount_price',
+        'discount'
       ],
       drugsFields: [
         'name',
-        'price_to_pay'
+        'price',
+        'price_to_pay',
+        'discount_price',
+        'discount'
       ]
     }
   },

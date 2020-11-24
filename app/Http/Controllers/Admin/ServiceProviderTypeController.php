@@ -48,6 +48,7 @@ class ServiceProviderTypeController extends AdminBaseController
             'title' => $request->title,
             'description' => $request->description,
             'slug' => $request->slug,
+            'profit_percentage' => $request->profit_percentage,
         ]);
 
         return true;
@@ -88,6 +89,7 @@ class ServiceProviderTypeController extends AdminBaseController
             'title' => $request->title,
             'description' => $request->description,
             'slug' => $request->slug,
+            'profit_percentage' => $request->profit_percentage,
         ]);
 
         return $serviceProviderType;

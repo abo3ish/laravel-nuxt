@@ -148,8 +148,14 @@ export default {
 
       this.$notify({
         group: 'feedback',
-        title: this.$t('service_provider_updated_sucessfully'),
+        title: this.$t('saved_sucessfully'),
         type: 'success'
+      }).catch((e) => {
+        this.$notify({
+          group: 'feedback',
+          title: this.$t('saved_failed'),
+          type: 'error'
+        })
       })
     },
     setServiceProviderType () {

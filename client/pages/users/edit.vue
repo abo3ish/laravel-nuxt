@@ -199,13 +199,13 @@ export default {
 
           this.$notify({
             group: 'feedback',
-            title: this.$t('user_saved_sucessfully'),
+            title: this.$t('saved_successfully'),
             type: 'success'
           })
         }).catch((e) => {
           this.$notify({
             group: 'feedback',
-            title: this.$t('user_saved_failed'),
+            title: this.$t('saved_failed'),
             type: 'error'
           })
         })

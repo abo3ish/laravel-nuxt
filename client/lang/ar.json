@@ -39,7 +39,7 @@
   "is_collected": "تم التحصيل",
   "order_collected": "تم التحصيل",
   "order_not_collected": "لم يتم التحصيل بعد",
-  "created_at": "التاريخ",
+  "created_at": "تاريخ الطلب",
   "order_type": "نوع الطلب",
   "order_number": "رقم الطلب",
   "scientific_name": "الاسم العلمي",
@@ -82,5 +82,23 @@
   "terms": "الشروط والاحكام",
   "dashboard": "لوحة التحكم",
   "login": "تسجيل دخول",
-  "quantity": "الكمية"
+  "quantity": "الكمية",
+
+  "actual_price": "السعر الحقيقي",
+  "discount_price": "سعر الخصم",
+  "tax_price": "سعر الضريبة",
+  "delivery_price": "التوصيل",
+  "subtotal": " الاجمالي",
+  "actual_profit": "الربح قبل الخصم",
+  "company_profit": "ربح الشركة",
+  "service_provider_profit": " ربح مقدم الخدمة",
+  "profit_percentage": "نسبة الربح",
+  "accepted_at": "تاريخ القبول",
+  "arrived_at": "تاريخ الوصول",
+  "ended_at": "تاريخ الانهاء",
+  "canceled_at": "تاريخ الالغاء",
+  "areas": "المناطق",
+  "saved_successfully": "تم الحفظ بنجاح",
+  "saved_failed": "حدث خطأ اثناء الحفظ",
+  "create_drug": "انشئ دواء"
 }

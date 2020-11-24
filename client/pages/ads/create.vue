@@ -129,7 +129,7 @@ export default {
 
           this.$notify({
             group: 'feedback',
-            title: this.$t('ad_saved_sucessfully'),
+            title: this.$t('ad_saved_successfully'),
             type: 'success'
           })
         }).catch((e) => {

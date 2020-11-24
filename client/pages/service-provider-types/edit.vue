@@ -50,8 +50,10 @@
               <label-input-text v-model="form.title" :label="$t('title')" :type="'text'" :placeholder="'Enter Title'" name="title" />
               <!-- Description -->
               <label-input-text v-model="form.description" :label="$t('description')" :type="'text'" :placeholder="'Enter Description'" name="description" />
-              <!-- Name -->
+              <!-- Slug -->
               <label-input-text v-model="form.slug" :label="$t('slug')" :type="'text'" :placeholder="'Enter Slug'" name="slug" />
+              <!-- profit Percentage -->
+              <label-input-text v-model="form.profit_percentage" :label="$t('profit_percentage')" :type="'number'" :placeholder="'Enter profit Percentage'" name="profit_percentage" />
 
               <div class="card-footer">
                 <v-button
@@ -92,7 +94,8 @@ export default {
       form: new Form({
         title: '',
         description: '',
-        slug: ''
+        slug: '',
+        profit_percentage: ''
       }),
       type: ''
     }
@@ -117,8 +120,14 @@ export default {
 
       this.$notify({
         group: 'feedback',
-        title: this.$t('service_provider_type_updated_sucessfully'),
+        title: this.$t('saved_successfully'),
         type: 'success'
+      }).catch((e) => {
+        this.$notify({
+          group: 'feedback',
+          title: this.$t('saved_failed'),
+          type: 'error'
+        })
       })
     }
   }

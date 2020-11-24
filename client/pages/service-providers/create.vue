@@ -117,8 +117,14 @@ export default {
       this.form.reset()
       this.$notify({
         group: 'feedback',
-        title: this.$t('service_provider_created_sucessfully'),
+        title: this.$t('saved_successfully'),
         type: 'success'
+      }).catch((e) => {
+        this.$notify({
+          group: 'feedback',
+          title: this.$t('saved_failed'),
+          type: 'error'
+        })
       })
     }
   }

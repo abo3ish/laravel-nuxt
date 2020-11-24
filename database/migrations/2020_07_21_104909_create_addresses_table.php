@@ -18,9 +18,10 @@ class CreateAddressesTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('area_id')->constrained();
             $table->string('street');
-            $table->string('building_number');
-            $table->string('floor_number');
-            $table->string('flat_number');
+            $table->string('building_number')->nullable();
+            $table->string('floor_number')->nullable();
+            $table->string('flat_number')->nullable();
+            $table->string('landmark')->nullable();
             $table->double('lat')->nullable();
             $table->double('lng')->nullable();
             $table->timestamps();

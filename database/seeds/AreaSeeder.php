@@ -32,5 +32,9 @@ class AreaSeeder extends Seeder
             'name' => 'طنطا',
             'status' => 1
         ]);
+        Area::create([
+            'name' => 'قنا',
+            'status' => 1
+        ]);
     }
 }

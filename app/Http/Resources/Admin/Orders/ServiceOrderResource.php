@@ -19,8 +19,11 @@ class ServiceOrderResource extends JsonResource
             'title' => $this->service->title,
             'description' => $this->service->description,
             'service_provider_type' => $this->service->serviceProviderType->title,
-            'price_to_pay' => $this->sell_price,
-            'estimated_price' => $this->service->sell_price
+            'estimated_price' => $this->service->price,
+            'price' => $this->price,
+            'price_to_pay' => $this->price - $this->discount_price,
+            'discount_price' => $this->discount_price,
+            'discount' => $this->discount ? $this->discount->name : ''
         ];
     }
 }

@@ -108,7 +108,7 @@
             <div class="form-group">
               <label>{{ $t('created_at') }} : </label>
               <code>
-                {{ $moment(String(user.created_at), "YYYY-MM-DD").format('LLLL') }} <br>
+                {{ $moment(String(user.created_at), "YYYY-MM-DD H:I").format('LLLL') }} <br>
               </code>
             </div>
           </div>

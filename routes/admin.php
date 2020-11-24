@@ -57,4 +57,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'name
     /* Ads */
     Route::resource('advertisements', 'AdvertisementController');
 
+    /* Areas */
+    Route::resource('areas', 'AreaController');
+
 });

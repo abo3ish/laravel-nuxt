@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\BillCycle;
 use App\Models\DrugOrder;
 use App\Models\ServiceOrder;
 use Intervention\Image\Facades\Image;
@@ -20,11 +21,11 @@ class Order extends Model
         'status',
         'rate',
         'tax_price',
+        'actual_price',  // the order price redardless discount, promo or tax
+        'subtotal',  // the price before applying tax and delivery price (actual_price - discount)
         // 'discount_id',  // Discount for products without promo codes.
         'discount_price',
         'delivery_price',
-        'actual_price',  // the order price redardless discount, promo or tax
-        'subtotal',  // the price before applying tax and delivery price (actual_price - discount)
         'price_to_pay',  // price of what user gonna pay to the service provider (subtotal + tax_price + delivery_price)
         'is_collected',  // if the order is collected from the service provider.
         'accepted_at',
@@ -238,6 +239,11 @@ class Order extends Model
             'mime' => $image->mime(),
             'extension' => 'png'
         ]);
+    }
+
+    public function billCycle()
+    {
+        return $this->belongsTo(BillCycle::class);
     }
 
     public function StoreDiscount($discount_id, $price)

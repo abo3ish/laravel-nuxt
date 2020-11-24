@@ -1,31 +1,9 @@
 <template>
   <div>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('drugs') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'drugs'}">
-                  {{ $t('drugs') }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ drug.name }}
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+    <header-info
+      :name="'drugs'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'drugs', link: 'drugs'}, {name: form.name, link: '', trans: false}]"
+    />
 
     <div class="row">
       <div class="col-md-12">
@@ -33,6 +11,7 @@
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">
+              {{ form.name }}
               <n-link :to="{name: 'create-drug' }">
                 <button class="btn btn-outline-light float-left" @click="form.reset()">
                   {{ $t('add_new') }}
@@ -89,6 +68,7 @@ import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
 import LabelTextArea from '~/components/forms/LabelTextArea'
 import SelectBox from '~/components/forms/SelectBox'
+import HeaderInfo from '~/components/page/HeaderInfo'
 
 export default {
   layout: 'admin',
@@ -101,7 +81,8 @@ export default {
   components: {
     LabelInputText,
     LabelTextArea,
-    SelectBox
+    SelectBox,
+    HeaderInfo
   },
   data: () => {
     return {
@@ -120,7 +101,6 @@ export default {
   },
   created () {
     this.fetchCategories()
-    this.fetchData()
   },
   methods: {
     createDrug () {
@@ -129,13 +109,13 @@ export default {
           this.form.reset()
           this.$notify({
             group: 'feedback',
-            title: this.$t('drug_saved_sucessfully'),
+            title: this.$t('saved_successfully'),
             type: 'success'
           })
         }).catch((e) => {
           this.$notify({
             group: 'feedback',
-            title: this.$t('drug_saved_failed'),
+            title: this.$t('saved_failed'),
             type: 'error'
           })
         })
@@ -163,5 +143,7 @@ export default {
 </script>
 
 <style>
-
+select.form-control {
+  padding: 0.1rem .75rem
+}
 </style>

@@ -17,8 +17,9 @@ class ServiceOrderResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'purchase_price' => $this->purchase_price,
-            'sell_price' => $this->sell_price,
+            'price' => $this->price,
+            'discount' => $this->discount,
+            'discount_price' => $this->discount_price,
             'service' => new ServiceResource($this->service),
         ];
     }

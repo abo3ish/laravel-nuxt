@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Discount;
 use Illuminate\Database\Eloquent\Model;
 
 class ServiceOrder extends Model
@@ -23,6 +24,12 @@ class ServiceOrder extends Model
     {
         return $this->belongsTo(Service::class);
     }
+
+    public function discount()
+    {
+        return $this->belongsTo(Discount::class);
+    }
+
     public function updateServiceOrderDiscount($discount_id, $price)
     {
         $this->update([

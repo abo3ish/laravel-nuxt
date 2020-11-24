@@ -78,8 +78,14 @@ const routes = [
       { path: 'ads/', name: 'ads', component: page('ads/index.vue') },
       { path: 'ads/create', name: 'create-ad', component: page('ads/create.vue') },
       { path: 'ads/edit/:id', name: 'edit-ad', component: page('ads/edit.vue') },
-      { path: 'ads/:id', name: 'show-ad', component: page('ads/show.vue') }
-      ]
+      { path: 'ads/:id', name: 'show-ad', component: page('ads/show.vue') },
+
+      /* Areas */
+      { path: 'areas/', name: 'areas', component: page('areas/index.vue') },
+      { path: 'areas/create', name: 'create-area', component: page('areas/create.vue') },
+      { path: 'areas/edit/:id', name: 'edit-area', component: page('areas/edit.vue') },
+      { path: 'areas/:id', name: 'show-area', component: page('areas/show.vue') }
+    ]
   },
 ]
 

@@ -41,9 +41,9 @@
                 </code>
               </div>
 
-              <!-- Order Type -->
+              <!-- Order Items -->
               <div class="form-group">
-                <label for="balance">{{ $t('orders') }} : </label>
+                <label for="orders">{{ $t('orders') }} : </label>
                 <!-- Serviecs -->
                 <b-badge v-for="service in order.services" :key="service.id" pill variant="primary" class="p-2 m-2 w-30">
                   {{ service.title }}
@@ -167,13 +167,13 @@
                   </v-button>
                 </div>
               </form>
-              <!-- save -->
+              <!-- /.Form -->
             </div>
           </form>
         </div>
 
         <!-- Drugs -->
-        <div class="card card-primary">
+        <div v-if="order.type == 'pharmacy'" class="card card-primary">
           <div class="card card-header">
             <div class="card-title">
               Drugs
@@ -289,18 +289,12 @@ export default {
       }),
       drugsFields: [
         'name',
-        'price_to_pay'
+        'price_to_pay',
+        'quantity'
       ],
       drugOrder: {
         drug_id: '',
         quantity: ''
-      }
-    }
-  },
-  watch: {
-    'drugOrder.drug_id': {
-      handler (value) {
-        this.updateDrugOrderPrices(value)
       }
     }
   },

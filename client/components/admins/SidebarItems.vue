@@ -30,7 +30,8 @@ export default {
         { toName: 'service-providers', title: 'service_providers' },
         { toName: 'services', title: 'services' },
         { toName: 'drugs', title: 'drugs' },
-        { toName: 'ads', title: 'ads' }
+        { toName: 'ads', title: 'ads' },
+        { toName: 'areas', title: 'areas' }
       ]
     }
   }

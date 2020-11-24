@@ -18,7 +18,9 @@ class AddressController extends ApiBaseController
      */
     public function index()
     {
-        //
+        $addresses = Address::where('user_id', auth()->id())->get();
+        $data = AddressResource::collection($addresses);
+        return apiReturn($data, null, Response::HTTP_OK);
     }
 
     /**
@@ -32,8 +34,8 @@ class AddressController extends ApiBaseController
         $validator = Validator::make($request->all(), [
             'area_id' => 'required',
             'street' => 'required',
-            'floor_number' => 'required',
-            'flat_number' => 'required',
+            // 'floor_number' => 'required',
+            // 'flat_number' => 'required',
             'lat' => 'required',
             'lng' => 'required'
         ]);
@@ -48,6 +50,7 @@ class AddressController extends ApiBaseController
             'building_number' => $request->building_number,
             'floor_number' => $request->floor_number,
             'flat_number' => $request->flat_number,
+            'landmark' => $request->landmark,
             'lat' => $request->lat,
             'lng' => $request->lng,
         ]);
@@ -63,18 +66,8 @@ class AddressController extends ApiBaseController
      */
     public function show(Address $address)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Address  $address
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Address $address)
-    {
-        //
+        $data = new AddressResource($address);
+        return apiReturn($data, null, Response::HTTP_OK);
     }
 
     /**
@@ -86,7 +79,32 @@ class AddressController extends ApiBaseController
      */
     public function update(Request $request, Address $address)
     {
-        //
+        if (auth()->id() != $address->user_id) {
+            return apiReturn(null, 'Permision Denied', Response::HTTP_FORBIDDEN);
+        }
+        $validator = Validator::make($request->all(), [
+            'area_id' => 'required',
+            'street' => 'required',
+            // 'floor_number' => 'required',
+            // 'flat_number' => 'required',
+            'lat' => 'required',
+            'lng' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return apiReturn(null, $validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        $address->update([
+            'area_id' => $request->area_id,
+            'street' => $request->street,
+            'building_number' => $request->building_number,
+            'floor_number' => $request->floor_number,
+            'flat_number' => $request->flat_number,
+            'landmark' => $request->landmark,
+            'lat' => $request->lat,
+            'lng' => $request->lng,
+        ]);
+        $data = new AddressResource($address);
+        return apiReturn($data, null, Response::HTTP_OK);
     }
 
     /**
@@ -99,7 +117,6 @@ class AddressController extends ApiBaseController
     {
         if (auth()->user()->id == $address->user_id) {
             $address->delete();
-
             return apiReturn(null, null, 200);
         } else {
             return apiReturn(null, 'Permision Denied', Response::HTTP_FORBIDDEN);

@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Drug;
 use App\Models\DrugOrder;
 use Illuminate\Http\Request;
+use App\Http\Traits\DiscountTrait;
 use App\Http\Controllers\Admin\AdminBaseController;
 
 class DrugOrderController extends AdminBaseController
 {
+    use DiscountTrait;
     /**
      * Display a listing of the resource.
      *
@@ -44,7 +46,7 @@ class DrugOrderController extends AdminBaseController
             'quantity' => $request->quantity,
             'price' => $drug->price,
         ]);
-
+        $this->handleDiscount($drug, $drugOrder);
         return $drugOrder;
     }
 

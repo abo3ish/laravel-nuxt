@@ -10,7 +10,8 @@ class ServiceProviderType extends Model
     protected $fillable = [
         'title',
         'description',
-        'slug'
+        'slug',
+        'profit_percentage'
     ];
 
     public function discount()

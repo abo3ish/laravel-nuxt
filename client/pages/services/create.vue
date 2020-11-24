@@ -57,11 +57,8 @@
               <!-- Estimation To -->
               <label-input-text v-model="form.estimation_to" :label="$t('estimation_to')" :type="'number'" :placeholder="'Enter Estimation To Price'" name="estimation_to" />
 
-              <!-- Purchase Price -->
-              <label-input-text v-model="form.purchase_price" :label="$t('purchase_price')" :type="'number'" :placeholder="'Enter purchase Price'" name="purchase_price" />
-
-              <!-- Sell Price -->
-              <label-input-text v-model="form.sell_price" :label="$t('sell_price')" :type="'number'" :placeholder="'Enter sell Price'" name="sell_price" />
+              <!-- Price -->
+              <label-input-text v-model="form.price" :label="$t('price')" :type="'number'" :placeholder="'Enter purchase Price'" name="price" />
 
               <!-- Parent -->
               <select-box v-model="form.parent_id" :items="parents" :label="$t('parents')" name="parent_id" />
@@ -128,8 +125,7 @@ export default {
         service_provider_type_id: '',
         estimation_from: '',
         estimation_to: '',
-        purchase_price: '',
-        sell_price: '',
+        price: '',
         examination_id: '',
         parent_id: '',
         status: Boolean(true),
@@ -148,20 +144,20 @@ export default {
         if (res.data) {
           this.$notify({
             group: 'feedback',
-            title: this.$t('service_provider_created_sucessfully'),
+            title: this.$t('saved_successfully'),
             type: 'success'
           })
         } else {
           this.$notify({
             group: 'feedback',
-            title: this.$t('service_provider_failed_sucessfully'),
+            title: this.$t('saved_failed'),
             type: 'error'
           })
         }
       }).catch(() => {
         this.$notify({
           group: 'feedback',
-          title: this.$t('service_provider_failed_sucessfully'),
+          title: this.$t('saved_failed'),
           type: 'error'
         })
       })

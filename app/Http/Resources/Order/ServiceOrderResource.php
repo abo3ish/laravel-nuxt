@@ -20,10 +20,10 @@ class ServiceOrderResource extends JsonResource
                 'id' => $this->service->id,
                 'title' => $this->service->title,
                 'description' => $this->service->description,
-            ],
-            'price' => $this->price,
-            'price_to_pay' => $this->price - $this->discount_price,
-            'discount_price' => $this->discount_price
+                'price' => $this->price,
+                'price_to_pay' => $this->price - $this->discount_price,
+                'discount_price' => $this->discount_price
+            ]
         ];
     }
 }

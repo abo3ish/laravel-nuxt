@@ -126,13 +126,13 @@ export default {
 
           this.$notify({
             group: 'feedback',
-            title: this.$t('drug_saved_sucessfully'),
+            title: this.$t('saved_successfully'),
             type: 'success'
           })
         }).catch((e) => {
           this.$notify({
             group: 'feedback',
-            title: this.$t('drug_saved_failed'),
+            title: this.$t('saved_failed'),
             type: 'error'
           })
         })
@@ -160,5 +160,7 @@ export default {
 </script>
 
 <style>
-
+select.form-control {
+  padding: 0.1rem .75rem
+}
 </style>

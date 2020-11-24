@@ -38,18 +38,36 @@ class ShowOrderResource extends JsonResource
                 'code' => $this->status,
                 'string' => $this->status_string
             ],
+            'bill_cycle' => [
+                'from' => $this->billCycle->from,
+                'to' => $this->billCycle->to,
+            ],
             'prices' => [
-                'price_to_pay' => $this->price_to_pay,
+                'actual_price' => $this->actual_price,
                 'discount_price' => $this->discount_price,
                 'tax_price' => $this->tax_price,
-                'actual_price' => $this->actual_price,
+                'delivery_price' => $this->delivery_price,
+                'subtotal' => $this->subtotal,
+                'price_to_pay' => $this->price_to_pay,
+            ],
+            'profits' => [
+                'actual_profit' => $this->actual_profit,
+                'company_profit' => $this->company_profit,
+                'service_provider_profit' => $this->service_provider_profit,
+                'profit_percentage' => $this->profit_percentage . "%",
             ],
             'is_collected' => $this->is_collected,
             'service_provider_type' => [
                 'id' => $this->serviceProviderType->id,
                 'title' => $this->serviceProviderType->title
             ],
-            'created_at' => $this->created_at,
+            'dates' => [
+                'created_at' => $this->created_at,
+                'accepted_at' => $this->accepted_at,
+                'arrived_at' => $this->arrived_at,
+                'ended_at' => $this->ended_at,
+                'canceled_at' => $this->canceled_at,
+            ],
         ];
     }
 }

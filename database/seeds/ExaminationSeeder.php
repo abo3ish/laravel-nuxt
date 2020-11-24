@@ -19,7 +19,7 @@ class ExaminationSeeder extends Seeder
          *************************************/
         $homeExamination = Examination::create([
             'title' => 'كشف منزلي',
-            'description' => 'وصف للعنصر قد يمتد لسطرين او اكثر',
+            'description' => '',
             'icon' => 'examin.png',
             'slug' => 'doctor',
             'accept_multi' => false,
@@ -76,7 +76,7 @@ class ExaminationSeeder extends Seeder
          **************************************/
         $nursing = Examination::create([
             'title' => ' تمريض منزلي',
-            'description' => 'وصف للعنصر قد يمتد لسطرين او اكثر',
+            'description' => '',
             'icon' => 'nurseCap.png',
             'slug' => 'nurse',
         ]);
@@ -184,7 +184,7 @@ class ExaminationSeeder extends Seeder
          *************************************/
         $physicalTherapy = Examination::create([
             'title' => ' علاج طبيعي',
-            'description' => ' وصف للعنصر قد يمتد لسطرين او اكثر  وصف للعنصر قد يمتد لسطرين او اكثر ،',
+            'description' => '',
             'icon' => 'physiotherapy.png'
         ]);
 
@@ -195,7 +195,7 @@ class ExaminationSeeder extends Seeder
 
         $rays = Examination::create([
             'title' => 'أشعة بالمنزل',
-            'description' => ' وصف للعنصر قد يمتد لسطرين او اكثر  وصف للعنصر قد يمتد لسطرين او اكثر ،',
+            'description' => '',
             'icon' => 'skeleton.png',
             'slug' => 'scan',
         ]);
@@ -261,7 +261,7 @@ class ExaminationSeeder extends Seeder
          *************************************/
         $tests = Examination::create([
             'title' => ' تحاليل ',
-            'description' => 'وصف للعنصر قد يمتد لسطرين او اكثر',
+            'description' => '',
             'icon' => 'microscope.png',
             'slug' => 'laboratory',
         ]);
