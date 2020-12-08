@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
+use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\VerifyEmail;
 use App\Notifications\ResetPassword;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Notifications\Notifiable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
+class User extends Authenticatable //, MustVerifyEmail
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -100,22 +101,6 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);
-    }
-
-    /**
-     * @return int
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    /**
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
     }
 
     public function addresses()

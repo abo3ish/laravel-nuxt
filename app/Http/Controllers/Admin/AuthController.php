@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class AuthController extends Controller
 {
@@ -14,20 +16,15 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $token = $this->guard()->attempt($this->credentials($request));
+        $user = Admin::where('email', $request->email)->first();
 
-        if (!$token) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'message' => 'Unauthenticated'
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        $user = $this->guard()->user();
-        // if ($user instanceof MustVerifyEmail && !$user->hasVerifiedEmail()) {
-        //     return false;
-        // }
-        $this->guard()->setToken($token);
-
+        $token = $user->createToken($request->device_type . "-login")->plainTextToken;
         return response()->json([
             'token' => $token,
             'user' => $user                 // make resource for the user

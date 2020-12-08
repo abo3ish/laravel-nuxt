@@ -76,8 +76,8 @@ class OrderController extends ApiBaseController
             $actualPrice = 0;
             $totalDiscount = 0;
             foreach ($request->items as $item) {
-                $actualPrice += $service->price;
                 $service = Service::findOrFail($item);
+                $actualPrice += $service->price;
 
                 $serviceOrder = ServiceOrder::create([
                     'order_id' => $order->id,
@@ -101,7 +101,7 @@ class OrderController extends ApiBaseController
             return apiReturn($data, null, Response::HTTP_OK);
         } catch (Exception $e) {
             DB::rollBack();
-            return apiReturn($e, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return apiReturn($e->getLine(), $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

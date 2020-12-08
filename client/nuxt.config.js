@@ -11,9 +11,9 @@ module.exports = {
   env: {
     apiUrl: process.env.API_URL || process.env.APP_URL + '/api/admin',
     appName: process.env.APP_NAME || 'كشف ودوا',
-    appLocale: process.env.APP_LOCALE || 'ar',
-    githubAuth: !!process.env.GITHUB_CLIENT_ID,
-    appUrl: process.env.APP_URL
+    appLocale: process.env.APP_LOCALE || 'ar'
+    // githubAuth: !!process.env.GITHUB_CLIENT_ID,
+    // appUrl: process.env.APP_URL
   },
 
   head: {
@@ -43,9 +43,9 @@ module.exports = {
     strategies: {
       local: {
         endpoints: {
-          login: { url: 'login', method: 'post', propertyName: 'token' },
-          logout: { url: 'logout', method: 'get' },
-          user: { url: 'me', method: 'get', propertyName: 'data' }
+          login: { url: '/login', method: 'post', propertyName: 'token' },
+          logout: { url: '/logout', method: 'get' },
+          user: { url: '/me', method: 'get', propertyName: 'data' }
         }
       }
     },
@@ -62,7 +62,8 @@ module.exports = {
   },
 
   axios: {
-    baseURL: process.env.API_URL
+    baseURL: 'http://kashfwedawaa.test',
+    credentials: true
   },
 
   css: [
