@@ -19,7 +19,7 @@ class ServiceController extends AdminBaseController
      */
     public function index()
     {
-        $services = Service::with(['examination', 'serviceProviderType']);;
+        $services = Service::orderDisplay()->with(['examination', 'serviceProviderType']);
         $services = $this->filter($services)->paginate(config('kashf.paginate_per_page'));
         $services->withPath(url()->full());
         $services = ServiceResource::collection($services);
@@ -59,6 +59,7 @@ class ServiceController extends AdminBaseController
             'estimation_from' => $request->estimation_from,
             'estimation_to' => $request->estimation_to,
             'price' => $request->price,
+            'display_order' => $request->display_order,
             'examination_id' => $request->examination_id,
             'parent_id' => $request->parent_id,
             'slug' => $request->slug,
@@ -109,6 +110,7 @@ class ServiceController extends AdminBaseController
             'estimation_from' => $request->estimation_from,
             'estimation_to' => $request->estimation_to,
             'price' => $request->price,
+            'display_order' => $request->display_order,
             'examination_id' => $request->examination_id,
             'parent_id' => $request->parent_id,
             'slug' => $request->slug,
@@ -130,19 +132,19 @@ class ServiceController extends AdminBaseController
 
     public function filter($services)
     {
-        if (request('title')){
+        if (request('title')) {
             $services->where('title', "like", "%" . request('title') . "%");
         }
 
-        if (request('service_provider_type_id')){
+        if (request('service_provider_type_id')) {
             $services->where('service_provider_type_id', request('service_provider_type_id'));
         }
 
-        if (isset(request()->status)){
+        if (isset(request()->status)) {
             $services->where('status', request('status'));
         }
 
-        if (request('examination_id')){
+        if (request('examination_id')) {
             $services->where('examination_id', request('examination_id'));
         }
 

@@ -1,31 +1,10 @@
 <template>
   <div>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('services') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'services'}">
-                  {{ $t('services') }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ $t("new_service_provider") }}
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+    <header-info
+      :name="'services'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'services', link: 'services'}, {name: form.title, link: '', trans: false}]"
+    />
+
     <div class="row">
       <div class="col-md-12">
         <!-- general form elements -->
@@ -57,8 +36,11 @@
               <!-- Estimation To -->
               <label-input-text v-model="form.estimation_to" :label="$t('estimation_to')" :type="'number'" :placeholder="'Enter Estimation To Price'" name="estimation_to" />
 
-              <!-- Purchase Price -->
-              <label-input-text v-model="form.price" :label="$t('price')" :type="'number'" :placeholder="'Enter purchase Price'" name="price" />
+              <!-- Price -->
+              <label-input-text v-model="form.price" :label="$t('price')" :type="'number'" :placeholder="'Enter Price'" name="price" />
+
+              <!-- Display Order -->
+              <label-input-text v-model="form.display_order" :label="$t('display_order')" :type="'number'" :placeholder="'Enter Price'" name="display_order" />
 
               <!-- Parent -->
               <select-box v-model="form.parent_id" :items="parents" :label="$t('parent')" name="parent_id" />
@@ -99,7 +81,7 @@ import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
 import SelectBox from '~/components/forms/SelectBox'
 import CheckBox from '~/components/forms/CheckBox'
-
+import HeaderInfo from '~/components/page/HeaderInfo'
 export default {
   layout: 'admin',
   middleware: 'auth',
@@ -111,7 +93,8 @@ export default {
   components: {
     LabelInputText,
     SelectBox,
-    CheckBox
+    CheckBox,
+    HeaderInfo
   },
   data: () => {
     return {
@@ -123,6 +106,7 @@ export default {
       form: new Form({
         title: '',
         description: '',
+        display_order: '',
         icon: '',
         service_provider_type_id: '',
         estimation_from: '',

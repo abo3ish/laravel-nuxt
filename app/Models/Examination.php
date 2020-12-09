@@ -8,7 +8,15 @@ use Illuminate\Support\Facades\Storage;
 
 class Examination extends Model
 {
-    protected $fillable = ['title', 'description', 'icon', 'slug', 'status', 'accept_multi'];
+    protected $fillable = [
+        'title',
+        'description',
+        'display_order',
+        'icon',
+        'slug',
+        'status',
+        'accept_multi'
+    ];
 
     public function services()
     {
@@ -18,5 +26,15 @@ class Examination extends Model
     public function getIconUrlAttribute()
     {
         return getIcon($this->icon);
+    }
+
+    public function scopeActive()
+    {
+        return $this->where('status', 1);
+    }
+
+    public function scopeOrderDisplay()
+    {
+        return $this->orderBy('display_order', 'asc');
     }
 }

@@ -16,7 +16,8 @@ class CreateExaminationsTable extends Migration
         Schema::create('examinations', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
+            $table->integer('display_order')->default(1);
             $table->string('icon');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);

@@ -69,16 +69,18 @@ class OrderController extends ApiBaseController
             if (count($request->items) > 1) {
                 $service = Service::findOrFail($request->items[0]);
                 if (!$service->examination->accept_multi) {
-                    return apiReturn(null, "You can not choose more than one service.", Response::HTTP_OK);
+                    return apiReturn(null, "لا يمكنك اتختار اكثر من خدمة.", Response::HTTP_OK);
                 }
             }
 
             $actualPrice = 0;
             $totalDiscount = 0;
             foreach ($request->items as $item) {
-                $actualPrice += $service->price;
                 $service = Service::findOrFail($item);
-
+                $actualPrice += $service->price;
+                if ($service->status == 0) {
+                    return apiReturn(null, "هذه الخدمة غير مفعلة حاليا.", Response::HTTP_OK);
+                }
                 $serviceOrder = ServiceOrder::create([
                     'order_id' => $order->id,
                     'service_id' => $item,
@@ -101,7 +103,7 @@ class OrderController extends ApiBaseController
             return apiReturn($data, null, Response::HTTP_OK);
         } catch (Exception $e) {
             DB::rollBack();
-            return apiReturn($e, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return apiReturn($e->getLine(), $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -9,6 +9,7 @@ class Service extends Model
     protected $fillable = [
         'title',
         'description',
+        'display_order',
         'icon',
         'service_provider_type_id',
         'estimation_from',
@@ -16,7 +17,8 @@ class Service extends Model
         'price',
         'examination_id',
         'parent_id',
-        'slug'
+        'slug',
+        'status'
     ];
 
     public function childs()
@@ -42,5 +44,20 @@ class Service extends Model
     public function serviceProviderType()
     {
         return $this->belongsTo(ServiceProviderType::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+    public function scopeOrderDisplay($query)
+    {
+        return $query->orderBy('display_order', 'asc');
+    }
+
+    public function scopeActiveChilds($query)
+    {
+        return $this->childs()->active();
     }
 }

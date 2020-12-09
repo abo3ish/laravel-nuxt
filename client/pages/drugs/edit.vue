@@ -160,7 +160,4 @@ export default {
 </script>
 
 <style>
-select.form-control {
-  padding: 0.1rem .75rem
-}
 </style>

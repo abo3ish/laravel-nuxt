@@ -22,6 +22,7 @@ class ShowServiceResource extends JsonResource
             'estimation_from' => $this->estimation_from,
             'estimation_to' => $this->estimation_to,
             'price' => $this->price,
+            'display_order' => $this->display_order,
             'examination_id' => $this->examination_id,
             'parent_id' => $this->parent_id,
             'slug' => $this->slug,

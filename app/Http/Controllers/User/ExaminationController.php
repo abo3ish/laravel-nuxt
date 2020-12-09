@@ -18,8 +18,7 @@ class ExaminationController extends ApiBaseController
      */
     public function index()
     {
-        $sections = Examination::all();
-
+        $sections = Examination::orderDisplay()->with('services')->get();
         $examinations = ExaminationResource::collection($sections);
         return apiReturn($examinations, null, Response::HTTP_OK);
 

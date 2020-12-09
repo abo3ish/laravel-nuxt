@@ -253,7 +253,7 @@ export default {
         })
     },
     fetchExaminations () {
-      this.$axios.$get('examinations')
+      this.$axios.$get('examinations/all')
         .then((res) => {
           this.examinations = res
         })

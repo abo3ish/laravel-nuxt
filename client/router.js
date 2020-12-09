@@ -50,6 +50,12 @@ const routes = [
       { path: 'service-providers/edit/:id', name: 'edit-service-provider', component: page('service-providers/edit.vue') },
       { path: 'service-providers/:id', name: 'show-service-provider', component: page('service-providers/show.vue') },
 
+      /* Examinations */
+      { path: 'examinations/', name: 'examinations', component: page('examinations/index.vue') },
+      { path: 'examinations/create', name: 'create-examination', component: page('examinations/create.vue') },
+      { path: 'examinations/edit/:id', name: 'edit-examination', component: page('examinations/edit.vue') },
+      { path: 'examinations/:id', name: 'show-examination', component: page('examinations/show.vue') },
+
       /* Services */
       { path: 'services/', name: 'services', component: page('services/index.vue') },
       { path: 'services/create', name: 'create-service', component: page('services/create.vue') },

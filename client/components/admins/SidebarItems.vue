@@ -29,6 +29,7 @@ export default {
         { toName: 'service-provider-types', title: 'service_provider_types' },
         { toName: 'service-providers', title: 'service_providers' },
         { toName: 'services', title: 'services' },
+        { toName: 'examinations', title: 'examinations' },
         { toName: 'drugs', title: 'drugs' },
         { toName: 'ads', title: 'ads' },
         { toName: 'areas', title: 'areas' }

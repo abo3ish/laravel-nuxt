@@ -22,8 +22,9 @@ class ExaminationResource extends JsonResource
             'description' => $this->description,
             'icon' => $this->icon_url,
             'accept_multi' => $this->accept_multi,
-            'services' => ExaminationServiceResource::collection($this->services()->where('parent_id', null)->get()),
             'ads' => $this->getPageAd($this->slug),
+            'status' => $this->status,
+            'services' => ExaminationServiceResource::collection($this->services()->orderDisplay()->where('parent_id', null)->get())
         ];
     }
 }

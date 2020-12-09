@@ -17,6 +17,7 @@ class CreateServicesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('description')->nullable();
+            $table->integer('display_order')->default(1);
             $table->string('icon')->nullable();
             $table->foreignId('service_provider_type_id')->constrained();
             $table->float('estimation_from');
