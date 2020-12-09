@@ -37,7 +37,7 @@ class Order extends Model
         'company_profit',  // the company gained profit after discount
         'service_provider_profit'
     ];
-     //TODO: Add property company_profit - service_provider_profit
+    //TODO: Add property company_profit - service_provider_profit
 
     protected $dates = [
         'accepted_at',
@@ -244,6 +244,24 @@ class Order extends Model
     public function billCycle()
     {
         return $this->belongsTo(BillCycle::class);
+    }
+
+    public function recalculate()
+    {
+        $actualPrice = 0;
+        $totalDiscount = 0;
+        $deliveryPrice = 10;
+        foreach ($this->drugOrders as $drugOrder) {
+            $actualPrice += $drugOrder->price * $drugOrder->quantity;
+            $totalDiscount += $drugOrder->discount_price;
+        }
+        $this->update([
+            'actual_price' => $actualPrice,
+            'subtotal' => $actualPrice - $totalDiscount,
+            'price_to_pay' => ($actualPrice - $totalDiscount) + $deliveryPrice,
+            'discount_price' => $totalDiscount,
+            'actual_profit' => ($actualPrice * $this->serviceProviderType->profit_percentage / 100)
+        ]);
     }
 
     public function StoreDiscount($discount_id, $price)

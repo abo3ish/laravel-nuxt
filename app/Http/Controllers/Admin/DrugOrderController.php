@@ -7,6 +7,7 @@ use App\Models\DrugOrder;
 use Illuminate\Http\Request;
 use App\Http\Traits\DiscountTrait;
 use App\Http\Controllers\Admin\AdminBaseController;
+use App\Http\Resources\Admin\Orders\DrugOrderResource;
 
 class DrugOrderController extends AdminBaseController
 {
@@ -47,7 +48,8 @@ class DrugOrderController extends AdminBaseController
             'price' => $drug->price,
         ]);
         $this->handleDiscount($drug, $drugOrder);
-        return $drugOrder;
+        $drugOrder->order->recalculate();
+        return new DrugOrderResource($drugOrder);
     }
 
     /**
@@ -58,7 +60,7 @@ class DrugOrderController extends AdminBaseController
      */
     public function show(DrugOrder $drugOrder)
     {
-        //
+        return new DrugOrderResource($drugOrder);
     }
 
     /**
@@ -81,7 +83,14 @@ class DrugOrderController extends AdminBaseController
      */
     public function update(Request $request, DrugOrder $drugOrder)
     {
-        //
+        $drug = Drug::findOrFail($request->drug_id);
+        $drugOrder->update([
+            'drug_id' => $request->drug_id,
+            'quantity' => $request->quantity,
+        ]);
+        $this->handleDiscount($drug, $drugOrder);
+        $drugOrder->order->recalculate();
+        return new DrugOrderResource($drugOrder);
     }
 
     /**
@@ -92,6 +101,9 @@ class DrugOrderController extends AdminBaseController
      */
     public function destroy(DrugOrder $drugOrder)
     {
-        //
+        $order = $drugOrder->order;
+        $drugOrder = $drugOrder->delete();
+        $order->recalculate();
+        return true;
     }
 }

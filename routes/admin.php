@@ -36,7 +36,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'name
     Route::get('order-statuses', 'OrderController@getOrderStatuses');
 
     /* Drug Order */
-    Route::post('drug-order', 'DrugOrderController@store');
+    Route::resource('drug-order', 'DrugOrderController');
 
     /* Services */
     Route::get('services/all', 'ServiceController@getAll');

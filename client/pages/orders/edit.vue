@@ -13,9 +13,9 @@
           <div class="card-header">
             <h3 class="card-title">
               <!-- {{ serviceProvider.name + " - " + type }} -->
-              <n-link :to="{name: 'create-order' }">
+              <n-link :to="{name: 'show-order' }">
                 <button class="btn btn-outline-light float-left">
-                  {{ $t('add_new') }}
+                  {{ $t('show') }}
                 </button>
               </n-link>
             </h3>
@@ -120,8 +120,6 @@
                           {{ name }}
                         </strong>
                         <img src="https://via.placeholder.com/40/40">
-
-                        <span />
                       </div>
                     </template>
                   </v-select>
@@ -177,20 +175,23 @@
           <div class="card card-header">
             <div class="card-title">
               Drugs
-              <b-button v-b-modal.modal-center variant="primary" class="btn btn-outline-light float-left">
+              <b-button
+                v-b-modal.modal-center
+                variant="primary"
+                class="btn btn-outline-light float-left"
+              >
                 {{ $t('add_new') }}
               </b-button>
               <b-modal
                 id="modal-center"
+                ref="drug-order"
                 size="lg"
                 centered
                 :state="nameState"
                 title="منتج جديد"
-                ok-title="اضف"
-                cancel-title="اغلق"
-                @ok="handleOk"
+                @hidden="resetModal"
               >
-                <form ref="form" @submit.stop.prevent="StoreDrugOrder">
+                <form ref="form" @submit.stop.prevent="handleDrugOrder(drugOrder.id)">
                   <!-- Drug-->
                   <div class="form-group">
                     <label id="drug">{{ $t('drug') }}</label>
@@ -200,21 +201,35 @@
                       :filterable="false"
                       :reduce="drug => drug.id"
                       label="name"
+
                       @search="fetchDrugOptions"
                     >
-                      <template #option="{ name, image }">
+                      <template #search="{attributes, events}">
+                        <input
+                          class="vs__search"
+                          :required="!drugOrder.drug_id"
+                          v-bind="attributes"
+                          v-on="events"
+                        >
+                      </template>
+                      <template #option="{ name, image, price }">
                         <div class="d-center">
                           {{ name }}
                           <img :src="image" height="70" width="70">
+                          <strong>
+                            / {{ price }} L.E
+                          </strong>
                         </div>
                       </template>
-                      <template #selected-option="{ name, image }">
+                      <template #selected-option="{ name, image, price }">
                         <div class="selected d-center">
                           <strong>
                             {{ name }}
                           </strong>
                           <img :src="image" height="70" width="70">
-                          <span />
+                          <strong>
+                            / {{ price }} L.E
+                          </strong>
                         </div>
                       </template>
                     </v-select>
@@ -223,15 +238,55 @@
 
                   <!-- Quantity -->
                   <div class="form-group">
-                    <LabelInputText v-model="drugOrder.quantity" :label="$t('quantity')" :type="'number'" :name="'quantity'" :required="true" />
+                    <LabelInputText
+                      v-model="drugOrder.quantity"
+                      :label="$t('quantity')"
+                      :type="'number'"
+                      :name="'quantity'"
+                      :required="true"
+                    />
                   </div>
                   <!-- /.Quantity -->
                 </form>
+                <template #modal-footer="{ cancel }">
+                  <!-- Emulate built in modal footer ok and cancel button actions -->
+                  <b-button v-if="!drugOrder.id" size="sm" variant="success" @click="handleDrugOrder()">
+                    اضف
+                  </b-button>
+                  <b-button v-else size="sm" variant="success" @click="handleDrugOrder(drugOrder.id)">
+                    عدل
+                  </b-button>
+                  <b-button size="sm" variant="danger" @click="cancel()">
+                    اغلق
+                  </b-button>
+                </template>
               </b-modal>
             </div>
           </div>
           <div class="card card-body">
-            <b-table :items="order.drugs" :fields="drugsFields" show-empty />
+            <b-table :items="order.drugs" :fields="drugsFields" show-empty>
+              <!-- Actions -->
+              <template v-slot:cell(actions)="data">
+                <!-- Show -->
+                <b-button
+                  v-b-modal.modal-center
+                  variant="info"
+                  size="sm"
+                  @click="showDrugOrder(data.item.id)"
+                >
+                  {{ $t('edit') }}
+                </b-button>
+
+                <!-- Delete -->
+                <b-button
+                  variant="danger"
+                  size="sm"
+                  @click.stop.prevent="deleteItem(data.item.id, $event)"
+                >
+                  Delete
+                </b-button>
+              </template>
+            </b-table>
           </div>
         </div>
         <!-- ./Drugs -->
@@ -242,7 +297,7 @@
 </template>
 
 <script>
-
+import Vue from 'vue'
 import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
 import Loading from '~/components/global/loading'
@@ -263,7 +318,7 @@ export default {
   },
   data: () => {
     return {
-      nameState: false,
+      nameState: null,
       serviceProviderTypes: [],
       order: {
         id: '',
@@ -290,26 +345,23 @@ export default {
       drugsFields: [
         'name',
         'price_to_pay',
-        'quantity'
+        'quantity',
+        'actions'
       ],
       drugOrder: {
+        id: '',
+        name: '',
+        price_to_pay: '',
         drug_id: '',
         quantity: ''
       }
     }
   },
   async mounted () {
-    // this.fetchServiceProviderTypes()
     await this.fetchData()
     this.fetchOrderStatuses()
   },
   methods: {
-    sayHi () {
-      console.log('modal')
-    },
-    sayNo () {
-      console.log('no')
-    },
     async fetchData () {
       await this.$axios.$get('orders/' + this.$route.params.id)
         .then((res) => {
@@ -358,11 +410,12 @@ export default {
       }, 300)
     },
     async searchForServiceProviders (searchString = '', typeID = null, areaId = null) {
-      await this.$axios.$get('service-providers', { params: { name: searchString, type_id: typeID, area_id: areaId } })
+      await this.$axios.$get('service-providers', { params: { name: searchString } })
         .then((res) => {
           this.serviceProviderOptions = res.data
         })
     },
+
     fetchDrugOptions (search, loading) {
       if (search.length === 0) {
         return
@@ -379,22 +432,52 @@ export default {
           this.drugOptions = res.drugs
         })
     },
-    StoreDrugOrder () {
+
+    resetModal () {
+      this.drugOrder = {}
+    },
+
+    StoreDrugOrder (el) {
       // el.preventDefault()
-      if (!this.$refs.form.checkValidity()) {
-        return
-      }
+
       this.drugOrder.order_id = this.order.id
       this.$axios.$post('drug-order', this.drugOrder)
         .then((res) => {
-          console.log(res)
+          this.order.drugs.push(res)
         })
     },
-    handleOk (bvModalEvt) {
-      // Prevent modal from closing
-      bvModalEvt.preventDefault()
-      // Trigger submit handler
-      this.StoreDrugOrder()
+    showDrugOrder (id) {
+      const res = this.order.drugs.find(drugOrder => drugOrder.id === id)
+      this.drugOrder = res
+      this.$axios.$get(`drugs/${this.drugOrder.drug_id}`)
+        .then((res) => {
+          this.drugOptions.push(res)
+        })
+    },
+    async updateDrugOrder (id) {
+      await this.$axios.$put(`drug-order/${id}`, this.drugOrder)
+        .then((res) => {
+          Vue.set(this.order.drugs, this.order.drugs.findIndex(drugOrder => drugOrder.id === id), res)
+        })
+    },
+    handleDrugOrder (id = null) {
+      if (!this.$refs.form.checkValidity()) {
+        return
+      }
+      if (id) {
+        this.updateDrugOrder(id)
+      } else {
+        this.StoreDrugOrder()
+      }
+      this.$refs['drug-order'].hide()
+    },
+    async deleteItem (id, event) {
+      await this.$axios.$delete(`drug-order/${id}`)
+        .then((res) => {
+          if (res) {
+            Vue.delete(this.order.drugs, this.order.drugs.findIndex(drugOrder => drugOrder.id === id))
+          }
+        })
     }
   }
 }
