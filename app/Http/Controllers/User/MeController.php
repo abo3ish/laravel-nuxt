@@ -16,23 +16,17 @@ use Symfony\Component\HttpFoundation\Response;
 class MeController extends ApiBaseController
 {
     use AdvertisementTrait;
-    protected $auth;
-
-    public function __construct(JWTAuth $auth)
-    {
-        $this->auth = $auth;
-    }
 
     public function index()
     {
-        $data = new MeResource($this->auth->user());
+        $data = new MeResource(auth()->user());
 
         return apiReturn($data, null, Response::HTTP_OK);
     }
 
     public function update(Request $request)
     {
-        $user = $this->auth->user();
+        $user = auth()->user();
 
         $user->update([
             'name' => $request->name,
@@ -45,10 +39,10 @@ class MeController extends ApiBaseController
 
     public function destroy()
     {
-        $orders = Order::where('user_id', $this->auth->user()->id)->delete();
-        $addresses = Address::where('user_id', $this->auth->user()->id)->delete();
-        $addresses = ExaminationOrder::where('user_id', $this->auth->user()->id)->delete();
-        $user = $this->auth->user();
+        $orders = Order::where('user_id', auth()->user()->id)->delete();
+        $addresses = Address::where('user_id', auth()->user()->id)->delete();
+        $addresses = ExaminationOrder::where('user_id', auth()->user()->id)->delete();
+        $user = auth()->user();
         auth()->invalidate();
         $user->delete();
 

@@ -74,9 +74,12 @@ export default {
   methods: {
     async login () {
       try {
+        await this.$axios.$get('/sanctum/csrf-cookie')
         await this.$auth.loginWith('local', { data: this.form })
         this.$router.push({ name: 'dashboard' }).catch(() => {})
+
       } catch (err) {
+        console.log(err)
         this.error = 'من فضلك تحقق من بياناتك'
       }
     }

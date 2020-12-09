@@ -3,13 +3,16 @@
 namespace App\Models;
 
 use App\Models\Order;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class ServiceProvider extends Authenticatable implements JWTSubject
+class ServiceProvider extends Authenticatable
 {
+    use HasApiTokens;
+
     protected $fillable = [
         'name',
         'phone',
@@ -28,22 +31,6 @@ class ServiceProvider extends Authenticatable implements JWTSubject
     ];
 
     protected $hidden = ['password'];
-
-    /**
-     * @return int
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    /**
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
 
     public function type()
     {

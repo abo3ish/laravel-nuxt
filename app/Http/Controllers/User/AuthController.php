@@ -7,13 +7,14 @@ use App\Models\User;
 use App\Events\Login;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Traits\FCMTrait;
 use App\Models\Advertisement;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use App\Http\Traits\UserProviderTrait;
 use App\Http\Resources\User\MeResource;
 use App\Http\Traits\AdvertisementTrait;
-use App\Http\Traits\FCMTrait;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -25,15 +26,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $token = $this->guard()->attempt($this->credentials($request));
+        $user = User::where('email', $request->email)->first();
 
-        if (!$token) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return apiReturn([], ['wrong credentials'], Response::HTTP_UNAUTHORIZED);
         }
 
-        $user = $this->guard()->user();
+        $token = $user->createToken($request->device_type . "-login")->plainTextToken;
 
-        $this->guard()->setToken($token);
         $this->addToDevices($request->device_type, $request->details, $user, $request->ip(), 'login');
 
         $user->updatePushToken($request->push_token, 'android');
