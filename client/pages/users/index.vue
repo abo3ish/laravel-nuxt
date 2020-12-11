@@ -14,7 +14,7 @@
                 </nuxt-link>
               </li>
               <li class="breadcrumb-item active">
-                {{ $t('service_providers') }}
+                {{ $t('users') }}
               </li>
             </ol>
           </div>

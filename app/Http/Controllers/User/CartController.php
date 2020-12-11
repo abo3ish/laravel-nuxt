@@ -24,7 +24,7 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        $items = json_decode(($request->items));
+        $items = json_decode($request->items);
 
         try {
             DB::beginTransaction();
@@ -50,9 +50,9 @@ class CartController extends Controller
 
             ]);
 
+            $actualPrice = 0;
+            $totalDiscount = 0;
             if ($items && is_array($items)) {
-                $actualPrice = 0;
-                $totalDiscount = 0;
                 foreach ($items as $item) {
                     $drug = Drug::findOrFail($item->id);
                     $actualPrice += $drug->price * $item->quantity;
