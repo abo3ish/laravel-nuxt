@@ -80,7 +80,7 @@
             </div>
             <!-- /.Service Provider -->
 
-            <!-- Service Provider -->
+            <!-- Is Collected -->
             <div class="form-group">
               <label for="is_collected">{{ $t('is_collected') }} : </label>
               <code id="is_collected">
@@ -111,7 +111,7 @@
                 <table class="table table-striped table-responsive table-hover">
                   <tr v-for="date in Object.keys(order.dates)" :key="date.id">
                     <th>{{ $t(date) }}</th>
-                    <td>{{ order.dates[date] ? $moment(String(order.dates[date]), "YYYY-MM-DD").format('LLLL') : '' }}</td>
+                    <td>{{ order.dates[date] ? $moment(String(order.dates[date]), "YYYY-MM-DD hh:mm:ss").format('LLLL') : '' }}</td>
                   </tr>
                 </table>
               </div>
@@ -164,14 +164,11 @@
 </template>
 
 <script>
-import HeaderInfo from '~/components/page/HeaderInfo'
 
 export default {
   layout: 'admin',
   middleware: 'auth',
-  components: {
-    HeaderInfo
-  },
+
   head () {
     return {
       title: this.order.uuid

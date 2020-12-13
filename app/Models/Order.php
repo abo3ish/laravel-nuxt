@@ -41,6 +41,9 @@ class Order extends Model
 
     protected $dates = [
         'accepted_at',
+        'arrived_at',
+        'ended_at',
+        'canceled_at',
         'created_at',
         'updated_at',
     ];

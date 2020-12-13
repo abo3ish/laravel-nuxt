@@ -98,7 +98,7 @@ class ServiceProviderController extends AdminBaseController
             'type_id' => $request->type_id,
             'age' => $request->age
         ]);
-        return $serviceProvider;
+        return new ShowServiceProviderResource($serviceProvider);
     }
 
     /**

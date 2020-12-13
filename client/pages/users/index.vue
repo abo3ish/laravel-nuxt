@@ -1,27 +1,10 @@
 <template>
   <div>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('service_providers') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ $t('users') }}
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
+    <header-info
+      :name="'users'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'users', link: ''}]"
+    />
+    <!-- Filter -->
     <section class="filter content">
       <form role="form" @submit.prevent="searchFilter()">
         <div class="row">
@@ -42,6 +25,7 @@
       </form>
     </section>
 
+    <!-- Table -->
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -150,6 +134,7 @@
 
 <script>
 // import Form from 'vform'
+
 import LabelInputText from '~/components/forms/LabelInputText'
 import SubmitButton from '~/components/forms/SubmitButton'
 

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading v-if="!form.title" />
     <header-info
       :name="'examinations'"
       :navigation="[{name:'home', link: 'dashboard'}, {name: 'examinations', link: 'examinations'}, {name: form.title, link: '', trans: false}]"
@@ -66,7 +67,6 @@
 import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
 import CheckBox from '~/components/forms/CheckBox'
-import HeaderInfo from '~/components/page/HeaderInfo'
 export default {
   layout: 'admin',
   middleware: 'auth',
@@ -77,8 +77,7 @@ export default {
   },
   components: {
     LabelInputText,
-    CheckBox,
-    HeaderInfo
+    CheckBox
   },
   data: () => {
     return {

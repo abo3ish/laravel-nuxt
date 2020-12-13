@@ -24,7 +24,7 @@ class ShowServiceProviderResource extends JsonResource
             'status' => $this->status,
             'orders' => $this->orders,
             'type' => [
-                'id' => $this->type,
+                'id' => $this->type->id,
                 'title' => $this->serviceProviderType->title
             ],
             'last_seen' => $this->last_seen,

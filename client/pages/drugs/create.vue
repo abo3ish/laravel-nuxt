@@ -68,7 +68,6 @@ import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
 import LabelTextArea from '~/components/forms/LabelTextArea'
 import SelectBox from '~/components/forms/SelectBox'
-import HeaderInfo from '~/components/page/HeaderInfo'
 
 export default {
   layout: 'admin',
@@ -81,8 +80,7 @@ export default {
   components: {
     LabelInputText,
     LabelTextArea,
-    SelectBox,
-    HeaderInfo
+    SelectBox
   },
   data: () => {
     return {

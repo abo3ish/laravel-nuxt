@@ -1,8 +1,8 @@
 <template>
   <div>
     <header-info
-      :name="'services'"
-      :navigation="[{name:'home', link: 'dashboard'}, {name: 'examinations', link: '', trans: false}]"
+      :name="'examinations'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'examinations', link: '', trans: true}]"
     />
 
     <section class="filter content">
@@ -28,7 +28,7 @@
           <div class="col-sm-12">
             <div class="card card-primary">
               <div class="card-header">
-                <n-link :to="{name: 'create-service' }">
+                <n-link :to="{name: 'create-examination' }">
                   <button class="btn btn-outline-light float-left">
                     {{ $t('add_new') }}
                   </button>
@@ -123,12 +123,6 @@
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
-
-    <div class="card card-primary">
-      <div class="card-header">
-        <!-- {{ $('service_providers') }} -->
-      </div>
-    </div>
   </div>
 </template>
 
@@ -137,7 +131,6 @@
 import LabelInputText from '~/components/forms/LabelInputText'
 import SubmitButton from '~/components/forms/SubmitButton'
 import SelectBox from '~/components/forms/SelectBox'
-import HeaderInfo from '~/components/page/HeaderInfo'
 
 export default {
   layout: 'admin',
@@ -150,8 +143,7 @@ export default {
   components: {
     LabelInputText,
     SubmitButton,
-    SelectBox,
-    HeaderInfo
+    SelectBox
   },
   data () {
     return {

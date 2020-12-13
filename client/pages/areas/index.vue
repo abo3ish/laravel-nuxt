@@ -101,7 +101,6 @@
 </template>
 
 <script>
-import HeaderInfo from '~/components/page/HeaderInfo'
 
 export default {
   layout: 'admin',
@@ -111,9 +110,7 @@ export default {
       title: this.$t('areas')
     }
   },
-  components: {
-    HeaderInfo
-  },
+
   data () {
     return {
       areas: [],

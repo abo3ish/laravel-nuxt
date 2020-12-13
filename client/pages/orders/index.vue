@@ -158,7 +158,6 @@
 import LabelInputText from '~/components/forms/LabelInputText'
 import SubmitButton from '~/components/forms/SubmitButton'
 import SelectBox from '~/components/forms/SelectBox'
-import HeaderInfo from '~/components/page/HeaderInfo'
 
 export default {
   name: 'Orders',
@@ -172,8 +171,7 @@ export default {
   components: {
     LabelInputText,
     SubmitButton,
-    SelectBox,
-    HeaderInfo
+    SelectBox
   },
   data () {
     return {

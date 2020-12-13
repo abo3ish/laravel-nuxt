@@ -1,31 +1,10 @@
 <template>
   <div>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('service_providers') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'service-providers'}">
-                  {{ $t('service_providers') }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ serviceProvider.name }}
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+    <loading v-if="!serviceProvider.name" />
+    <header-info
+      :name="'service_providers'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'service_providers', link: 'service_providers', trans: true}, {name: serviceProvider.name, link: '', trans: false}]"
+    />
 
     <div class="row">
       <div class="col-md-12">
@@ -33,7 +12,7 @@
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">
-              {{ serviceProvider.name + " - " + type }}
+              {{ serviceProvider.name + " - " + serviceProvider.type.title }}
               <n-link :to="{name: 'create-service-provider' }">
                 <button class="btn btn-outline-light float-left">
                   {{ $t('add_new') }}
@@ -104,7 +83,12 @@ export default {
   data: () => {
     return {
       serviceProviderTypes: [],
-      serviceProvider: {},
+      serviceProvider: {
+        type: {
+          id: '',
+          title: ''
+        }
+      },
       form: new Form({
         name: '',
         email: '',
@@ -114,8 +98,7 @@ export default {
         password: '',
         status: Boolean(false),
         type_id: ''
-      }),
-      type: ''
+      })
     }
   },
   created () {
@@ -123,8 +106,8 @@ export default {
     this.fetchData()
   },
   methods: {
-    fetchServiceProviderTypes () {
-      this.$axios.$get('service-provider-types')
+    async fetchServiceProviderTypes () {
+      await this.$axios.$get('service-provider-types/all')
         .then((res) => {
           this.serviceProviderTypes = res
         })
@@ -133,22 +116,20 @@ export default {
       this.$axios.$get('service-providers/' + this.$route.params.id)
         .then((res) => {
           this.form.fill(res)
+          this.form.type_id = res.type.id
           this.serviceProvider = res
-          this.setServiceProviderType()
         })
     },
-    update () {
-      this.form.put('/service-providers/' + this.$route.params.id, this.form)
+    async update () {
+      await this.form.put('/service-providers/' + this.$route.params.id, this.form)
         .then((res) => {
           this.form.fill(res.data)
           this.serviceProvider = res.data
-        }).then(() => {
-          this.setServiceProviderType()
         })
 
       this.$notify({
         group: 'feedback',
-        title: this.$t('saved_sucessfully'),
+        title: this.$t('saved_successfully'),
         type: 'success'
       }).catch((e) => {
         this.$notify({
@@ -156,13 +137,6 @@ export default {
           title: this.$t('saved_failed'),
           type: 'error'
         })
-      })
-    },
-    setServiceProviderType () {
-      this.serviceProviderTypes.filter((el) => {
-        if (this.serviceProvider.type_id === el.id) {
-          this.type = el.title
-        }
       })
     }
   }

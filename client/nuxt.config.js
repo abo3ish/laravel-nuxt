@@ -72,6 +72,7 @@ module.exports = {
   ],
 
   plugins: [
+    '~plugins/components',
     '~components/global',
     '~plugins/i18n',
     '~plugins/vform',
@@ -84,7 +85,7 @@ module.exports = {
     '~plugins/nuxt-client-init', // Comment this for SSR
     '~plugins/vue-notification',
     '~plugins/vue-select',
-    '~plugins/vue-plyr'
+    '~plugins/vue-plyr',
   ],
 
   buildModules: [

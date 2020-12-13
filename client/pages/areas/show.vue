@@ -1,32 +1,10 @@
 <template>
   <div>
-    <loading v-if="!ad.id" />
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('ads') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'ads'}">
-                  {{ $t('ads') }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                <!-- {{ ad.name }} -->
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+    <loading v-if="!area.id" />
+    <header-info
+      :name="'areas'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'areas', link: 'areas'}, {name: area.name, link: '', trans: false}]"
+    />
 
     <div class="row">
       <div class="col-md-12">
@@ -34,7 +12,7 @@
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">
-              {{ ad.name }}
+              {{ area.name }}
               <n-link :to="{name: 'edit-ad' }">
                 <button class="btn btn-outline-light float-left">
                   {{ $t('edit') }}
@@ -46,36 +24,22 @@
 
           <!-- form start -->
           <div class="card-body">
-            <!-- Slug -->
+            <!-- Name -->
             <div class="form-group">
-              <label for="name">{{ $t('slug') }} : </label>
-              <code>
-                {{ ad.slug }} <br>
-              </code>
+              <label for="name">{{ $t('name') }} : </label>
+              <b-badge variant="info">
+                {{ area.name }}
+              </b-badge>
             </div>
-
-            <!-- Position -->
-            <div class="form-group">
-              <label for="position">{{ $t('position') }} : </label>
-              <code>
-                {{ ad.position }} <br>
-              </code>
-            </div>
-
             <!-- Status -->
             <div class="form-group">
               <label for="status">{{ $t('status') }} : </label>
-              <b-badge v-if="ad.status" variant="success">
+              <b-badge v-if="area.status" variant="success">
                 {{ $t('activated') }}
               </b-badge>
               <b-badge v-else variant="danger">
                 {{ $t('not_activated') }}
               </b-badge>
-            </div>
-            <!-- Image -->
-            <div class="form-group">
-              <label for="image">{{ $t('image') }} : </label>
-              <b-img fluid :src="ad.image" />
             </div>
           </div>
         </div>
@@ -92,7 +56,7 @@ export default {
   middleware: 'auth',
   head () {
     return {
-      title: this.ad.slug
+      title: this.area.slug
     }
   },
   components: {
@@ -101,7 +65,7 @@ export default {
 
   data: () => {
     return {
-      ad: {}
+      area: {}
     }
   },
   mounted () {
@@ -109,10 +73,9 @@ export default {
   },
   methods: {
     async fetchData () {
-      await this.$axios.$get('advertisements/' + this.$route.params.id)
+      await this.$axios.$get('areas/' + this.$route.params.id)
         .then((res) => {
-          console.log(res)
-          this.ad = res
+          this.area = res
         })
     }
   }

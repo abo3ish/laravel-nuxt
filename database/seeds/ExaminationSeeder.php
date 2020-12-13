@@ -14,6 +14,273 @@ class ExaminationSeeder extends Seeder
      */
     public function run()
     {
+        /*************************************
+            Nursing
+         **************************************/
+        $nursing = Examination::create([
+            'title' => ' تمريض منزلي',
+            'description' => '',
+            'icon' => 'nurseCap.png',
+            'slug' => 'nurse',
+            'status' => true,
+            'display_order' => 1
+        ]);
+        $nurseServiceProvider = ServiceProviderType::where('slug', 'nurse')->first();
+
+        $expressServices = Service::create([
+            'examination_id' => $nursing->id,
+            'title' => 'خدمات سريعة',
+            'icon' => 'nurse.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'quick_services',
+            'service_provider_type_id' => $nurseServiceProvider->id,
+            'status' => true
+        ]);
+
+
+        Service::create([
+            'examination_id' => $nursing->id,
+            'title' => 'قياس ضغط/سكر',
+            'icon' => 'blood-pressure-gauge.png',
+            'parent_id' => $expressServices->id,
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'diabetes',
+            'service_provider_type_id' => $nurseServiceProvider->id,
+            'status' => true
+        ]);
+        Service::create([
+            'examination_id' => $nursing->id,
+            'title' => 'تركيب كانيولا/محلول',
+            'icon' => 'canula.png',
+            'parent_id' => $expressServices->id,
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'lotion',
+            'service_provider_type_id' => $nurseServiceProvider->id,
+            'status' => true
+        ]);
+        Service::create([
+            'examination_id' => $nursing->id,
+            'title' => 'حقن عضل',
+            'icon' => 'syringe.png',
+            'parent_id' => $expressServices->id,
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'injection',
+            'service_provider_type_id' => $nurseServiceProvider->id,
+            'status' => true
+        ]);
+
+        Service::create([
+            'examination_id' => $nursing->id,
+            'title' => 'قسطرة بولية ورايل للتغذية',
+            'icon' => 'catheter.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'catheter',
+            'service_provider_type_id' => $nurseServiceProvider->id,
+            'status' => true
+        ]);
+        Service::create([
+            'examination_id' => $nursing->id,
+            'title' => 'العناية بالجروج',
+            'icon' => 'plaster.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'wounds',
+            'service_provider_type_id' => $nurseServiceProvider->id,
+            'status' => true
+        ]);
+        Service::create([
+            'examination_id' => $nursing->id,
+            'title' => 'جلسة تنفس للأطفال والكبار',
+            'icon' => 'oxygen.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'breathing_session',
+            'service_provider_type_id' => $nurseServiceProvider->id,
+            'status' => true
+        ]);
+        Service::create([
+            'examination_id' => $nursing->id,
+            'title' => 'رعاية كبار سن 24 ساعة',
+            'icon' => 'elder.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'elder_sitting',
+            'service_provider_type_id' => $nurseServiceProvider->id,
+            'status' => true
+        ]);
+        Service::create([
+            'examination_id' => $nursing->id,
+            'title' => 'رعاية بعد العمليات',
+            'icon' => 'insurance.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'surgery_care',
+            'service_provider_type_id' => $nurseServiceProvider->id,
+            'status' => true
+        ]);
+
+        /************************************
+            Laboratory services - تحاليل
+         *************************************/
+        $tests = Examination::create([
+            'title' => ' تحاليل ',
+            'description' => '',
+            'icon' => 'microscope.png',
+            'slug' => 'laboratory',
+            'status' => false,
+            'display_order' => 2
+        ]);
+        $laboratoryServiceProvider = ServiceProviderType::where('slug', 'laboratory')->first();
+
+        Service::create([
+            'examination_id' => $tests->id,
+            'title' => 'عينة دم',
+            'icon' => 'blood-drop.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'blood',
+            'service_provider_type_id' => $laboratoryServiceProvider->id,
+            'status' => true
+
+        ]);
+        Service::create([
+            'examination_id' => $tests->id,
+            'title' => 'عينة بول',
+            'icon' => 'jar.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'urin',
+            'service_provider_type_id' => $laboratoryServiceProvider->id,
+            'status' => true
+
+        ]);
+        Service::create([
+            'examination_id' => $tests->id,
+            'title' => 'عينة براز',
+            'icon' => 'shit.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'sonar',
+            'service_provider_type_id' => $laboratoryServiceProvider->id,
+            'status' => true
+
+        ]);
+        Service::create([
+            'examination_id' => $tests->id,
+            'title' => 'عينة حيوانات منوية',
+            'icon' => 'semen.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'sperm',
+            'service_provider_type_id' => $laboratoryServiceProvider->id,
+            'status' => true
+
+        ]);
+
+        /************************************
+            Scan - أشعة بالمنزل
+         *************************************/
+
+        $rays = Examination::create([
+            'title' => 'أشعة بالمنزل',
+            'description' => '',
+            'icon' => 'skeleton.png',
+            'slug' => 'scan',
+            'status' => false,
+            'display_order' => 3
+        ]);
+        $radiologistServiceProvider = ServiceProviderType::where('slug', 'radiologist')->first();
+
+        Service::create([
+            'examination_id' => $rays->id,
+            'title' => 'x-rays',
+            'icon' => 'skeleton.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'x_rays',
+            'service_provider_type_id' => $radiologistServiceProvider->id,
+            'status' => true
+        ]);
+        Service::create([
+            'examination_id' => $rays->id,
+            'title' => 'سونار',
+            'icon' => 'sonar.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'sonar',
+            'service_provider_type_id' => $radiologistServiceProvider->id,
+            'status' => true
+
+        ]);
+        Service::create([
+            'examination_id' => $rays->id,
+            'title' => 'دوبلار',
+            'icon' => 'doppler.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'doppler',
+            'service_provider_type_id' => $radiologistServiceProvider->id,
+            'status' => true
+
+        ]);
+        Service::create([
+            'examination_id' => $rays->id,
+            'title' => 'رسم قلب',
+            'icon' => 'ecg.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'ekg',
+            'service_provider_type_id' => $radiologistServiceProvider->id,
+            'status' => true
+
+        ]);
+        Service::create([
+            'examination_id' => $rays->id,
+            'title' => 'ايكو',
+            'icon' => 'eco.png',
+            'estimation_from' => 150,
+            'estimation_to' => 300,
+            'price' => 250,
+            'slug' => 'echo',
+            'service_provider_type_id' => $radiologistServiceProvider->id,
+            'status' => true
+
+        ]);
+
+        /************************************
+            Physical Therapy
+         *************************************/
+        $physicalTherapy = Examination::create([
+            'title' => ' علاج طبيعي',
+            'description' => '',
+            'icon' => 'physiotherapy.png',
+            'slug' => 'physiotherapy',
+            'status' => false,
+            'display_order' => 4
+        ]);
+
         /************************************
             Home Examination
          *************************************/
@@ -22,7 +289,9 @@ class ExaminationSeeder extends Seeder
             'description' => '',
             'icon' => 'examin.png',
             'slug' => 'doctor',
+            'status' => false,
             'accept_multi' => false,
+            'display_order' => 5
         ]);
         $generalDoctorServiceProvider = ServiceProviderType::where('slug', 'general_doctor')->first();
         $orthopedicsDoctorServiceProvider = ServiceProviderType::where('slug', 'orthopedics')->first();
@@ -37,7 +306,8 @@ class ExaminationSeeder extends Seeder
             'estimation_to' => 300,
             'price' => 250,
             'slug' => 'general_doctor',
-            'service_provider_type_id' => $generalDoctorServiceProvider->id
+            'service_provider_type_id' => $generalDoctorServiceProvider->id,
+            'status' => true
         ]);
         Service::create([
             'examination_id' => $homeExamination->id,
@@ -47,7 +317,8 @@ class ExaminationSeeder extends Seeder
             'estimation_to' => 300,
             'price' => 250,
             'slug' => 'children_doctors',
-            'service_provider_type_id' => $pediatricianDoctorServiceProvider->id
+            'service_provider_type_id' => $pediatricianDoctorServiceProvider->id,
+            'status' => true
         ]);
         Service::create([
             'examination_id' => $homeExamination->id,
@@ -57,7 +328,8 @@ class ExaminationSeeder extends Seeder
             'estimation_to' => 300,
             'price' => 250,
             'slug' => 'internist',
-            'service_provider_type_id' => $internistDoctorServiceProvider->id
+            'service_provider_type_id' => $internistDoctorServiceProvider->id,
+            'status' => true
 
         ]);
         Service::create([
@@ -68,249 +340,8 @@ class ExaminationSeeder extends Seeder
             'estimation_to' => 300,
             'price' => 250,
             'slug' => 'orthopedic_doctor',
-            'service_provider_type_id' => $orthopedicsDoctorServiceProvider->id
+            'service_provider_type_id' => $orthopedicsDoctorServiceProvider->id,
+            'status' => true
         ]);
-
-        /*************************************
-            Nursing
-         **************************************/
-        $nursing = Examination::create([
-            'title' => ' تمريض منزلي',
-            'description' => '',
-            'icon' => 'nurseCap.png',
-            'slug' => 'nurse',
-        ]);
-        $nurseServiceProvider = ServiceProviderType::where('slug', 'nurse')->first();
-
-        $expressServices = Service::create([
-            'examination_id' => $nursing->id,
-            'title' => 'خدمات سريعة',
-            'icon' => 'nurse.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'quick_services',
-            'service_provider_type_id' => $nurseServiceProvider->id
-        ]);
-
-
-        Service::create([
-            'examination_id' => $nursing->id,
-            'title' => 'قياس ضغط/سكر',
-            'icon' => 'blood-pressure-gauge.png',
-            'parent_id' => $expressServices->id,
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'diabetes',
-            'service_provider_type_id' => $nurseServiceProvider->id
-        ]);
-        Service::create([
-            'examination_id' => $nursing->id,
-            'title' => 'تركيب كانيولا/محلول',
-            'icon' => 'canula.png',
-            'parent_id' => $expressServices->id,
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'lotion',
-            'service_provider_type_id' => $nurseServiceProvider->id
-        ]);
-        Service::create([
-            'examination_id' => $nursing->id,
-            'title' => 'حقن عضل',
-            'icon' => 'syringe.png',
-            'parent_id' => $expressServices->id,
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'injection',
-            'service_provider_type_id' => $nurseServiceProvider->id
-        ]);
-
-        Service::create([
-            'examination_id' => $nursing->id,
-            'title' => 'قسطرة بولية ورايل للتغذية',
-            'icon' => 'catheter.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'catheter',
-            'service_provider_type_id' => $nurseServiceProvider->id
-        ]);
-        Service::create([
-            'examination_id' => $nursing->id,
-            'title' => 'العناية بالجروج',
-            'icon' => 'plaster.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'wounds',
-            'service_provider_type_id' => $nurseServiceProvider->id
-        ]);
-        Service::create([
-            'examination_id' => $nursing->id,
-            'title' => 'جلسة تنفس للأطفال والكبار',
-            'icon' => 'oxygen.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'breathing_session',
-            'service_provider_type_id' => $nurseServiceProvider->id
-        ]);
-        Service::create([
-            'examination_id' => $nursing->id,
-            'title' => 'رعاية كبار سن 24 ساعة',
-            'icon' => 'elder.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'elder_sitting',
-            'service_provider_type_id' => $nurseServiceProvider->id
-        ]);
-        Service::create([
-            'examination_id' => $nursing->id,
-            'title' => 'رعاية بعد العمليات',
-            'icon' => 'insurance.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'surgery_care',
-            'service_provider_type_id' => $nurseServiceProvider->id
-        ]);
-
-        /************************************
-            Physical Therapy
-         *************************************/
-        $physicalTherapy = Examination::create([
-            'title' => ' علاج طبيعي',
-            'description' => '',
-            'icon' => 'physiotherapy.png'
-        ]);
-
-
-        /************************************
-            Scan
-         *************************************/
-
-        $rays = Examination::create([
-            'title' => 'أشعة بالمنزل',
-            'description' => '',
-            'icon' => 'skeleton.png',
-            'slug' => 'scan',
-        ]);
-        $radiologistServiceProvider = ServiceProviderType::where('slug', 'radiologist')->first();
-
-        Service::create([
-            'examination_id' => $rays->id,
-            'title' => 'x-rays',
-            'icon' => 'skeleton.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'x_rays',
-            'service_provider_type_id' => $radiologistServiceProvider->id
-        ]);
-        Service::create([
-            'examination_id' => $rays->id,
-            'title' => 'سونار',
-            'icon' => 'sonar.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'sonar',
-            'service_provider_type_id' => $radiologistServiceProvider->id
-
-        ]);
-        Service::create([
-            'examination_id' => $rays->id,
-            'title' => 'دوبلار',
-            'icon' => 'doppler.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'doppler',
-            'service_provider_type_id' => $radiologistServiceProvider->id
-
-        ]);
-        Service::create([
-            'examination_id' => $rays->id,
-            'title' => 'رسم قلب',
-            'icon' => 'ecg.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'ekg',
-            'service_provider_type_id' => $radiologistServiceProvider->id
-
-        ]);
-        Service::create([
-            'examination_id' => $rays->id,
-            'title' => 'ايكو',
-            'icon' => 'eco.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'echo',
-            'service_provider_type_id' => $radiologistServiceProvider->id
-
-        ]);
-
-        /************************************
-            Laboratory services
-         *************************************/
-        $tests = Examination::create([
-            'title' => ' تحاليل ',
-            'description' => '',
-            'icon' => 'microscope.png',
-            'slug' => 'laboratory',
-        ]);
-        $laboratoryServiceProvider = ServiceProviderType::where('slug', 'laboratory')->first();
-
-        Service::create([
-            'examination_id' => $tests->id,
-            'title' => 'عينة دم',
-            'icon' => 'blood-drop.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'blood',
-            'service_provider_type_id' => $laboratoryServiceProvider->id
-
-        ]);
-        Service::create([
-            'examination_id' => $tests->id,
-            'title' => 'عينة بول',
-            'icon' => 'jar.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'urin',
-            'service_provider_type_id' => $laboratoryServiceProvider->id
-
-        ]);
-        Service::create([
-            'examination_id' => $tests->id,
-            'title' => 'عينة براز',
-            'icon' => 'shit.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'sonar',
-            'service_provider_type_id' => $laboratoryServiceProvider->id
-
-        ]);
-        Service::create([
-            'examination_id' => $tests->id,
-            'title' => 'عينة حيوانات منوية',
-            'icon' => 'semen.png',
-            'estimation_from' => 150,
-            'estimation_to' => 300,
-            'price' => 250,
-            'slug' => 'sperm',
-            'service_provider_type_id' => $laboratoryServiceProvider->id
-
-        ]);
-
     }
 }

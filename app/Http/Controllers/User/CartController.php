@@ -86,8 +86,7 @@ class CartController extends Controller
                 'actual_price' => $actualPrice,
                 'subtotal' => $actualPrice - $totalDiscount,
                 'price_to_pay' => ($actualPrice - $totalDiscount) + $deliveryPrice,
-                'discount_price' => $totalDiscount,
-                'actual_profit' => ($actualPrice * $serviceProviderType->profit_percentage / 100)
+                'discount_price' => $totalDiscount
             ]);
 
             $data = new StoreOrderResource($order);

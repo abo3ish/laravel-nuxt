@@ -301,7 +301,6 @@ import Vue from 'vue'
 import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
 import Loading from '~/components/global/loading'
-import HeaderInfo from '~/components/page/HeaderInfo'
 
 export default {
   layout: 'admin',
@@ -313,7 +312,6 @@ export default {
   },
   components: {
     LabelInputText,
-    HeaderInfo,
     Loading
   },
   data: () => {

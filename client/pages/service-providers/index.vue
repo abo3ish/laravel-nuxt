@@ -1,26 +1,9 @@
 <template>
   <div>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('service_providers') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ $t('service_providers') }}
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+    <header-info
+      :name="'service_providers'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'service_providers', link: ''}]"
+    />
 
     <section class="filter content">
       <form role="form" @submit.prevent="searchFilter()">
@@ -147,12 +130,6 @@
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
-
-    <div class="card card-primary">
-      <div class="card-header">
-        <!-- {{ $('service_providers') }} -->
-      </div>
-    </div>
   </div>
 </template>
 

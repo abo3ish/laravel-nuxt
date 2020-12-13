@@ -1,32 +1,10 @@
 <template>
   <div>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('ads') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'ads'}">
-                  {{ $t('ads') }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ ad.slug }}
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
+    <loading v-if="!form.slug" />
+    <header-info
+      :name="'ads'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'ads', link: 'ads'}, {name: form.slug, link: '', trans: false}]"
+    />
     <div class="row">
       <div class="col-md-12">
         <!-- general form elements -->

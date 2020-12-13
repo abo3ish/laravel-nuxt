@@ -79,7 +79,6 @@
 
 <script>
 import Loading from '~/components/global/loading'
-import HeaderInfo from '~/components/page/HeaderInfo'
 
 export default {
   layout: 'admin',
@@ -90,8 +89,7 @@ export default {
     }
   },
   components: {
-    Loading,
-    HeaderInfo
+    Loading
   },
 
   data: () => {

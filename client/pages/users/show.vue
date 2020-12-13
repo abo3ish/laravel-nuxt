@@ -1,32 +1,10 @@
 <template>
   <div>
     <loading v-if="!user.id" />
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('users') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'users'}">
-                  {{ $t('users') }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ user.name }}
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+    <header-info
+      :name="'users'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'users', link: 'users'}, {name: user.name, link: '', trans: false}]"
+    />
 
     <div class="row">
       <div class="col-md-12">
@@ -190,6 +168,7 @@
 import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
 import Loading from '~/components/global/loading'
+
 export default {
   layout: 'admin',
   middleware: 'auth',
