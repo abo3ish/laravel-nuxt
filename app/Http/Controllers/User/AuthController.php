@@ -5,10 +5,12 @@ namespace App\Http\Controllers\User;
 use Exception;
 use App\Models\User;
 use App\Events\Login;
+use App\Models\Address;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Traits\FCMTrait;
 use App\Models\Advertisement;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -16,8 +18,10 @@ use App\Http\Traits\UserProviderTrait;
 use App\Http\Resources\User\MeResource;
 use App\Http\Traits\AdvertisementTrait;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Requests\User\RegisterRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -26,7 +30,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('phone', $request->phone)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return apiReturn([], ['wrong credentials'], Response::HTTP_UNAUTHORIZED);
@@ -65,7 +69,8 @@ class AuthController extends Controller
                     'remember_token' => Str::random(10),
                 ]);
             }
-            $token = auth()->login($user);
+            $token = $user->createToken($request->device_type . "-login")->plainTextToken;
+
 
             $this->addToDevices($request->device_type, $request->details, $user, $request->ip(), 'social-login');
 
@@ -83,8 +88,53 @@ class AuthController extends Controller
         }
     }
 
-    public function register()
+    public function register(Request $request)
     {
+        $registerRequest = new RegisterRequest();
+        $validator = Validator::make($request->all(), $registerRequest->rules());
+        if ($validator->fails()) {
+            return apiReturn(null, $validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        try {
+            DB::beginTransaction();
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'password' => bcrypt($request->password),
+                'email_verified_at' => now(),
+            ]);
+
+            Address::create([
+                'user_id' => $user->id,
+                'area_id' => $request->area_id,
+                'street' => $request->street,
+                'building_number' => $request->building_number,
+                'floor_number' => $request->floor_number,
+                'flat_number' => $request->flat_number,
+                'lat' => $request->lat,
+                'lng' => $request->lng
+            ]);
+
+            $token = $user->createToken($request->device_type . "-login")->plainTextToken;
+
+            $this->addToDevices($request->device_type, $request->details, $user, $request->ip(), 'social-login');
+
+            $user->updatePushToken($request->push_token, 'android');
+
+            $user->token = $token;
+            $data = new MeResource($user);
+            $ads = $this->getPageAd('home');
+
+            $data = collect(["ads" => $ads, "user" => $data]);
+
+            DB::commit();
+            return apiReturn($data, null, Response::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return apiReturn($e->getLine(), [$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function guard()

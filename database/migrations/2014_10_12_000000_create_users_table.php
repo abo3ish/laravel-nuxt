@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('phone')->unique()->nullable();
             $table->boolean('status')->default(true);
             $table->string('channel')->nullable();
             $table->string('push_token')->nullable();
