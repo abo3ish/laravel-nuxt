@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin', 'middleware' => ['guest:api'], 'namespace' => 'Admin'], function () {
@@ -11,6 +12,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'name
     /* User */
     Route::get('me', 'MeController@index');
     Route::get('user', 'MeController@index');
+    Route::post('logout', 'AuthController@logout');
 
     /* Home */
     Route::get('/home', 'HomeController@index');

@@ -44,7 +44,7 @@ module.exports = {
       local: {
         endpoints: {
           login: { url: '/login', method: 'post', propertyName: 'token' },
-          logout: { url: '/logout', method: 'get' },
+          logout: { url: '/logout', method: 'post' },
           user: { url: '/me', method: 'get', propertyName: 'data' }
         }
       }
