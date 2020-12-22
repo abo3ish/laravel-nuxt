@@ -61,6 +61,10 @@ class OrderController extends AdminController
             $orders->where('service_provider_id', request('service_provider_id'));
         }
 
+        if (isset(request()->area_id)) {
+            $orders->where('area_id', request('area_id'));
+        }
+
         if (isset(request()->user_id)) {
             $orders->where('user_id', request('user_id'));
         }

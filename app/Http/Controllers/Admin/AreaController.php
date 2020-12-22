@@ -21,6 +21,11 @@ class AreaController extends AdminBaseController
 
     }
 
+    public function getAll()
+    {
+        return Area::get(['id', 'name']);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

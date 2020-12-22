@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Exception;
 use App\Models\Order;
+use App\Models\Address;
 use App\Models\Service;
 use App\Events\NewOrder;
 use App\Models\BillCycle;
@@ -50,6 +51,7 @@ class OrderController extends ApiBaseController
         try {
             DB::beginTransaction();
 
+            $address = Address::findOrFail($request->address_id);
             $serviceProviderType = Service::find($request->items[0])->serviceProviderType;
             $billCycle = BillCycle::where('status', 1)->first();
             $deliveryPrice = 0;
@@ -57,7 +59,13 @@ class OrderController extends ApiBaseController
             $order = Order::create([
                 'uuid' => Order::generateUuid(),
                 'user_id' => auth()->id(),
-                'address_id' => $request->address_id,
+                'area_id' => $address->area_id,
+                'street' => $address->street,
+                'building_number' => $address->building_number,
+                'floor_number' => $address->floor_number,
+                'flat_number' => $address->flat_number,
+                'lat' => $address->lat,
+                'lng' => $address->lng,
                 'service_provider_type_id' => $serviceProviderType->id,
                 'bill_cycle_id' => $billCycle->id,
                 'type' => Order::SERVICE,

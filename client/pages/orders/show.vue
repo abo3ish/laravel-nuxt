@@ -1,5 +1,7 @@
 <template>
   <div>
+    <loading v-if="!order.id" />
+
     <header-info
       :name="'orders'"
       :navigation="[{name:'home', link: 'dashboard'}, {name: 'orders', link: 'orders'}, {name: order.uuid, link: '', trans: false}]"
@@ -65,10 +67,37 @@
 
             <!-- Address -->
             <div class="form-group">
-              <label for="address">{{ $t('address') }} : </label>
-              <code id="address">
-                {{ order.address }} <br>
+              <label for="area">{{ $t('area') }} : </label>
+              <code id="area">
+                {{ order.address.area }}
               </code>
+              ||
+              <label for="street">{{ $t('street') }} : </label>
+              <code id="street" dir="rtl">
+                {{ order.address.street }}
+              </code>
+              ||
+              <label for="building_number">{{ $t('building_number') }} : </label>
+              <code id="building_number">
+                {{ order.address.building_number }}
+              </code>
+              ||
+              <label for="floor_number">{{ $t('floor_number') }} : </label>
+              <code id="floor_number">
+                {{ order.address.floor_number }}
+              </code>
+              ||
+              <label for="flat_number">{{ $t('flat_number') }} : </label>
+              <code id="flat_number">
+                {{ order.address.flat_number }}
+              </code>
+              ||
+              <a
+                :href="`https://www.google.com/maps/search/?api=1&query=${order.address.lat},${order.address.lat}`"
+                target="_blank"
+              >
+                افتح علي الخريطة
+              </a>
             </div>
 
             <!-- Service Provider -->

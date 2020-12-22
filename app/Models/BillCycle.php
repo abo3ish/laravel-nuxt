@@ -11,4 +11,14 @@ class BillCycle extends Model
         'to',
         'status'
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+    public function scopeCurrent()
+    {
+        return $this->active()->latest()->first();
+    }
 }

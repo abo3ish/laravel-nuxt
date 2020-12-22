@@ -7,7 +7,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['guest:api'], 'namespace' =>
     Route::post('login', 'AuthController@login');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'namespace' => 'Admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin'], 'namespace' => 'Admin'], function () {
 
     /* User */
     Route::get('me', 'MeController@index');
@@ -31,7 +31,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'name
 
     /* Service Providers */
     Route::resource('service-providers', 'ServiceProviderController');
-    Route::get('service-providers/search', 'ServiceProviderController@search');
 
     /* Orders */
     Route::resource('orders', 'OrderController');
@@ -60,6 +59,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['assign.guard:admin'], 'name
     Route::resource('advertisements', 'AdvertisementController');
 
     /* Areas */
+    Route::get('areas/all', 'AreaController@getAll');
     Route::resource('areas', 'AreaController');
 
 });

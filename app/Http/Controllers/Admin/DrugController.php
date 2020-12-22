@@ -122,11 +122,11 @@ class DrugController extends Controller
     public function filter($drugs)
     {
         if (request()->name) {
-            $drugs->where('name', 'like', "%" . request('name') . "%");
+            $drugs->where('name', 'like', request('name') . "%");
         }
 
         if (request()->scientific_name) {
-            $drugs->where('scientific_name', 'like', "%" . request('scientific_name') . "%");
+            $drugs->where('scientific_name', 'like', request('scientific_name') . "%");
         }
 
         if (isset(request()->category_id)) {

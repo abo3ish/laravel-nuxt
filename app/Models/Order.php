@@ -13,7 +13,13 @@ class Order extends Model
     protected $fillable = [
         'uuid',
         'user_id',
-        'address_id',
+        'area_id',
+        'street',
+        'building_number',
+        'floor_number',
+        'flat_number',
+        'lat',
+        'lng',
         'service_provider_type_id',
         'service_provider_id',
         'bill_cycle_id',
@@ -94,6 +100,11 @@ class Order extends Model
     public function address()
     {
         return $this->belongsTo(Address::class);
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
     }
 
     public function serviceOrders()

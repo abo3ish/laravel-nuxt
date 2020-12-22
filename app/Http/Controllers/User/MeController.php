@@ -4,13 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Models\User;
 use App\Models\Order;
-use Tymon\JWTAuth\JWTAuth;
 use Illuminate\Http\Request;
 use App\Http\Resources\User\MeResource;
 use App\Http\Traits\AdvertisementTrait;
 use App\Http\Controllers\ApiBaseController;
 use App\Models\Address;
-use App\Models\ExaminationOrder;
 use Symfony\Component\HttpFoundation\Response;
 
 class MeController extends ApiBaseController
@@ -41,12 +39,23 @@ class MeController extends ApiBaseController
     {
         $orders = Order::where('user_id', auth()->user()->id)->delete();
         $addresses = Address::where('user_id', auth()->user()->id)->delete();
-        $addresses = ExaminationOrder::where('user_id', auth()->user()->id)->delete();
         $user = auth()->user();
-        auth()->invalidate();
+        $user->tokens()->delete();
         $user->delete();
 
-
         return apiReturn(null, '');
+    }
+
+    public function checkPhoneNumber(Request $request)
+    {
+        $data = [
+            'user_exists' => null
+        ];
+        if (User::where('phone', $request->phone_number)->first()) {
+            $data['user_exists'] = true;
+            return apiReturn($data, null, Response::HTTP_OK);
+        }
+        $data['user_exists'] = false;
+        return apiReturn($data, null, Response::HTTP_OK);
     }
 }

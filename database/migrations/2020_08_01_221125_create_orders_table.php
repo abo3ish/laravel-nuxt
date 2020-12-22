@@ -17,7 +17,16 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->integer('uuid')->unique()->index();
             $table->foreignId('user_id')->costrained();
-            $table->foreignId('address_id');
+
+            // $table->foreignId('address_id');
+            $table->foreignId('area_id')->constrained();
+            $table->string('street');
+            $table->string('building_number')->nullable();
+            $table->string('floor_number')->nullable();
+            $table->string('flat_number')->nullable();
+            $table->double('lat')->nullable();
+            $table->double('lng')->nullable();
+
             $table->foreignId('service_provider_type_id')->costrained();
             $table->foreignId('service_provider_id')->nullable()->costrained()->onDelete('set null');
             $table->foreignId('bill_cycle_id')->costrained()->onDelete('set null');

@@ -81,18 +81,37 @@
 
               <!-- Address -->
               <div class="form-group">
-                <label for="balance">{{ $t('address') }} : </label>
-                <code id="address">
-                  {{ order.address }} <br>
-                </code>
-              </div>
-
-              <!-- Area -->
-              <div class="form-group">
-                <label for="balance">{{ $t('area') }} : </label>
+                <label for="area">{{ $t('area') }} : </label>
                 <code id="area">
-                  {{ order.area.name }} <br>
+                  {{ order.address.area }}
                 </code>
+                ||
+                <label for="street">{{ $t('street') }} : </label>
+                <code id="street" dir="rtl">
+                  {{ order.address.street }}
+                </code>
+                ||
+                <label for="building_number">{{ $t('building_number') }} : </label>
+                <code id="building_number">
+                  {{ order.address.building_number }}
+                </code>
+                ||
+                <label for="floor_number">{{ $t('floor_number') }} : </label>
+                <code id="floor_number">
+                  {{ order.address.floor_number }}
+                </code>
+                ||
+                <label for="flat_number">{{ $t('flat_number') }} : </label>
+                <code id="flat_number">
+                  {{ order.address.flat_number }}
+                </code>
+                ||
+                <a
+                  :href="`https://www.google.com/maps/search/?api=1&query=${order.address.lat},${order.address.lat}`"
+                  target="_blank"
+                >
+                  افتح علي الخريطة
+                </a>
               </div>
 
               <!-- Form  -->
@@ -300,7 +319,6 @@
 import Vue from 'vue'
 import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
-import Loading from '~/components/global/loading'
 
 export default {
   layout: 'admin',
@@ -311,8 +329,7 @@ export default {
     }
   },
   components: {
-    LabelInputText,
-    Loading
+    LabelInputText
   },
   data: () => {
     return {
@@ -435,14 +452,19 @@ export default {
       this.drugOrder = {}
     },
 
-    StoreDrugOrder (el) {
+    async StoreDrugOrder (el) {
       // el.preventDefault()
 
       this.drugOrder.order_id = this.order.id
-      this.$axios.$post('drug-order', this.drugOrder)
+      await this.$axios.$post('drug-order', this.drugOrder)
         .then((res) => {
           this.order.drugs.push(res)
         })
+      this.$notify({
+        group: 'feedback',
+        title: this.$t('drug_added_successfully'),
+        type: 'success'
+      })
     },
     showDrugOrder (id) {
       const res = this.order.drugs.find(drugOrder => drugOrder.id === id)
@@ -457,6 +479,11 @@ export default {
         .then((res) => {
           Vue.set(this.order.drugs, this.order.drugs.findIndex(drugOrder => drugOrder.id === id), res)
         })
+      this.$notify({
+        group: 'feedback',
+        title: this.$t('drug_updated_successfully'),
+        type: 'success'
+      })
     },
     handleDrugOrder (id = null) {
       if (!this.$refs.form.checkValidity()) {
@@ -476,6 +503,11 @@ export default {
             Vue.delete(this.order.drugs, this.order.drugs.findIndex(drugOrder => drugOrder.id === id))
           }
         })
+      this.$notify({
+        group: 'feedback',
+        title: this.$t('drug_deleted_successfully'),
+        type: 'success'
+      })
     }
   }
 }

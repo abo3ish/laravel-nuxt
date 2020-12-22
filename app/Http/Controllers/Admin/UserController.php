@@ -109,8 +109,18 @@ class UserController extends Controller
 
     public function filter($users)
     {
+
+        if (request()->identifier) {
+            $users->where('name', 'like', request('identifier') . "%")
+            ->orWhere('phone', 'like', request('identifier') . "%");
+        }
+
+        if (request()->user_id) {
+            $users->where('id', request()->user_id);
+        }
+
         if (request()->name) {
-            $users->where('name', 'like', "%" . request('name') . "%");
+            $users->where('name', 'like', request('name') . "%");
         }
 
         if (request()->phone) {

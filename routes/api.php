@@ -12,7 +12,7 @@ Route::group(['namespace' => 'User'], function () {
     Route::post('login/social', 'AuthController@socialLogin');
     Route::post('register', 'AuthController@register');
     Route::get('test/fcm/{token}', 'AuthController@testFcm');
-
+    Route::get('check-phone', 'MeController@checkPhoneNumber');
     // Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
     // Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
@@ -39,7 +39,7 @@ Route::group(['namespace' => 'User'], function () {
 });
 
 
-Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'User'], function () {
+Route::group(['middleware' => 'auth:api', 'namespace' => 'User'], function () {
 
     Route::get('/me', 'MeController@index');
     Route::put('/me', 'MeController@update');
@@ -60,15 +60,10 @@ Route::group(['middleware' => 'assign.guard:api', 'namespace' => 'User'], functi
 
     // Examination Order
     Route::post('reorder/{order}', 'OrderController@reorder');
-
     Route::resource('orders', 'OrderController');
-
 
     // Checkout
     Route::post('cart/checkout', 'CartController@checkout');
-
-
-
 });
 
 

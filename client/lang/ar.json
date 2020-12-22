@@ -88,7 +88,6 @@
   "dashboard": "لوحة التحكم",
   "login": "تسجيل دخول",
   "quantity": "الكمية",
-
   "actual_price": "السعر الحقيقي",
   "discount_price": "سعر الخصم",
   "tax_price": "سعر الضريبة",
@@ -106,5 +105,9 @@
   "saved_successfully": "تم الحفظ بنجاح",
   "saved_failed": "حدث خطأ اثناء الحفظ",
   "create_drug": "انشئ دواء",
-  "display_order": "ترتيب العرض"
+  "display_order": "ترتيب العرض",
+  "street": "الشارع",
+  "building_number": "رقم المبنى",
+  "floor_number": "رقم الشقة",
+  "flat_number": "رقم الدور"
 }
