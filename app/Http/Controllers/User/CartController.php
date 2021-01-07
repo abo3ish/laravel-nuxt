@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers\User;
 
-use Exception;
-use App\Models\Drug;
-use App\Models\Order;
-use App\Models\Address;
-use App\Models\Discount;
-use App\Models\BillCycle;
-use App\Models\DrugOrder;
-use App\Models\DrugCategory;
-use Illuminate\Http\Request;
-use App\Models\OrderAttachment;
-use App\Http\Traits\DiscountTrait;
-use Illuminate\Support\Facades\DB;
-use App\Models\ServiceProviderType;
 use App\Http\Controllers\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\Api\Order\StoreOrderResource;
+use App\Http\Traits\DiscountTrait;
+use App\Models\Address;
+use App\Models\BillCycle;
+use App\Models\Drug;
+use App\Models\DrugOrder;
+use App\Models\Order;
+use App\Models\ServiceProviderType;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 
 class CartController extends Controller
 {
@@ -28,17 +25,16 @@ class CartController extends Controller
         $items = is_array($request->items) ? $request->items : json_decode($request->items);
 
         try {
+            if (!$request->audios && !$request->images && $request->text == '' && !is_array($items)) {
+                return apiReturn(null, ['your cart is empty'], Response::HTTP_BAD_REQUEST);
+            }
+
             DB::beginTransaction();
 
             $address = Address::findOrFail($request->address_id);
             $serviceProviderType = ServiceProviderType::where('slug', 'pharmacy')->first();
             $billCycle = BillCycle::where('status', 1)->first();
             $deliveryPrice = 10;
-
-            if (!$request->audios && !$request->images && $request->text == '' && !is_array($items)) {
-                return apiReturn(null, ['your cart is empty'], Response::HTTP_BAD_REQUEST);
-            }
-
 
             $order = Order::create([
                 'uuid' => Order::generateUuid(),
@@ -71,7 +67,7 @@ class CartController extends Controller
                         'order_id' => $order->id,
                         'drug_id' => $drug->id,
                         'quantity' => $item->quantity,
-                        'price' => $drug->price
+                        'price' => $drug->price,
                     ]);
                     $totalDiscount += $this->handleDiscount($drug, $drugOrder);
                 }
@@ -97,7 +93,7 @@ class CartController extends Controller
                 'actual_price' => $actualPrice,
                 'subtotal' => $actualPrice - $totalDiscount,
                 'price_to_pay' => ($actualPrice - $totalDiscount) + $deliveryPrice,
-                'discount_price' => $totalDiscount
+                'discount_price' => $totalDiscount,
             ]);
 
             $data = new StoreOrderResource($order);
