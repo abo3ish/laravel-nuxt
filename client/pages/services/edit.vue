@@ -137,7 +137,7 @@ export default {
 
     update () {
       this.loading = true
-      this.form.patch('/services/' + this.$route.params.id, this.form).then((res) => {
+      this.form.post('/services/' + this.$route.params.id, this.form).then((res) => {
         if (res.status === 200) {
           this.$notify({
             group: 'feedback',

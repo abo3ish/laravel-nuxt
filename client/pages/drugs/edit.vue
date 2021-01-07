@@ -117,7 +117,7 @@ export default {
         })
     },
     updatedrug () {
-      this.form.put('/drugs/' + this.$route.params.id, this.form)
+      this.form.post('/drugs/' + this.$route.params.id, this.form)
         .then((res) => {
           this.form.fill(res.data)
           this.form.category_id = res.data.category.id

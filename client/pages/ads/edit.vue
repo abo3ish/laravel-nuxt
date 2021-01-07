@@ -110,7 +110,7 @@ export default {
         })
     },
     updatead () {
-      this.form.put('/advertisements/' + this.$route.params.id, this.form)
+      this.form.post('/advertisements/' + this.$route.params.id, this.form)
         .then((res) => {
           this.form.fill(res.data)
           this.ad = res.data

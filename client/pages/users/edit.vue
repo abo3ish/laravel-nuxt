@@ -171,7 +171,7 @@ export default {
         })
     },
     updateUser () {
-      this.form.put('/users/' + this.$route.params.id, this.form)
+      this.form.post('/users/' + this.$route.params.id, this.form)
         .then((res) => {
           this.form.fill(res.data)
           this.user = res.data

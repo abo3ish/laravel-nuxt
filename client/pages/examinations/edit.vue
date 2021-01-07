@@ -105,7 +105,7 @@ export default {
     },
 
     update () {
-      this.form.put('/examinations/' + this.$route.params.id, this.form).then((res) => {
+      this.form.post('/examinations/' + this.$route.params.id, this.form).then((res) => {
         if (res.status === 200) {
           this.$notify({
             group: 'feedback',

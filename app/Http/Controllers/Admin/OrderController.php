@@ -42,7 +42,7 @@ class OrderController extends AdminController
             'price_to_pay'  => $request->price_to_pay,
             'status'  => $request->status,
         ]);
-
+        // return $order;
         return new ShowOrderResource($order);
     }
 

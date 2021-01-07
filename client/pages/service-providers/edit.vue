@@ -121,7 +121,7 @@ export default {
         })
     },
     async update () {
-      await this.form.put('/service-providers/' + this.$route.params.id, this.form)
+      await this.form.post('/service-providers/' + this.$route.params.id, this.form)
         .then((res) => {
           this.form.fill(res.data)
           this.serviceProvider = res.data

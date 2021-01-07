@@ -91,7 +91,7 @@ export default {
         })
     },
     update () {
-      this.form.put('/service-provider-types/' + this.$route.params.id, this.form)
+      this.form.post('/service-provider-types/' + this.$route.params.id, this.form)
         .then((res) => {
           this.form.fill(res.data)
           this.serviceProviderType = res.data

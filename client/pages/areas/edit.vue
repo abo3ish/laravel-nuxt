@@ -87,7 +87,7 @@ export default {
         })
     },
     updateArea () {
-      this.form.put(`/areas/${this.$route.params.id}`, this.form)
+      this.form.post(`/areas/${this.$route.params.id}`, this.form)
         .then((res) => {
           this.form.fill(res.data)
 

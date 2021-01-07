@@ -395,7 +395,7 @@ export default {
         })
     },
     update () {
-      this.form.put('/orders/' + this.$route.params.id, this.form)
+      this.form.post('/orders/' + this.$route.params.id, this.form)
         .then((res) => {
           this.order = res.data
           // this.form.fill(res.data)
