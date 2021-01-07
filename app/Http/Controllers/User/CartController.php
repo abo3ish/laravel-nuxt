@@ -25,7 +25,7 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        $items = json_decode($request->items);
+        $items = is_array($request->items) ? $request->items : json_decode($request->items);
 
         try {
             DB::beginTransaction();
@@ -38,6 +38,7 @@ class CartController extends Controller
             if (!$request->audios && !$request->images && $request->text == '' && !is_array($items)) {
                 return apiReturn(null, ['your cart is empty'], Response::HTTP_BAD_REQUEST);
             }
+
 
             $order = Order::create([
                 'uuid' => Order::generateUuid(),
@@ -63,6 +64,7 @@ class CartController extends Controller
             $totalDiscount = 0;
             if ($items && is_array($items)) {
                 foreach ($items as $item) {
+
                     $drug = Drug::findOrFail($item->id);
                     $actualPrice += $drug->price * $item->quantity;
                     $drugOrder = DrugOrder::create([

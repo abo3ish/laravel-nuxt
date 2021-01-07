@@ -16,7 +16,7 @@ Route::group(['namespace' => 'User'], function () {
     // Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
     // Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-    // Route::post('email/verify/{user}', 'Auth\VerificationController@verify')->name('verification.verify');
+    // Route::post('email/verify/{user}', '\Auth\VerificationController@verify')->name('verification.verify');
     // Route::post('email/resend', 'Auth\VerificationController@resend');
 
     // Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');

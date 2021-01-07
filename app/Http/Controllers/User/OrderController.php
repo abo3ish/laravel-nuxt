@@ -6,7 +6,6 @@ use Exception;
 use App\Models\Order;
 use App\Models\Address;
 use App\Models\Service;
-use App\Events\NewOrder;
 use App\Models\BillCycle;
 use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
@@ -14,7 +13,9 @@ use App\Http\Traits\OrderTrait;
 use App\Models\OrderAttachment;
 use App\Http\Traits\DiscountTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ApiBaseController;
+use App\Http\Requests\Order\StoreOrderRequest;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\Order\OrderHistoryResource;
 use App\Http\Resources\Api\Order\ShowOrderResource;
@@ -44,10 +45,16 @@ class OrderController extends ApiBaseController
     }
 
     /*
-        Store Service Orders Not Pharmacy
-    */
+    Store Service Orders Not Pharmacy
+     */
     public function store(Request $request)
     {
+        $registerRequest = new StoreOrderRequest();
+        $validator = Validator::make($request->all(), $registerRequest->rules());
+        if ($validator->fails()) {
+            return apiReturn(null, $validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         try {
             DB::beginTransaction();
 
@@ -92,7 +99,7 @@ class OrderController extends ApiBaseController
                 $serviceOrder = ServiceOrder::create([
                     'order_id' => $order->id,
                     'service_id' => $item,
-                    'price' => $service->price
+                    'price' => $service->price,
                 ]);
                 $totalDiscount += $this->handleDiscount($service, $serviceOrder);
             }
@@ -101,7 +108,7 @@ class OrderController extends ApiBaseController
                 'actual_price' => $actualPrice,
                 'subtotal' => $actualPrice - $totalDiscount,
                 'price_to_pay' => ($actualPrice - $totalDiscount) + $deliveryPrice,
-                'discount_price' => $totalDiscount
+                'discount_price' => $totalDiscount,
             ]);
 
             $data = new StoreOrderResource($order);
@@ -137,7 +144,7 @@ class OrderController extends ApiBaseController
                 'user_id' => auth()->id(),
                 'type' => Order::SERVICE,
                 'address_id' => $order->address_id,
-                'service_provider_type_id' => $serviceProviderTypeId
+                'service_provider_type_id' => $serviceProviderTypeId,
             ]);
 
             if (count($serviceOrders) > 1) {
@@ -151,7 +158,7 @@ class OrderController extends ApiBaseController
                 ServiceOrder::create([
                     'order_id' => $order->id,
                     'service_id' => $service->id,
-                    'price' => $service->price
+                    'price' => $service->price,
                 ]);
             }
 
@@ -171,9 +178,9 @@ class OrderController extends ApiBaseController
             return apiReturn(null, ["you don't have access to this file"], Response::HTTP_FORBIDDEN);
         }
         if ($attachment->type == 'audio') {
-            return  response()->file(getOrderAudioPath($attachment->name));
+            return response()->file(getOrderAudioPath($attachment->name));
         } elseif ($attachment->type == 'image' || $attachment->type == 'text') {
-            return  response()->file(getOrderImagePath($attachment->name));
+            return response()->file(getOrderImagePath($attachment->name));
         }
     }
 
@@ -182,7 +189,7 @@ class OrderController extends ApiBaseController
         $order->update([
             'status' => 2,
             'service_provider_id' => auth()->id(),
-            'accepted_at' => now()
+            'accepted_at' => now(),
         ]);
 
         // notifiy user
@@ -192,7 +199,7 @@ class OrderController extends ApiBaseController
     {
         $order->update([
             'status' => 3,
-            'started_at' => now()
+            'started_at' => now(),
         ]);
     }
 
@@ -200,7 +207,7 @@ class OrderController extends ApiBaseController
     {
         $order->update([
             'status' => 4,
-            'arrived_at' => now()
+            'arrived_at' => now(),
         ]);
         // notifiy user
     }
@@ -212,7 +219,7 @@ class OrderController extends ApiBaseController
             'actual_profit' => $this->calculateActualProfit($order),
             'company_profit' => $this->calculateCompanyProfit($order),
             'service_provider_profit' => $this->calculateServiceProviderProfit($order),
-            'ended_at' => now()
+            'ended_at' => now(),
         ]);
 
         // notify User
@@ -222,7 +229,7 @@ class OrderController extends ApiBaseController
     {
         $order->update([
             'status' => 0,
-            'canceled_at' => now()
+            'canceled_at' => now(),
         ]);
         // notify User
     }

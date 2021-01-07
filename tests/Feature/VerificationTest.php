@@ -15,6 +15,7 @@ class VerificationTest extends TestCase
     /** @test */
     public function can_verify_email()
     {
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->create(['email_verified_at' => null]);
         $url = URL::temporarySignedRoute('verification.verify', now()->addMinutes(60), ['user' => $user->id]);
 

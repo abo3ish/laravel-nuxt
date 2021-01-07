@@ -1,31 +1,10 @@
 <template>
   <div>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('services') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'services'}">
-                  {{ $t('services') }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ $t("new_service_provider") }}
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+    <header-info
+      :name="'services'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'services', link: 'services'}, {name: form.title, link: '', trans: false}]"
+    />
+
     <div class="row">
       <div class="col-md-12">
         <!-- general form elements -->
@@ -59,6 +38,9 @@
 
               <!-- Price -->
               <label-input-text v-model="form.price" :label="$t('price')" :type="'number'" :placeholder="'Enter purchase Price'" name="price" />
+
+              <!-- Display Order -->
+              <label-input-text v-model="form.display_order" :label="$t('display_order')" :type="'number'" :placeholder="'Enter Display Order'" name="display_order" />
 
               <!-- Parent -->
               <select-box v-model="form.parent_id" :items="parents" :label="$t('parents')" name="parent_id" />
@@ -126,6 +108,7 @@ export default {
         estimation_from: '',
         estimation_to: '',
         price: '',
+        display_order: 1,
         examination_id: '',
         parent_id: '',
         status: Boolean(true),

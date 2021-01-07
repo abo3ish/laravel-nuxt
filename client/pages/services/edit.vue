@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading v-if="!form.title" />
+    <loading v-if="loading" />
     <header-info
       :name="'services'"
       :navigation="[{name:'home', link: 'dashboard'}, {name: 'services', link: 'services'}, {name: form.title, link: '', trans: false}]"
@@ -41,7 +41,7 @@
               <label-input-text v-model="form.price" :label="$t('price')" :type="'number'" :placeholder="'Enter Price'" name="price" />
 
               <!-- Display Order -->
-              <label-input-text v-model="form.display_order" :label="$t('display_order')" :type="'number'" :placeholder="'Enter Price'" name="display_order" />
+              <label-input-text v-model="form.display_order" :label="$t('display_order')" :type="'number'" :placeholder="'Enter Display Order'" name="display_order" />
 
               <!-- Parent -->
               <select-box v-model="form.parent_id" :items="parents" :label="$t('parent')" name="parent_id" />
@@ -97,6 +97,7 @@ export default {
   },
   data: () => {
     return {
+      loading: false,
       serviceProviderTypes: [],
       parents: [],
       examinations: [],
@@ -125,15 +126,18 @@ export default {
     this.fetchData()
   },
   methods: {
-    fetchData () {
-      this.$axios.$get('/services/' + this.$route.params.id)
+    async fetchData () {
+      this.loading = true
+      await this.$axios.$get('/services/' + this.$route.params.id)
         .then((res) => {
           this.form.fill(res)
         })
+      this.loading = false
     },
 
     update () {
-      this.form.put('/services/' + this.$route.params.id, this.form).then((res) => {
+      this.loading = true
+      this.form.patch('/services/' + this.$route.params.id, this.form).then((res) => {
         if (res.status === 200) {
           this.$notify({
             group: 'feedback',
@@ -155,8 +159,7 @@ export default {
           type: 'error'
         })
       })
-
-      this.form.reset()
+      this.loading = false
     },
 
     onFileChange (e) {

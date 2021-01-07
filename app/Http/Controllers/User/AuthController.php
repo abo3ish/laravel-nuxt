@@ -12,16 +12,17 @@ use App\Http\Traits\FCMTrait;
 use App\Models\Advertisement;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use App\Http\Traits\UserProviderTrait;
 use App\Http\Resources\User\MeResource;
 use App\Http\Traits\AdvertisementTrait;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\User\RegisterRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -135,11 +136,6 @@ class AuthController extends Controller
             DB::rollBack();
             return apiReturn($e->getLine(), [$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    public function guard()
-    {
-        return auth()->guard('api');
     }
 
     public function logout()
