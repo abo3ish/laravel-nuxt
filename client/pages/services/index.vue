@@ -237,8 +237,27 @@ export default {
         })
     },
     deleteItem (id, event) {
+      this.$axios.$delete(`services/${id}`)
+        .then((res) => {
+          if (res) {
+            this.$notify({
+              group: 'feedback',
+              title: this.$t('service_deleted_successfully'),
+              type: 'success'
+            })
+
+            const index = this.services.findIndex(element => element.id === id)
+            this.services.splice(index, 1)
+          }
+        }).catch(() => {
+          this.$notify({
+            group: 'feedback',
+            title: this.$t('failed'),
+            type: 'error'
+          })
+        })
+
       event.preventDefault()
-      alert(id)
     },
     searchFilter () {
       this.currentPage = 1

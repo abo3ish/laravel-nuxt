@@ -19,6 +19,7 @@ class CreateAdvertisementsTable extends Migration
             $table->string('slug');
             $table->string('position')->default('top');
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

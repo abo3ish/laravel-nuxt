@@ -127,7 +127,8 @@ class ServiceController extends AdminBaseController
      */
     public function destroy(Service $service)
     {
-        //
+        $service->delete();
+        return true;
     }
 
     public function filter($services)

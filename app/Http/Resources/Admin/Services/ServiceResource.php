@@ -27,7 +27,7 @@ class ServiceResource extends JsonResource
                 'id' => $this->examination_id,
                 'title' => $this->examination->title
             ],
-            'parent' => $this->parent_id ? array("id" => $this->parent_id, "title" => $this->parent->title) : null,
+            'parent' => $this->parent_id && $this->parent ? array("id" => $this->parent_id, "title" => $this->parent->title) : null,
             'slug' => $this->slug,
             'status' => $this->status
         ];

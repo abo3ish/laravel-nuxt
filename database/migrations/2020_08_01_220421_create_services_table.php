@@ -27,6 +27,7 @@ class CreateServicesTable extends Migration
             $table->integer('parent_id')->nullable();
             $table->string('slug');
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -207,8 +207,27 @@ export default {
         query: this.query }).catch(() => {})
     },
     deleteItem (id, event) {
+      this.$axios.$delete(`advertisements/${id}`)
+        .then((res) => {
+          if (res) {
+            this.$notify({
+              group: 'feedback',
+              title: this.$t('ad_deleted_successfully'),
+              type: 'success'
+            })
+
+            const index = this.ads.findIndex(element => element.id === id)
+            this.ads.splice(index, 1)
+          }
+        }).catch(() => {
+          this.$notify({
+            group: 'feedback',
+            title: this.$t('failed'),
+            type: 'error'
+          })
+        })
+
       event.preventDefault()
-      alert(id)
     },
     searchFilter () {
       this.currentPage = 1
