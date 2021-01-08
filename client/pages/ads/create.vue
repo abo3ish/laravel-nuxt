@@ -33,17 +33,7 @@
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">
-              {{ ad.name }}
-              <n-link :to="{name: 'create-ad' }">
-                <button class="btn btn-outline-light float-left">
-                  {{ $t('add_new') }}
-                </button>
-              </n-link>
-              <n-link :to="{name: 'show-ad' }">
-                <button class="btn btn-outline-light float-left">
-                  {{ $t('show') }}
-                </button>
-              </n-link>
+              {{ $t('add_new') }}
             </h3>
           </div>
           <!-- /.card-header -->

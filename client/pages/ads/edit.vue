@@ -7,19 +7,13 @@
     />
     <div class="row">
       <div class="col-md-12">
-        <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">
-              {{ ad.name }}
+              {{ $t('edit') + '-' + ad.slug }}
               <n-link :to="{name: 'create-ad' }">
                 <button class="btn btn-outline-light float-left">
                   {{ $t('add_new') }}
-                </button>
-              </n-link>
-              <n-link :to="{name: 'show-ad' }">
-                <button class="btn btn-outline-light float-left">
-                  {{ $t('show') }}
                 </button>
               </n-link>
             </h3>
@@ -73,7 +67,7 @@ export default {
   middleware: 'auth',
   head () {
     return {
-      title: this.ad.slug
+      title: this.$t('edit') + '-' + this.ad.slug
     }
   },
   components: {

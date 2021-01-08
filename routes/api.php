@@ -12,7 +12,7 @@ Route::group(['namespace' => 'User'], function () {
     Route::post('login/social', 'AuthController@socialLogin');
     Route::post('register', 'AuthController@register');
     Route::get('test/fcm/{token}', 'AuthController@testFcm');
-    Route::get('check-phone', 'MeController@checkPhoneNumber');
+    Route::get('check-phone/{phone_number}', 'MeController@checkPhoneNumber');
     // Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
     // Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 

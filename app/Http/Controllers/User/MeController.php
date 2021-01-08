@@ -46,16 +46,16 @@ class MeController extends ApiBaseController
         return apiReturn(null, '');
     }
 
-    public function checkPhoneNumber(Request $request)
+    public function checkPhoneNumber($phone_number)
     {
         $data = [
             'user_exists' => null
         ];
-        if (User::where('phone', $request->phone_number)->first()) {
+        if (User::where('phone', $phone_number)->first()) {
             $data['user_exists'] = true;
             return apiReturn($data, null, Response::HTTP_OK);
         }
         $data['user_exists'] = false;
-        return apiReturn($data, null, Response::HTTP_OK);
+        return apiReturn($data, null, Response::HTTP_NOT_FOUND);
     }
 }
