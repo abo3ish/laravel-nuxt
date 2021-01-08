@@ -5,8 +5,8 @@ namespace App\Models;
 use App\Models\BillCycle;
 use App\Models\DrugOrder;
 use App\Models\ServiceOrder;
-use Intervention\Image\Facades\Image;
 use Illuminate\Database\Eloquent\Model;
+use Intervention\Image\Facades\Image;
 
 class Order extends Model
 {
@@ -23,25 +23,25 @@ class Order extends Model
         'service_provider_type_id',
         'service_provider_id',
         'bill_cycle_id',
-        'type',  // service or pharmacy
+        'type', // service or pharmacy
         'status',
         'rate',
         'tax_price',
-        'actual_price',  // the order price redardless discount, promo or tax
-        'subtotal',  // the price before applying tax and delivery price (actual_price - discount)
+        'actual_price', // the order price redardless discount, promo or tax
+        'subtotal', // the price before applying tax and delivery price (actual_price - discount)
         // 'discount_id',  // Discount for products without promo codes.
         'discount_price',
         'delivery_price',
-        'price_to_pay',  // price of what user gonna pay to the service provider (subtotal + tax_price + delivery_price)
-        'is_collected',  // if the order is collected from the service provider.
+        'price_to_pay', // price of what user gonna pay to the service provider (subtotal + tax_price + delivery_price)
+        'is_collected', // if the order is collected from the service provider.
         'accepted_at',
         'arrived_at',
         'ended_at',
         'canceled_at',
-        'profit_percentage',  // based on serviceProvider type
-        'actual_profit',  // profit which should be gained before any discount or promotion
-        'company_profit',  // the company gained profit after discount
-        'service_provider_profit'
+        'profit_percentage', // based on serviceProvider type
+        'actual_profit', // profit which should be gained before any discount or promotion
+        'company_profit', // the company gained profit after discount
+        'service_provider_profit',
     ];
     //TODO: Add property company_profit - service_provider_profit
 
@@ -152,7 +152,7 @@ class Order extends Model
         $statuses = [
             [
                 'code' => 1,
-                'string' => 'تحت المراجعة'
+                'string' => 'تحت المراجعة',
             ],
             [
                 'code' => 2,
@@ -204,14 +204,14 @@ class Order extends Model
         switch ($this->type) {
             case Order::SERVICE:
                 foreach ($this->serviceOrders as $ServiceOrder) {
-                    $string .= $ServiceOrder->service->title . ', ';
+                    $string .= $ServiceOrder->service ? $ServiceOrder->service->title . ', ' : 'Deleted Item';
                 }
                 return $string;
                 break;
 
             case Order::PHARMACY:
                 foreach ($this->drugOrders as $drugOrder) {
-                    $string .= $drugOrder->drug->name . ', ';
+                    $string .= $drugOrder->drug ? $drugOrder->drug->name . ', ' : 'Deleted Item';
                 }
                 break;
         }
@@ -221,7 +221,7 @@ class Order extends Model
     public function createOrderAttachment($file, $type)
     {
         $directory = 'private/' . $type . 's';
-        $fileName = $this->id . "-" . auth()->user()->name . "-" .  random_int(1000, 999999) . "." . $file->extension();
+        $fileName = $this->id . "-" . auth()->user()->name . "-" . random_int(1000, 999999) . "." . $file->extension();
         $file->storeAs($directory, $fileName);
 
         OrderAttachment::create([
@@ -230,13 +230,13 @@ class Order extends Model
             'name' => $fileName,
             'size' => ($file->getSize() / (1024)),
             'mime' => $file->getMimeType(),
-            'extension' => $file->extension()
+            'extension' => $file->extension(),
         ]);
     }
 
     public function createOrderTextAttachment($text)
     {
-        $fileName = $this->id . "-text-" . auth()->user()->name . "-" .  random_int(1000, 999999) . ".png";
+        $fileName = $this->id . "-text-" . auth()->user()->name . "-" . random_int(1000, 999999) . ".png";
         $image = Image::make(public_path('images') . "/background-white.png");
         $directory = getOrderImagePath();
 
@@ -251,7 +251,7 @@ class Order extends Model
             'name' => $fileName,
             'size' => ($image->filesize() / (1024)),
             'mime' => $image->mime(),
-            'extension' => 'png'
+            'extension' => 'png',
         ]);
     }
 
@@ -274,7 +274,7 @@ class Order extends Model
             'subtotal' => $actualPrice - $totalDiscount,
             'price_to_pay' => ($actualPrice - $totalDiscount) + $deliveryPrice,
             'discount_price' => $totalDiscount,
-            'actual_profit' => ($actualPrice * $this->serviceProviderType->profit_percentage / 100)
+            'actual_profit' => ($actualPrice * $this->serviceProviderType->profit_percentage / 100),
         ]);
     }
 

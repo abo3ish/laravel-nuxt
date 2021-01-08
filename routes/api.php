@@ -42,7 +42,7 @@ Route::group(['namespace' => 'User'], function () {
 Route::group(['middleware' => 'auth:api', 'namespace' => 'User'], function () {
 
     Route::get('/me', 'MeController@index');
-    Route::put('/me', 'MeController@update');
+    Route::post('/me', 'MeController@update');
     Route::delete('/me', 'MeController@destroy');
     Route::get('user', 'MeController@index');
     Route::post('logout', 'AuthController@logout');
