@@ -62,8 +62,7 @@ module.exports = {
   },
 
   axios: {
-    baseURL: 'http://kashfwedawaa.test',
-    credentials: true
+
   },
 
   css: [
@@ -85,7 +84,7 @@ module.exports = {
     '~plugins/nuxt-client-init', // Comment this for SSR
     '~plugins/vue-notification',
     '~plugins/vue-select',
-    '~plugins/vue-plyr',
+    '~plugins/vue-plyr'
   ],
 
   buildModules: [
