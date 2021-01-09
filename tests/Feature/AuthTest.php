@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Area;
 use App\Models\User;
+use AreaSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
@@ -22,7 +23,7 @@ class AuthTest extends TestCase
         $this->user = factory(User::class)->create();
     }
 
-    public function test_login()
+    public function test_login_successfully()
     {
         $response = $this->postJson('/api/login', [
             'phone' => $this->user->phone,
@@ -48,6 +49,20 @@ class AuthTest extends TestCase
             'error' => null,
             'code' => 200,
         ]);
+    }
+
+    public function test_login_with_wrong_credientials_gives_error()
+    {
+        $response = $this->postJson('/api/login', [
+            'phone' => '111111',
+            'password' => 'password',
+        ])->assertStatus(401)
+            ->assertJson([
+                'data' => [],
+                'error' => ['wrong credentials'],
+                'code' => 401,
+            ]);
+
     }
 
     public function test_fetch_the_current_user()
@@ -80,7 +95,7 @@ class AuthTest extends TestCase
 
     public function test_user_can_register_successfully()
     {
-        Artisan::call('db:seed --class=AreaSeeder');
+        $this->seed(AreaSeeder::class);
         $this->withoutExceptionHandling();
 
         $response = $this->postJson('api/register', [
