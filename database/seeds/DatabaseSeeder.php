@@ -26,9 +26,11 @@ class DatabaseSeeder extends Seeder
             ServiceProviderSeeder::class,
         ]);
 
-        factory(ServiceProvider::class, 200)->create();
-        factory(Order::class, 200)->create();
-        factory(ServiceOrder::class, 500)->create();
+        if (env('APP_ENV') == 'local') {
+            factory(ServiceProvider::class, 200)->create();
+            factory(Order::class, 200)->create();
+            factory(ServiceOrder::class, 500)->create();
+        }
 
         // $this->call([
         //     ServiceProviderSeeder::class
