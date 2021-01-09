@@ -10,14 +10,11 @@
         <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title">
-              {{ form.name }}
-              <n-link :to="{name: 'create-drug' }">
-                <button class="btn btn-outline-light float-left" @click="form.reset()">
-                  {{ $t('add_new') }}
-                </button>
-              </n-link>
-            </h3>
+            <div class="card-header">
+              <h3 class="card-title">
+                {{ $t('add_new') }}
+              </h3>
+            </div>
           </div>
           <!-- /.card-header -->
 

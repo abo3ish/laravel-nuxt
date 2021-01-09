@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
-class AuthTest extends TestCase
+class OrderTest extends TestCase
 {
     use DatabaseMigrations;
     protected $user, $address;

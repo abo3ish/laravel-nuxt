@@ -43,17 +43,17 @@ function getOrderAudioPath($audio = null)
 
 function getIcon($icon)
 {
-    return is_file(iconPath($icon)) ? url((iconPath($icon))) : null;
+    return is_file(public_path((iconPath($icon)))) ? url((iconPath($icon))) : null;
 }
 
 function getAd($ad)
 {
-    return is_file(adPath($ad)) ? url((adPath($ad))) : url(adPath('homeAd1.jpg'));
+    return is_file(public_path(adPath($ad))) ? url((adPath($ad))) : url(adPath('homeAd1.jpg'));
 }
 
 function getDrugImage($drug)
 {
-    return is_file(drugPath($drug)) ? url((drugPath($drug))) : url((drugPath('drug-default.png')));
+    return is_file(public_path(drugPath($drug))) ? url((drugPath($drug))) : url((drugPath('drug-default.png')));
 }
 
 function getServiceProviderImage($image)
