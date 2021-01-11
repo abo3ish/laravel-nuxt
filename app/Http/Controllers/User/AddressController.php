@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ApiBaseController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\Api\Address\AddressResource;
+use App\Http\Requests\Api\Address\StoreAddressRequest;
 
 class AddressController extends ApiBaseController
 {
@@ -29,20 +30,8 @@ class AddressController extends ApiBaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAddressRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'area_id' => 'required',
-            'street' => 'required',
-            // 'floor_number' => 'required',
-            // 'flat_number' => 'required',
-            'lat' => 'required',
-            'lng' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return apiReturn(null, $validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
         $address = Address::create([
             'user_id' => auth()->id(),
             'area_id' => $request->area_id,
@@ -66,6 +55,9 @@ class AddressController extends ApiBaseController
      */
     public function show(Address $address)
     {
+        if ($address->user->id != auth()->id()) {
+            return apiReturn(null, [trans('errors.403')], Response::HTTP_FORBIDDEN);
+        }
         $data = new AddressResource($address);
         return apiReturn($data, null, Response::HTTP_OK);
     }
@@ -77,22 +69,12 @@ class AddressController extends ApiBaseController
      * @param  \App\Models\Address  $address
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Address $address)
+    public function update(StoreAddressRequest $request, Address $address)
     {
         if (auth()->id() != $address->user_id) {
-            return apiReturn(null, 'Permision Denied', Response::HTTP_FORBIDDEN);
+            return apiReturn(null, [trans('errors.403')], Response::HTTP_FORBIDDEN);
         }
-        $validator = Validator::make($request->all(), [
-            'area_id' => 'required',
-            'street' => 'required',
-            // 'floor_number' => 'required',
-            // 'flat_number' => 'required',
-            'lat' => 'required',
-            'lng' => 'required'
-        ]);
-        if ($validator->fails()) {
-            return apiReturn(null, $validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
+
         $address->update([
             'area_id' => $request->area_id,
             'street' => $request->street,
@@ -119,7 +101,7 @@ class AddressController extends ApiBaseController
             $address->delete();
             return apiReturn(null, null, 200);
         } else {
-            return apiReturn(null, 'Permision Denied', Response::HTTP_FORBIDDEN);
+            return apiReturn(null, [trans('errors.403')], Response::HTTP_FORBIDDEN);
         }
     }
 }

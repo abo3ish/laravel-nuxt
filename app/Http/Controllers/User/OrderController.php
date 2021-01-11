@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers\User;
 
-use Exception;
-use App\Models\Order;
-use App\Models\Address;
-use App\Models\Service;
-use App\Models\BillCycle;
-use App\Models\ServiceOrder;
-use Illuminate\Http\Request;
-use App\Http\Traits\OrderTrait;
-use App\Models\OrderAttachment;
-use App\Http\Traits\DiscountTrait;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ApiBaseController;
 use App\Http\Requests\Order\StoreOrderRequest;
-use Symfony\Component\HttpFoundation\Response;
-use App\Http\Resources\Order\OrderHistoryResource;
 use App\Http\Resources\Api\Order\ShowOrderResource;
 use App\Http\Resources\Api\Order\StoreOrderResource;
+use App\Http\Resources\Order\OrderHistoryResource;
+use App\Http\Traits\DiscountTrait;
+use App\Http\Traits\OrderTrait;
+use App\Models\Address;
+use App\Models\BillCycle;
+use App\Models\Order;
+use App\Models\OrderAttachment;
+use App\Models\Service;
+use App\Models\ServiceOrder;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends ApiBaseController
 {
@@ -47,14 +45,8 @@ class OrderController extends ApiBaseController
     /*
     Store Service Orders Not Pharmacy
      */
-    public function store(Request $request)
+    public function store(StoreOrderRequest $request)
     {
-        $registerRequest = new StoreOrderRequest();
-        $validator = Validator::make($request->all(), $registerRequest->rules());
-        if ($validator->fails()) {
-            return apiReturn(null, $validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
         try {
             DB::beginTransaction();
 
@@ -118,7 +110,7 @@ class OrderController extends ApiBaseController
             return apiReturn($data, null, Response::HTTP_OK);
         } catch (Exception $e) {
             DB::rollBack();
-            return apiReturn($e->getLine(), $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return apiReturn(null, [trans('errors.500')], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -135,7 +127,6 @@ class OrderController extends ApiBaseController
     public function reorder(Order $order)
     {
         $serviceOrders = $order->serviceOrders;
-        // dd($serviceOrders);
         try {
             $serviceProviderTypeId = Service::find($serviceOrders->first()->service->id)->service_provider_type_id;
 
@@ -168,14 +159,14 @@ class OrderController extends ApiBaseController
 
             return apiReturn($data, null, Response::HTTP_OK);
         } catch (Exception $e) {
-            return apiReturn($e, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return apiReturn(null, [trans('errors.500')], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     public function getAttachment(OrderAttachment $attachment)
     {
         if ($attachment->order->user_id != auth()->id()) {
-            return apiReturn(null, ["you don't have access to this file"], Response::HTTP_FORBIDDEN);
+            return apiReturn(null, [trans('errors.403')], Response::HTTP_FORBIDDEN);
         }
         if ($attachment->type == 'audio') {
             return response()->file(getOrderAudioPath($attachment->name));

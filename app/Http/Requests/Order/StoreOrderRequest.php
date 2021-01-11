@@ -5,6 +5,11 @@ namespace App\Http\Requests\Order;
 use App\Models\Service;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreOrderRequest extends FormRequest
 {
@@ -25,13 +30,13 @@ class StoreOrderRequest extends FormRequest
      */
     public function rules()
     {
-        $services = Service::pluck('id')->values();
+        // Service::pluck('id')->values();
 
         return [
             'address_id' => 'required|exists:addresses,id',
-            'items' =>  function ($attribute, $value, $fail) {
+            'items' => function ($attribute, $value, $fail) {
                 $firstServiceType = Service::findOrFail($value[0])->service_provider_type_id;
-                foreach($value as $item) {
+                foreach ($value as $item) {
                     $service = Service::find($item);
                     if (!$service) {
                         $fail($attribute . ' is invalid.');
@@ -43,7 +48,7 @@ class StoreOrderRequest extends FormRequest
                         $fail($attribute . " can't be choosen");
                     }
                 }
-            }
+            },
         ];
     }
 }

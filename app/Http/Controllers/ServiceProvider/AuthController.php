@@ -18,7 +18,7 @@ class AuthController extends ApiBaseController
         $token = $this->guard()->attempt($this->credentials($request));
 
         if (!$token) {
-            return apiReturn([], ['wrong credentials'], Response::HTTP_UNAUTHORIZED);
+            return apiReturn([], [trans('errors.wrong_credentials')], Response::HTTP_UNAUTHORIZED);
         }
 
         $serviceProvider = $this->guard()->user();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\user;
+namespace Tests\Feature\User;
 
 use AreaSeeder;
 use Tests\TestCase;

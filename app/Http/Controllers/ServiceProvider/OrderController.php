@@ -24,7 +24,7 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         if ($order->service_provider_id != auth()->id()) {
-            return apiReturn('', ["you don't have access to this order"], Response::HTTP_FORBIDDEN);
+            return apiReturn('', [trans('errors.403')], Response::HTTP_FORBIDDEN);
         }
         $order = new ShowOrderResource($order);
         return apiReturn($order, null, Response::HTTP_OK);

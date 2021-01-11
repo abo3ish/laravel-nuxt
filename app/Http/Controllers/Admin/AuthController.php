@@ -20,7 +20,7 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => 'Unauthenticated'
+                'message' => trans('errors.401')
             ], Response::HTTP_UNAUTHORIZED);
         }
 

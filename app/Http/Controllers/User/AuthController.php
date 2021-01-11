@@ -34,7 +34,7 @@ class AuthController extends Controller
         $user = User::where('phone', $request->phone)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return apiReturn([], ['wrong credentials'], Response::HTTP_UNAUTHORIZED);
+            return apiReturn([], [trans('errors.wrong_credentials')], Response::HTTP_UNAUTHORIZED);
         }
 
         $token = $user->createToken($request->device_type . "-login")->plainTextToken;
@@ -85,17 +85,12 @@ class AuthController extends Controller
 
             return apiReturn($data, null, Response::HTTP_OK);
         } catch (Exception $e) {
-            return apiReturn($e->getMessage(), null, Response::HTTP_BAD_REQUEST);
+            return apiReturn(null, [trans('errors.500')], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $registerRequest = new RegisterRequest();
-        $validator = Validator::make($request->all(), $registerRequest->rules());
-        if ($validator->fails()) {
-            return apiReturn(null, $validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
         try {
             DB::beginTransaction();
 
@@ -134,7 +129,7 @@ class AuthController extends Controller
             return apiReturn($data, null, Response::HTTP_OK);
         } catch (Exception $e) {
             DB::rollBack();
-            return apiReturn($e->getLine(), [$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return apiReturn(null, [trans('errors.500')], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\user;
+namespace Tests\Feature\User;
 
 use AdvertisementSeeder;
 use App\Models\Examination;
@@ -67,7 +67,6 @@ class ExaminationTest extends TestCase
 
     public function test_examination_icons()
     {
-        $this->withoutExceptionHandling();
         $this->seed([ServiceProviderTypeSeeder::class, ExaminationSeeder::class]);
 
         $response = $this->get('/api/examinations')

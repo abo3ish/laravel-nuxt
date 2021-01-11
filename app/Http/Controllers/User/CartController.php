@@ -2,31 +2,32 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\Order\StoreOrderResource;
-use App\Http\Traits\DiscountTrait;
+use Exception;
+use App\Models\Drug;
+use App\Models\Order;
 use App\Models\Address;
 use App\Models\BillCycle;
-use App\Models\Drug;
 use App\Models\DrugOrder;
-use App\Models\Order;
-use App\Models\ServiceProviderType;
-use Exception;
 use Illuminate\Http\Request;
+use App\Http\Traits\DiscountTrait;
 use Illuminate\Support\Facades\DB;
+use App\Models\ServiceProviderType;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Order\CheckoutRequest;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\Api\Order\StoreOrderResource;
 
 class CartController extends Controller
 {
     use DiscountTrait;
 
-    public function checkout(Request $request)
+    public function checkout(CheckoutRequest $request)
     {
         $items = is_array($request->items) ? $request->items : json_decode($request->items);
 
         try {
             if (!$request->audios && !$request->images && $request->text == '' && !is_array($items)) {
-                return apiReturn(null, ['your cart is empty'], Response::HTTP_BAD_REQUEST);
+                return apiReturn(null, [trans('errors.empty_cart')], Response::HTTP_BAD_REQUEST);
             }
 
             DB::beginTransaction();
@@ -103,7 +104,7 @@ class CartController extends Controller
             return apiReturn($data, null, Response::HTTP_OK);
         } catch (Exception $e) {
             DB::rollBack();
-            return apiReturn($e->getLine(), [$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return apiReturn(null, [trans('errors.500')], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

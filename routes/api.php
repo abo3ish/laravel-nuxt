@@ -19,7 +19,7 @@ Route::group(['namespace' => 'User'], function () {
     // Route::post('email/verify/{user}', '\Auth\VerificationController@verify')->name('verification.verify');
     // Route::post('email/resend', 'Auth\VerificationController@resend');
 
-    Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
+    // Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
     // Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
 
     // All Areas
@@ -47,10 +47,6 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'User'], function () {
     Route::get('user', 'MeController@index');
     Route::post('logout', 'AuthController@logout');
 
-
-
-    // Examination services Types
-    Route::get('examination-service-types/{examinationServiceType}', 'ExaminationServiceTypeController@show');
 
     //Attachments
     Route::get('attachments/{attachment}', 'OrderController@getAttachment');

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use App\Models\Address;
 use App\Models\User;
@@ -11,6 +11,7 @@ use Tests\TestCase;
 class OrderTest extends TestCase
 {
     use DatabaseMigrations;
+
     protected $user, $address;
 
     public function setUp(): void
@@ -31,7 +32,6 @@ class OrderTest extends TestCase
 
     public function test_order_services_successfully()
     {
-        $this->withoutExceptionHandling();
         $this->actingAs($this->user);
 
         $response = $this->postJson('api/orders', [
@@ -56,7 +56,6 @@ class OrderTest extends TestCase
 
     public function test_that_we_cant_order_services_that_dont_exist()
     {
-        $this->withoutExceptionHandling();
         $this->actingAs($this->user);
 
         $this->postJson('api/orders', [
@@ -74,7 +73,6 @@ class OrderTest extends TestCase
 
     public function test_that_we_cant_order_services_within_different_examination()
     {
-        $this->withoutExceptionHandling();
         $this->actingAs($this->user);
 
         $this->postJson('api/orders', [
@@ -92,7 +90,6 @@ class OrderTest extends TestCase
 
     public function test_that_we_cant_order_parent_service_that_has_childs()
     {
-        $this->withoutExceptionHandling();
         $this->actingAs($this->user);
 
         $this->postJson('api/orders', [
@@ -110,7 +107,6 @@ class OrderTest extends TestCase
 
     public function test_order_with_invalid_address()
     {
-        $this->withoutExceptionHandling();
         $this->actingAs($this->user);
 
         $this->postJson('api/orders', [
@@ -127,7 +123,6 @@ class OrderTest extends TestCase
 
     public function test_order_with_missing_address()
     {
-        $this->withoutExceptionHandling();
         $this->actingAs($this->user);
 
         $this->postJson('api/orders', [

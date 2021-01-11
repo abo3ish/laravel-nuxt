@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Africa/Cairo',
 
     /*
     |--------------------------------------------------------------------------
@@ -82,10 +82,11 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ar',
 
     'locales' => [
         'en' => 'EN',
+        'ar' => 'ar',
         'zh-CN' => '中文',
         'es' => 'ES',
     ],

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use App\Models\Area;
 use App\Models\User;
@@ -53,13 +53,13 @@ class AuthTest extends TestCase
 
     public function test_login_with_wrong_credientials_gives_error()
     {
-        $response = $this->postJson('/api/login', [
+        $this->postJson('/api/login', [
             'phone' => '111111',
             'password' => 'password',
         ])->assertStatus(401)
             ->assertJson([
                 'data' => [],
-                'error' => ['wrong credentials'],
+                'error' => [trans('errors.wrong_credentials')],
                 'code' => 401,
             ]);
 
@@ -67,7 +67,6 @@ class AuthTest extends TestCase
 
     public function test_fetch_the_current_user()
     {
-        $this->withoutExceptionHandling();
         $this->postJson('/api/login', [
             'phone' => $this->user->phone,
             'password' => 'password',
@@ -96,7 +95,6 @@ class AuthTest extends TestCase
     public function test_user_can_register_successfully()
     {
         $this->seed(AreaSeeder::class);
-        $this->withoutExceptionHandling();
 
         $response = $this->postJson('api/register', [
             "name" => "Alaa Aboeish",
@@ -145,13 +143,11 @@ class AuthTest extends TestCase
     public function test_required_data_will_be_validated()
     {
         Artisan::call('db:seed --class=AreaSeeder');
-        $this->withoutExceptionHandling();
 
         $response = $this->postJson('api/register', [
             "name" => "Alaa Aboeish",
             // "phone" => "01019304360",
             // "password" => "123456",
-            "area_id" => "1",
             "street" => "Sanadid, Elshershaby st",
             "building_number" => 1,
             "floor_number" => 1,
@@ -164,14 +160,13 @@ class AuthTest extends TestCase
         ])->assertStatus(422);
         $response->assertJsonStructure([
             'data' => [],
-            'error' => ['phone', 'password'],
+            'error' => ['phone', 'password', 'area_id'],
             'code',
         ])->assertJsonValidationErrors(['phone', 'password'], 'error');
     }
 
     // public function test_log_out()
     // {
-    //     $this->withoutExceptionHandling();
     //     $this->actingAs($this->user, 'api');
 
     //     $this->postJson("/api/logout")

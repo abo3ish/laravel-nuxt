@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use App\Models\Address;
 use App\Models\User;
@@ -39,9 +39,8 @@ class CheckoutTest extends TestCase
         ])->assertStatus(401);
     }
 
-    public function test_successfull_checkout_with_only_drugs_in_cart()
+    public function test_checkout_with_only_drugs_in_cart_successfully()
     {
-        $this->withoutExceptionHandling();
         $this->actingAs($this->user);
 
         $response = $this->postJson('/api/cart/checkout', [
@@ -60,9 +59,8 @@ class CheckoutTest extends TestCase
         ]);
     }
 
-    public function test_successfull_checkout_cart_that_has_only_photos()
+    public function test_checkout_cart_that_has_only_photos_successfully()
     {
-        $this->withoutExceptionHandling();
         $this->actingAs($this->user);
 
         $image = UploadedFile::fake()->create('image.jpg', 1024);
@@ -79,9 +77,8 @@ class CheckoutTest extends TestCase
 
     }
 
-    public function test_successfull_checkout_cart_that_has_only_audio_file()
+    public function test_checkout_cart_that_has_only_audio_file_successfully()
     {
-        $this->withoutExceptionHandling();
         $this->actingAs($this->user);
 
         $file = UploadedFile::fake()->create('audio.mp4', 1024);
@@ -98,9 +95,8 @@ class CheckoutTest extends TestCase
 
     }
 
-    public function test_successfull_checkout_cart_that_has_drugs_photos_and_audio_files()
+    public function test_checkout_cart_that_has_drugs_photos_and_audio_files_successfully()
     {
-        $this->withoutExceptionHandling();
         $this->actingAs($this->user);
 
         $image = UploadedFile::fake()->create('image.jpg', 1024);
@@ -120,7 +116,6 @@ class CheckoutTest extends TestCase
 
     public function test_cant_checkout_empty_cart()
     {
-        $this->withoutExceptionHandling();
         $this->actingAs($this->user);
 
         $this->postJson('/api/cart/checkout', [
@@ -128,9 +123,23 @@ class CheckoutTest extends TestCase
         ])->assertStatus(400)
             ->assertExactJson([
                 'data' => null,
-                'error' => ['your cart is empty'],
+                'error' => [trans('errors.empty_cart')],
                 'code' => 400,
             ]);
 
+    }
+
+    public function test_checkout_file_size_validation()
+    {
+        $this->actingAs($this->user);
+
+        $image = UploadedFile::fake()->create('image.jpg', 2099);
+        $audio = UploadedFile::fake()->create('audio.mp4', 2099);
+
+        $this->postJson('/api/cart/checkout', [
+            'images' => [$image],
+            'audios' => [$audio],
+        ])->assertStatus(422)
+            ->assertJsonValidationErrors(['address_id', 'images.0', 'audios.0'], 'error');
     }
 }

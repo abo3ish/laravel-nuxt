@@ -4,11 +4,12 @@ namespace App\Http\Controllers\User;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use App\Http\Resources\User\MeResource;
 use App\Http\Traits\AdvertisementTrait;
 use App\Http\Controllers\ApiBaseController;
-use App\Models\Address;
+use App\Http\Requests\User\UpdateMeRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class MeController extends ApiBaseController
@@ -22,13 +23,14 @@ class MeController extends ApiBaseController
         return apiReturn($data, null, Response::HTTP_OK);
     }
 
-    public function update(Request $request)
+    public function update(UpdateMeRequest $request)
     {
         $user = auth()->user();
 
         $user->update([
             'name' => $request->name,
             'phone' => $request->phone,
+            'email' => $request->email
         ]);
 
         return apiReturn('', null, Response::HTTP_OK);

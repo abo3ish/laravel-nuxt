@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\user;
+namespace Tests\Feature\User;
 
 use AdvertisementSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
