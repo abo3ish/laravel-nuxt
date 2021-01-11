@@ -30,9 +30,9 @@ class CheckoutRequest extends FormRequest
         return [
             'address_id' => 'required|exists:addresses,id',
             'images' => 'array',
-            'images.*' => 'image|max:2048',
+            'images.*' => 'image|max:5000',
             'audios' => 'array',
-            'audios.*' => 'file|max:2048',
+            'audios.*' => 'file|max:5000',
         ];
     }
 
