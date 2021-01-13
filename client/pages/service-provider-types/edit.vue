@@ -94,20 +94,11 @@ export default {
       this.form.post('/service-provider-types/' + this.$route.params.id, this.form)
         .then((res) => {
           this.form.fill(res.data)
-          this.serviceProviderType = res.data
+          this.form.reset()
+          this.fireSwal('success', this.$t('updated_successfully'))
+        }).catch((e) => {
+          this.fireSwal('error', this.$t('something_wrong'))
         })
-
-      this.$notify({
-        group: 'feedback',
-        title: this.$t('saved_successfully'),
-        type: 'success'
-      }).catch((e) => {
-        this.$notify({
-          group: 'feedback',
-          title: this.$t('saved_failed'),
-          type: 'error'
-        })
-      })
     }
   }
 }

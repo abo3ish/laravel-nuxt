@@ -238,17 +238,9 @@ export default {
       await this.form.post('/fcm', this.form)
         .then((res) => {
           if (res.data > 0) {
-            this.$notify({
-              group: 'feedback',
-              title: this.$t('notification_sent_successfully'),
-              type: 'success'
-            })
+            this.fireSwal('success', this.$t('notification_sent_successfully'))
           } else {
-            this.$notify({
-              group: 'feedback',
-              title: this.$t('notification_failed'),
-              type: 'error'
-            })
+            this.fireSwal('error', this.$t('notification_failed'))
           }
         })
     }

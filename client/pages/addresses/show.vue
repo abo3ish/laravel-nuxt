@@ -183,12 +183,6 @@ export default {
         .then((res) => {
           this.order = res.data
         })
-
-      this.$notify({
-        group: 'feedback',
-        title: this.$t('service_provider_updated_sucessfully'),
-        type: 'success'
-      })
     },
     fetchOptions (search, loading) {
       loading(true)

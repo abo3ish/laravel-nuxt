@@ -121,11 +121,7 @@ export default {
       await this.form.post('/service-providers', this.form)
 
       this.form.reset()
-      this.$notify({
-        group: 'feedback',
-        title: this.$t('service_provider_created_sucessfully'),
-        type: 'success'
-      })
+      this.fireSwal('success', this.$t('service_provider_created_sucessfully'))
     }
   }
 }

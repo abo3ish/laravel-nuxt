@@ -493,18 +493,6 @@ export default {
         this.order.drugs.splice(index, 1)
         this.fireSwal('success', this.$t('deleted_successfully'))
       }
-
-      // await this.$axios.$delete(`drug-order/${id}`)
-      //   .then((res) => {
-      //     if (res) {
-      //       Vue.delete(this.order.drugs, this.order.drugs.findIndex(drugOrder => drugOrder.id === id))
-      //     }
-      //   })
-      // this.$notify({
-      //   group: 'feedback',
-      //   title: this.$t('drug_deleted_successfully'),
-      //   type: 'success'
-      // })
     }
   }
 }

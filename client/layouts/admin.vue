@@ -28,15 +28,7 @@ export default {
     // this.$echo.channel('new-order')
     //   .listen('NewOrder', (e) => {
     //     console.log(e)
-
-    //     this.$notify({
-    //       group: 'newOrder',
-    //       title: this.$t('new_order'),
-    //       text: e.user.name + ' <br> طلب ' + '<b>' + e.services + '</b>',
-    //       type: 'success',
-    //       width: 600
-    //     })
-    //   })
+    // }
   }
 }
 </script>

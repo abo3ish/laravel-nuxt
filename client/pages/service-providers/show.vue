@@ -110,9 +110,6 @@
 </template>
 
 <script>
-
-import Form from 'vform'
-
 export default {
   layout: 'admin',
   middleware: 'auth',
@@ -139,18 +136,11 @@ export default {
         },
         last_seen: '',
         created_at: ''
-      },
-      orders: [],
-      options: [],
-      form: new Form({
-        service_provider_id: '',
-        price_to_pay: ''
-      })
+      }
     }
   },
   async mounted () {
     this.loading = true
-    // this.fetchServiceProviderTypes()
     await this.fetchData()
   },
   methods: {
@@ -160,28 +150,6 @@ export default {
           this.serviceProvider = res
         })
       this.loading = false
-    },
-    update () {
-      this.form.put('/orders/' + this.$route.params.id, this.form)
-        .then((res) => {
-          this.order = res.data
-        })
-
-      this.$notify({
-        group: 'feedback',
-        title: this.$t('service_provider_updated_sucessfully'),
-        type: 'success'
-      })
-    },
-    fetchOptions (search, loading) {
-      loading(true)
-      setTimeout(() => {
-        this.$axios.$get('service-providers', { params: { name: search } })
-          .then((res) => {
-            this.options = res.data
-            loading(false)
-          })
-      }, 300)
     }
   }
 }

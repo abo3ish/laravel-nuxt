@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             ServiceProviderSeeder::class,
         ]);
 
-        if (env('APP_ENV') == 'local') {
+        if (env('APP_ENV') != 'production') {
             factory(ServiceProvider::class, 200)->create();
             factory(User::class, 10)->create();
             factory(Address::class, 10)->create();

@@ -46,14 +46,8 @@
               <label-input-text v-model="form.email" :label="$t('email')" :type="'email'" :placeholder="'Enter Email Address'" name="email" />
               <!-- password -->
               <label-input-text v-model="form.password" :label="$t('password')" :type="'password'" :placeholder="'Enter Password'" name="password" />
-              <!-- address -->
-              <label-input-text v-model="form.address" :label="$t('address')" :type="'text'" :placeholder="'Enter Address'" name="address" />
               <!-- phone -->
               <label-input-text v-model="form.phone" :label="$t('phone')" :type="'text'" :placeholder="'Enter Phone'" name="phone" />
-              <!-- age -->
-              <label-input-text v-model="form.age" :label="$t('age')" :type="'number'" :placeholder="'Enter Age'" name="age" />
-              <!-- service_provider_type -->
-              <select-box v-model="form.type_id" :items="serviceProviderTypes" :label="$t('service_provider_type')" name="type_id" />
               <!-- status -->
               <check-box v-model="form.status" :label="$t('activate')" name="status" />
               <!-- /.card-body -->
@@ -79,7 +73,6 @@
 
 import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
-import SelectBox from '~/components/forms/SelectBox'
 import CheckBox from '~/components/forms/CheckBox'
 
 export default {
@@ -92,46 +85,31 @@ export default {
   },
   components: {
     LabelInputText,
-    SelectBox,
     CheckBox
   },
   data: () => {
     return {
-      serviceProviderTypes: [],
       form: new Form({
         name: '',
         email: '',
-        phone: '',
-        age: '',
-        address: '',
         password: '',
-        status: Boolean(true),
-        type_id: ''
+        phone: '',
+        status: Boolean(false)
       })
     }
   },
   created () {
-    this.$axios.$get('service-provider-types/all')
-      .then((res) => {
-        this.serviceProviderTypes = res
-      })
+
   },
   methods: {
     async create () {
-      await this.form.post('/service-providers', this.form)
-
-      this.form.reset()
-      this.$notify({
-        group: 'feedback',
-        title: this.$t('saved_successfully'),
-        type: 'success'
-      }).catch((e) => {
-        this.$notify({
-          group: 'feedback',
-          title: this.$t('saved_failed'),
-          type: 'error'
+      await this.form.post('/users', this.form)
+        .then(() => {
+          this.form.reset()
+          this.fireSwal('success', this.$t('created_successfully'))
+        }).catch((e) => {
+          this.fireSwal('error', this.$t('something_wrong'))
         })
-      })
     }
   }
 }
