@@ -3,7 +3,7 @@
     <loading v-if="!serviceProvider.name" />
     <header-info
       :name="'service_providers'"
-      :navigation="[{name:'home', link: 'dashboard'}, {name: 'service_providers', link: 'service_providers', trans: true}, {name: serviceProvider.name, link: '', trans: false}]"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'service_providers', link: 'service-providers', trans: true}, {name: serviceProvider.name, link: '', trans: false}]"
     />
 
     <div class="row">
@@ -124,20 +124,10 @@ export default {
       await this.form.post('/service-providers/' + this.$route.params.id, this.form)
         .then((res) => {
           this.form.fill(res.data)
-          this.serviceProvider = res.data
+          this.fireSwal('success', this.$t('updated_successfully'))
+        }).catch((e) => {
+          this.fireSwal('error', this.$t('something_wrong'))
         })
-
-      this.$notify({
-        group: 'feedback',
-        title: this.$t('saved_successfully'),
-        type: 'success'
-      }).catch((e) => {
-        this.$notify({
-          group: 'feedback',
-          title: this.$t('saved_failed'),
-          type: 'error'
-        })
-      })
     }
   }
 }

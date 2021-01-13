@@ -2,7 +2,7 @@
   <div>
     <header-info
       :name="'service_provider_types'"
-      :navigation="[{name:'home', link: 'dashboard'}, {name: 'service_provider_types', link: 'service_provider_types'}, {name: form.title, link: ''}]"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'service_provider_types', link: 'service-provider-types'}, {name: form.title, link: ''}]"
     />
 
     <div class="row">
@@ -23,9 +23,11 @@
               <label-input-text v-model="form.title" :label="$t('title')" :type="'text'" :placeholder="'Enter Title'" name="title" />
               <!-- Description -->
               <label-input-text v-model="form.description" :label="$t('description')" :type="'text'" :placeholder="'Enter Description'" name="description" />
-              <!-- Name -->
+              <!-- Slig -->
               <label-input-text v-model="form.slug" :label="$t('slug')" :type="'text'" :placeholder="'Enter Slug'" name="slug" />
 
+              <!-- Profit Percentage -->
+              <label-input-text v-model="form.profit_percentage" :label="$t('profit_percentage') + '%'" :type="'number'" :placeholder="'Enter profit percentage'" name="profit_percentage" />
               <!-- /.card-body -->
 
               <div class="card-footer">
@@ -67,7 +69,8 @@ export default {
       form: new Form({
         title: '',
         description: '',
-        slug: ''
+        slug: '',
+        profit_percentage: ''
       })
     }
   },
@@ -75,19 +78,12 @@ export default {
   methods: {
     async create () {
       await this.form.post('/service-provider-types', this.form)
-
-      this.form.reset()
-      this.$notify({
-        group: 'feedback',
-        title: this.$t('saved_successfully'),
-        type: 'success'
-      }).catch((e) => {
-        this.$notify({
-          group: 'feedback',
-          title: this.$t('saved_failed'),
-          type: 'error'
+        .then(() => {
+          this.form.reset()
+          this.fireSwal('success', this.$t('created_successfully'))
+        }).catch((e) => {
+          this.fireSwal('error', this.$t('something_wrong'))
         })
-      })
     }
   }
 }

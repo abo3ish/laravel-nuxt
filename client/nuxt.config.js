@@ -79,6 +79,7 @@ module.exports = {
     '~plugins/axios',
     '~plugins/fontawesome',
     '~plugins/sweetAlert',
+    '~plugins/toastr',
     '~plugins/bootstrap',
     '~plugins/admin-lte',
     '~plugins/nuxt-client-init', // Comment this for SSR
@@ -105,7 +106,9 @@ module.exports = {
   },
 
   moment: {
-    locales: ['ar']
+    locales: ['ar'],
+    timezone: true,
+    defaultTimezone: 'Africa/Cairo'
   },
 
   modules: [

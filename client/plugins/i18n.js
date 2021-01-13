@@ -8,6 +8,8 @@ const i18n = new VueI18n({
   messages: {}
 })
 
+Vue.prototype.i18n = i18n
+
 export default async ({ app, store }) => {
   if (process.client) {
     await loadMessages(store.getters['lang/locale'])

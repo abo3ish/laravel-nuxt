@@ -39,7 +39,7 @@
           <!-- /.card-header -->
 
           <!-- form start -->
-          <form role="form" @submit.prevent="updatead()">
+          <form role="form" @submit.prevent="createAd()">
             <div class="card-body">
               <!-- Slug -->
               <label-input-text v-model="form.slug" :label="$t('slug')" :type="'text'" :placeholder="'Enter Slug'" name="slug" />
@@ -85,7 +85,7 @@ export default {
   middleware: 'auth',
   head () {
     return {
-      title: this.$t('create_ad')
+      title: this.$t('add_new')
     }
   },
   components: {
@@ -109,25 +109,16 @@ export default {
     }
   },
   created () {
-    this.fetchData()
   },
   methods: {
-    updatead () {
+    createAd () {
       this.form.post('/advertisements', this.form)
-        .then((res) => {
+        .then(() => {
           this.form.reset()
 
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('ad_saved_successfully'),
-            type: 'success'
-          })
-        }).catch((e) => {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('ad_saved_failed'),
-            type: 'error'
-          })
+          this.fireSwal('success', this.$t('created_successfully'))
+        }).catch(() => {
+          this.fireSwal('error', this.$t('something_wrong'))
         })
     },
     onFileChange (e) {

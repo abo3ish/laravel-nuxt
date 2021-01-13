@@ -111,12 +111,14 @@ class DrugController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Drug $drug
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Drug $drug)
     {
-        //
+        $drug->delete();
+        return true;
+
     }
 
     public function filter($drugs)

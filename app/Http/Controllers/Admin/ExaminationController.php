@@ -66,6 +66,13 @@ class ExaminationController extends Controller
         return new ShowExaminationResource($examination);
     }
 
+    public function destroy(Examination $examination)
+    {
+        $examination->delete();
+        return true;
+
+    }
+
     public function filter($examinations)
     {
         if (request('title')) {

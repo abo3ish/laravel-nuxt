@@ -5,11 +5,14 @@ namespace App\Models;
 use App\Models\BillCycle;
 use App\Models\DrugOrder;
 use App\Models\ServiceOrder;
-use Illuminate\Database\Eloquent\Model;
 use Intervention\Image\Facades\Image;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'uuid',
         'user_id',
@@ -43,7 +46,6 @@ class Order extends Model
         'company_profit', // the company gained profit after discount
         'service_provider_profit',
     ];
-    //TODO: Add property company_profit - service_provider_profit
 
     protected $dates = [
         'accepted_at',
@@ -79,49 +81,64 @@ class Order extends Model
             case '5':
                 return 'تم التوصيل';
                 break;
+
+            case '6':
+                return 'تم الالغاء';
+                break;
         }
     }
 
+    /* User */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function serviceProvider()
-    {
-        return $this->belongsTo(ServiceProvider::class);
-    }
-
+    /* serviceProviderType */
     public function serviceProviderType()
     {
         return $this->belongsTo(ServiceProviderType::class);
     }
 
+    /* serviceProvider */
+    public function serviceProvider()
+    {
+        return $this->belongsTo(ServiceProvider::class);
+    }
+
+    /* address */
     public function address()
     {
         return $this->belongsTo(Address::class);
     }
 
+    /* area */
     public function area()
     {
         return $this->belongsTo(Area::class);
     }
 
+    /* serviceOrders */
     public function serviceOrders()
     {
         return $this->HasMany(ServiceOrder::class);
     }
-
+    /**
+     * @return DrugOrder $drugOrder
+     */
+    /* drugOrders */
     public function drugOrders()
     {
         return $this->HasMany(DrugOrder::class);
     }
 
+    /* attachments */
     public function attachments()
     {
         return $this->hasMany(OrderAttachment::class);
     }
 
+    /* service_string */
     public function getServicesStringAttribute()
     {
         $string = '';
@@ -131,11 +148,13 @@ class Order extends Model
         return trim($string, ", ");
     }
 
+    /* status_string */
     public function getStatusStringAttribute()
     {
         return Self::whatIsMyStatus($this->status);
     }
 
+    /* statuses */
     public static function statuses()
     {
         return array(
@@ -144,6 +163,7 @@ class Order extends Model
             '3' => 'الطلب في الطريق',
             '4' => 'تم وصول مقدم الخدمة',
             '5' => 'تم التوصيل',
+            '6' => 'تم الالغاء',
         );
     }
 
@@ -170,10 +190,15 @@ class Order extends Model
                 'code' => 5,
                 'string' => 'تم التوصيل',
             ],
+            [
+                'code' => 6,
+                'string' => 'تم الالغاء',
+            ],
         ];
         return $statuses;
     }
 
+    /* uuid */
     public static function generateUuid()
     {
         $uuid = random_int(1000000, 9999999);
@@ -184,6 +209,7 @@ class Order extends Model
         return $uuid;
     }
 
+    /* items */
     public function getItems()
     {
         switch ($this->type) {
@@ -198,6 +224,7 @@ class Order extends Model
         return $items;
     }
 
+    /* item_string */
     public function getItemsStringAttribute()
     {
         $string = '';

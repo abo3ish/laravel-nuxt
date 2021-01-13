@@ -9,7 +9,7 @@
       class="form-check-input"
       @change="updateValue($event.target.checked)"
     >
-    <label class="form-check-label" :for="idName">{{ label }}</label>
+    <label class="form-check-label" :for="idName"><b>{{ label }}</b></label>
   </div>
 </template>
 

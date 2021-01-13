@@ -21,6 +21,7 @@ class CreateDrugOrdersTable extends Migration
             $table->integer('quantity')->default(1);
             $table->double('price', 8, 2);
             $table->double('discount_price', 8, 2)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

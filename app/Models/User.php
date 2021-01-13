@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\VerifyEmail;
 use App\Notifications\ResetPassword;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable //, MustVerifyEmail
+class User extends Authenticatable//, MustVerifyEmail
+
 {
-    use Notifiable, HasApiTokens;
+    use Notifiable, HasApiTokens, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -32,7 +33,7 @@ class User extends Authenticatable //, MustVerifyEmail
         'social_id',
         'social_provider',
         'last_seen',
-        'status'
+        'status',
     ];
 
     /**
@@ -69,7 +70,7 @@ class User extends Authenticatable //, MustVerifyEmail
      */
     public function getPhotoUrlAttribute()
     {
-        return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=mm';
+        return 'https://www.gravatar.com/avatar/' . md5(strtolower($this->email)) . '.jpg?s=200&d=mm';
     }
 
     /**
@@ -132,6 +133,16 @@ class User extends Authenticatable //, MustVerifyEmail
     public function getAddressStringAttribute()
     {
         $address = $this->addresses()->orderBy('created_at', 'desc')->first();
-        return $address ? $address->street  . "-" . $address->area->name : '';
+        return $address ?
+            Str::limit($address->street, 10, '...') . "-" . ($address->area ? $address->area->name : 'منطقة محذوفة ') : '';
+    }
+
+    public function getRegisterMethodAttribute()
+    {
+        if ($this->social_provider) {
+            return $this->social_provider;
+        } else {
+            return 'رقم الهاتف';
+        }
     }
 }

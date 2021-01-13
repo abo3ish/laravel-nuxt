@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading v-if="!drug.id" />
+    <loading v-if="loading" />
     <header-info
       :name="'drugs'"
       :navigation="[{name:'home', link: 'dashboard'}, {name: 'drugs', link: 'drugs'}, {name: drug.name, link: '', trans: false}]"
@@ -94,6 +94,7 @@ export default {
 
   data: () => {
     return {
+      loading: true,
       drug: {
         id: '',
         name: '',
@@ -106,6 +107,7 @@ export default {
     }
   },
   mounted () {
+    this.loading = true
     this.fetchData()
   },
   methods: {
@@ -114,14 +116,8 @@ export default {
         .then((res) => {
           this.drug = res
         })
+      this.loading = false
     }
   }
 }
 </script>
-
-<style scoped>
-  /* .loader {
-    text-align: center;
-    color: #bbbbbb;
-  } */
-</style>

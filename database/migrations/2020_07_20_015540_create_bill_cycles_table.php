@@ -19,6 +19,7 @@ class CreateBillCyclesTable extends Migration
             $table->dateTime('to');
             $table->boolean('status')->default(false);
             $table->index('status', 'bill_cycle_status_index');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -21,6 +21,8 @@ class ServiceProviderController extends AdminBaseController
         $serviceProviders = $this->filter($serviceProviders);
         $serviceProviders = $serviceProviders->paginate(config('kashf.pagination_per_page'));
         $serviceProviders->withPath(url()->full());
+        $serviceProviders = ShowServiceProviderResource::collection($serviceProviders);
+
         $serviceProviders = customPagination($serviceProviders);
         return $serviceProviders;
     }
@@ -51,6 +53,7 @@ class ServiceProviderController extends AdminBaseController
             'status' => $request->status,
             'password' => bcrypt($request->password),
             'type_id' => $request->type_id,
+            'area_id' => $request->area_id,
             'age' => $request->age
         ]);
 
@@ -109,7 +112,8 @@ class ServiceProviderController extends AdminBaseController
      */
     public function destroy(ServiceProvider $serviceProvider)
     {
-        //
+        $serviceProvider->delete();
+        return true;
     }
 
     public function filter($serviceProviders)

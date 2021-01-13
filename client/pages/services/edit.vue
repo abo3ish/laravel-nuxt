@@ -82,6 +82,7 @@ import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
 import SelectBox from '~/components/forms/SelectBox'
 import CheckBox from '~/components/forms/CheckBox'
+
 export default {
   layout: 'admin',
   middleware: 'auth',
@@ -114,7 +115,7 @@ export default {
         price: '',
         examination_id: '',
         parent_id: '',
-        status: Boolean(true),
+        status: '',
         slug: ''
       })
     }
@@ -135,29 +136,14 @@ export default {
       this.loading = false
     },
 
-    update () {
+    async update () {
       this.loading = true
-      this.form.post('/services/' + this.$route.params.id, this.form).then((res) => {
-        if (res.status === 200) {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('service_provider_saved_successfully'),
-            type: 'success'
-          })
-          this.form.fill(res.data)
-        } else {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('service_provider_saved_failed'),
-            type: 'error'
-          })
-        }
-      }).catch(() => {
-        this.$notify({
-          group: 'feedback',
-          title: this.$t('service_provider_saved_failed'),
-          type: 'error'
-        })
+      await this.form.post('/services/' + this.$route.params.id, this.form).then((res) => {
+        this.form.fill(res.data)
+
+        this.fireSwal('success', this.$t('updated_successfully'))
+      }).catch((e) => {
+        this.fireSwal('error', this.$t('something_wrong'))
       })
       this.loading = false
     },

@@ -21,6 +21,7 @@ class CreateDrugsTable extends Migration
             $table->string('image')->nullable();
             $table->foreignId('category_id')->constrained('pharmacy_categories');
             $table->float('price');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

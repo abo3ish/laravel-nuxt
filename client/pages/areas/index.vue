@@ -5,6 +5,19 @@
       :navigation="[{name:'home', link: 'dashboard'}, {name: 'areas', link: ''}]"
     />
 
+    <!-- Filter -->
+    <section class="filter content">
+      <form role="form" @submit.prevent="searchFilter()">
+        <div class="row">
+          <!-- Status -->
+          <div class="col-2">
+            <select-box v-model="filter.status" :items="statuses" :label="$t('status')" name="status" />
+          </div>
+        </div>
+        <submit-button />
+      </form>
+    </section>
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -72,7 +85,7 @@
                     <b-button
                       variant="danger"
                       size="sm"
-                      @click.stop.prevent="deleteItem(data.item.id, $event)"
+                      @click.stop.prevent="deleteAction(data.item.id, $event)"
                     >
                       Delete
                     </b-button>
@@ -101,6 +114,9 @@
 </template>
 
 <script>
+import SelectBox from '~/components/forms/SelectBox'
+import { deleteItem } from '~/utils'
+import SubmitButton from '~/components/forms/SubmitButton'
 
 export default {
   layout: 'admin',
@@ -109,6 +125,10 @@ export default {
     return {
       title: this.$t('areas')
     }
+  },
+  components: {
+    SelectBox,
+    SubmitButton
   },
 
   data () {
@@ -130,7 +150,12 @@ export default {
         { key: 'name', sortable: true },
         { key: 'status', sortable: true },
         { key: 'actions', sortable: false }
-      ]
+      ],
+      filter: {
+        status: ''
+      },
+
+      query: {}
     }
   },
   watch: {
@@ -145,9 +170,12 @@ export default {
   },
   methods: {
     async fetchData () {
+      this.query.page = this.currentPage
       this.isBusy = true
 
-      await this.$axios.$get('areas')
+      await this.$axios.$get('areas', {
+        params: this.query
+      })
         .then((res) => {
           this.rows = res.pagination.total
           this.perPage = res.pagination.per_page
@@ -155,10 +183,28 @@ export default {
           this.areas = res.areas
           this.isBusy = false
         })
+      this.$router.replace({ name: 'areas',
+        query: this.query }).catch(() => {})
     },
-    deleteItem (id, event) {
-      event.preventDefault()
-      alert(id)
+    async deleteAction (id, event) {
+      const endpoint = `areas/${id}/delete`
+      const res = await deleteItem(endpoint)
+
+      if (res === true) {
+        const index = this.areas.findIndex(element => element.id === id)
+        this.areas.splice(index, 1)
+      }
+    },
+    searchFilter () {
+      this.currentPage = 1
+      this.serializeFilter(this.filter, this.query)
+
+      this.fetchData()
+    },
+    serializeFilter (filter, query) {
+      for (const key in filter) {
+        query[key] = filter[key]
+      }
     }
   }
 }

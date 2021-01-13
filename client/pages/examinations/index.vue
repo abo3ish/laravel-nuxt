@@ -104,7 +104,7 @@
                     <b-button
                       variant="danger"
                       size="sm"
-                      @click.stop.prevent="deleteItem(data.item.id, $event)"
+                      @click.stop.prevent="deleteAction(data.item.id, $event)"
                     >
                       Delete
                     </b-button>
@@ -131,6 +131,7 @@
 import LabelInputText from '~/components/forms/LabelInputText'
 import SubmitButton from '~/components/forms/SubmitButton'
 import SelectBox from '~/components/forms/SelectBox'
+import { deleteItem } from '~/utils'
 
 export default {
   layout: 'admin',
@@ -158,8 +159,8 @@ export default {
       },
 
       statuses: [
-        { id: 0, title: 'not_active' },
-        { id: 1, title: 'active' }
+        { id: 1, title: this.$t('active') },
+        { id: 0, title: this.$t('not_active') }
       ],
 
       query: {},
@@ -205,9 +206,14 @@ export default {
         query: this.query }).catch(() => {})
     },
 
-    deleteItem (id, event) {
-      event.preventDefault()
-      alert(id)
+    async deleteAction (id, event) {
+      const endpoint = `examinations/${id}/delete`
+      const res = await deleteItem(endpoint)
+
+      if (res === true) {
+        const index = this.examinations.findIndex(element => element.id === id)
+        this.examinations.splice(index, 1)
+      }
     },
     searchFilter () {
       this.currentPage = 1

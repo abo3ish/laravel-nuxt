@@ -21,7 +21,7 @@ class CreateOrderAttachmentsTable extends Migration
             $table->string('size');
             $table->string('mime');
             $table->string('extension');
-
+            $table->softDeletes();
             $table->timestamps();
         });
     }

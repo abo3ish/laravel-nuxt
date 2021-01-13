@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Order;
-use Illuminate\Http\Request;
-use App\Http\Traits\FileTrait;
-use App\Models\OrderAttachment;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Resources\Admin\Orders\OrderResource;
-use App\Http\Resources\Admin\Orders\StatusResource;
 use App\Http\Resources\Admin\Orders\ShowOrderResource;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use App\Http\Traits\FileTrait;
+use App\Models\Order;
+use App\Models\OrderAttachment;
+use Illuminate\Http\Request;
 
 class OrderController extends AdminController
 {
@@ -39,11 +35,10 @@ class OrderController extends AdminController
     {
         $order->update([
             'service_provider_id' => $request->service_provider_id,
-            'price_to_pay'  => $request->price_to_pay,
-            'status'  => $request->status,
+            // 'price_to_pay' => $request->price_to_pay,
+            'status' => $request->status,
         ]);
-        // return $order;
-        return new ShowOrderResource($order);
+        return new ShowOrderResource($order->load('user', 'address', 'area'));
     }
 
     public function filter($orders)
@@ -69,7 +64,6 @@ class OrderController extends AdminController
             $orders->where('user_id', request('user_id'));
         }
 
-
         if (isset(request()->service_provider_type_id) && request()->service_provider_type_id) {
             $orders->where('service_provider_type_id', request()->service_provider_type_id);
         }
@@ -87,7 +81,7 @@ class OrderController extends AdminController
     {
         $filePath = $this->getAttachmentPath($attachment);
         $fileName = $attachment->name;
-        return  response()->streamDownload(
+        return response()->streamDownload(
             function () use ($filePath, $fileName) {
                 // Open output stream
                 if ($file = fopen($filePath, 'rb')) {

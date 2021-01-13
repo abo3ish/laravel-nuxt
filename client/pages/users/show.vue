@@ -126,8 +126,17 @@
           </div>
           <div class="card card-body">
             <b-table :items="user.addresses" :fields="addressFields" show-empty>
+              <!-- Area -->
               <template v-slot:cell(area)="data">
-                <span v-if="data.item.area">{{ data.item.area.name }}</span>
+                <span>{{ data.item.area.name }}</span>
+              </template>
+              <template v-slot:cell(map)="data">
+                <span><a
+                  :href="`https://www.google.com/maps/search/?api=1&query=${data.item.lat},${data.item.lat}`"
+                  target="_blank"
+                >
+                  افتح علي الخريطة
+                </a></span>
               </template>
               <template v-slot:cell(actions)="data">
                 <!-- Show -->
@@ -203,6 +212,7 @@ export default {
         'building_number',
         'floor_number',
         'flat_number',
+        'map',
         'actions'
       ],
       form: new Form({

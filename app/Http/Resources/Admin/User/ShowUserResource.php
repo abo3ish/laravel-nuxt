@@ -26,7 +26,7 @@ class ShowUserResource extends JsonResource
             'social_provider' => $this->social_id,
             'social_id' => $this->social_id,
             'orders_count' => $this->orders->count(),
-            'addresses' => $this->addresses->load('area'),
+            'addresses' => UserAddressesResource::collection($this->addresses->load('area')),
             'address' => $this->address_string,
             'last_seen' => $this->last_seen,
             'created_at' => $this->created_at

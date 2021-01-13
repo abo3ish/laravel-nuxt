@@ -80,7 +80,7 @@ export default {
       })
     },
     async update () {
-      const { data } = await this.form.patch('/settings/profile')
+      const { data } = await this.form.post('/me/profile')
 
       this.$auth.setUser(data)
       this.fireSwal('success', 'User Updated Successfully')

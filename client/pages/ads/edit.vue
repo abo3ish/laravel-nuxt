@@ -11,17 +11,12 @@
           <div class="card-header">
             <h3 class="card-title">
               {{ $t('edit') + '-' + ad.slug }}
-              <n-link :to="{name: 'create-ad' }">
-                <button class="btn btn-outline-light float-left">
-                  {{ $t('add_new') }}
-                </button>
-              </n-link>
             </h3>
           </div>
           <!-- /.card-header -->
 
           <!-- form start -->
-          <form role="form" @submit.prevent="updatead()">
+          <form role="form" @submit.prevent="updateAd()">
             <div class="card-body">
               <!-- Slug -->
               <label-input-text v-model="form.slug" :label="$t('slug')" :type="'text'" :placeholder="'Enter Slug'" name="slug" />
@@ -103,24 +98,13 @@ export default {
           this.ad = res
         })
     },
-    updatead () {
-      this.form.post('/advertisements/' + this.$route.params.id, this.form)
-        .then((res) => {
-          this.form.fill(res.data)
-          this.ad = res.data
-
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('saved_successfully'),
-            type: 'success'
-          })
-        }).catch((e) => {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('saved_failed'),
-            type: 'error'
-          })
-        })
+    async updateAd () {
+      await this.form.post('/advertisements/' + this.$route.params.id, this.form).then((res) => {
+        this.fireSwal('success', this.$t('updated_successfully'))
+        this.form.fill(res.data)
+      }).catch(() => {
+        this.fireSwal('error', this.$t('something_wrong'))
+      })
     },
     onFileChange (e) {
       const selectedImage = e.target.files[0]

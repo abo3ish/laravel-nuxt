@@ -133,8 +133,8 @@ class CheckoutTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $image = UploadedFile::fake()->create('image.jpg', 2099);
-        $audio = UploadedFile::fake()->create('audio.mp4', 2099);
+        $image = UploadedFile::fake()->create('image.jpg', 6000);
+        $audio = UploadedFile::fake()->create('audio.mp4', 6000);
 
         $this->postJson('/api/cart/checkout', [
             'images' => [$image],

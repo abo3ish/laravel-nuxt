@@ -1,6 +1,12 @@
 {
+  "created_successfully": "تم الانشاء بنجاح",
+  "added_successfully": "تمت الاضافة بنجاح",
+  "updated_successfully": "تم التعديل بنجاح",
+  "deleted_successfully": "تم الحذف بنجاح",
+  "something_wrong": "حدث خطأ ما",
   "settings": "الإعدادات",
   "logout": "خروج",
+  "image": "الصورة",
   "statistics": "الإحصائيات",
   "title": "الاسم",
   "home_page": "الصفحة الرئيسية",

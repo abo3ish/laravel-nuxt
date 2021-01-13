@@ -7,7 +7,7 @@ use App\Http\Resources\Api\Advertisement\AdvertisementResource;
 
 Trait AdvertisementTrait {
     function getPageAd($page) {
-        $ads = Advertisement::where('slug', $page)->get()->groupBy('position');
+        $ads = Advertisement::active()->where('slug', $page)->get()->groupBy('position');
         if (isset($ads['top'])) {
             $ads['top'] = AdvertisementResource::collection($ads['top']);
         }

@@ -3,7 +3,7 @@
     <loading v-if="!order.id" />
     <header-info
       :name="'orders'"
-      :navigation="[{name:'home', link: 'dashboard'}, {name: 'orders', link: 'orders'}, {name: order.uuid, link: '', trans: false}]"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'orders', link: 'orders'}, {name: '#' + order.uuid, link: '', trans: false}]"
     />
 
     <div class="row">
@@ -319,6 +319,7 @@
 import Vue from 'vue'
 import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
+import { deleteItem } from '~/utils'
 
 export default {
   layout: 'admin',
@@ -398,15 +399,10 @@ export default {
       this.form.post('/orders/' + this.$route.params.id, this.form)
         .then((res) => {
           this.order = res.data
-          // this.form.fill(res.data)
-          // this.order = res.data
+          this.fireSwal('success', this.$t('updated_successfully'))
+        }).catch(() => {
+          this.fireSwal('error', this.$t('something_wrong'))
         })
-
-      this.$notify({
-        group: 'feedback',
-        title: this.$t('service_provider_updated_sucessfully'),
-        type: 'success'
-      })
     },
     async fetchOrderStatuses () {
       await this.$axios.$get('order-statuses')
@@ -460,11 +456,7 @@ export default {
         .then((res) => {
           this.order.drugs.push(res)
         })
-      this.$notify({
-        group: 'feedback',
-        title: this.$t('drug_added_successfully'),
-        type: 'success'
-      })
+      this.fireSwal('success', this.$t('added_successfully'))
     },
     showDrugOrder (id) {
       const res = this.order.drugs.find(drugOrder => drugOrder.id === id)
@@ -475,15 +467,11 @@ export default {
         })
     },
     async updateDrugOrder (id) {
-      await this.$axios.$put(`drug-order/${id}`, this.drugOrder)
+      await this.$axios.$post(`drug-order/${id}`, this.drugOrder)
         .then((res) => {
           Vue.set(this.order.drugs, this.order.drugs.findIndex(drugOrder => drugOrder.id === id), res)
         })
-      this.$notify({
-        group: 'feedback',
-        title: this.$t('drug_updated_successfully'),
-        type: 'success'
-      })
+      this.fireSwal('success', this.$t('updated_successfully'))
     },
     handleDrugOrder (id = null) {
       if (!this.$refs.form.checkValidity()) {
@@ -497,17 +485,26 @@ export default {
       this.$refs['drug-order'].hide()
     },
     async deleteItem (id, event) {
-      await this.$axios.$delete(`drug-order/${id}`)
-        .then((res) => {
-          if (res) {
-            Vue.delete(this.order.drugs, this.order.drugs.findIndex(drugOrder => drugOrder.id === id))
-          }
-        })
-      this.$notify({
-        group: 'feedback',
-        title: this.$t('drug_deleted_successfully'),
-        type: 'success'
-      })
+      const endpoint = `drug-order/${id}/delete`
+      const res = await deleteItem(endpoint)
+
+      if (res === true) {
+        const index = this.order.drugs.findIndex(element => element.id === id)
+        this.order.drugs.splice(index, 1)
+        this.fireSwal('success', this.$t('deleted_successfully'))
+      }
+
+      // await this.$axios.$delete(`drug-order/${id}`)
+      //   .then((res) => {
+      //     if (res) {
+      //       Vue.delete(this.order.drugs, this.order.drugs.findIndex(drugOrder => drugOrder.id === id))
+      //     }
+      //   })
+      // this.$notify({
+      //   group: 'feedback',
+      //   title: this.$t('drug_deleted_successfully'),
+      //   type: 'success'
+      // })
     }
   }
 }

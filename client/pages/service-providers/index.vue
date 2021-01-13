@@ -20,13 +20,49 @@
           <div class="col-2">
             <label-input-text v-model="filter.email" :label="$t('email')" :type="'email'" :placeholder="'Enter email'" name="email" />
           </div>
-          <!-- Address -->
           <div class="col-2">
-            <label-input-text v-model="filter.address" :label="$t('address')" :type="'text'" :placeholder="'Enter address'" name="address" />
+            <label>{{ $t('area') }}</label>
+            <v-select
+              v-model="filter.area_id"
+              dir="rtl"
+              :options="areas"
+              :reduce="area => area.id"
+              label="name"
+              :placeholder="$t('select') + ' ' + $t('area')"
+            >
+              <template #selected-option="{ name }">
+                <div class="d-center">
+                  {{
+                    areas.find(area => area.id == filter.area_id) ?
+                      areas.find(area => area.id == filter.area_id).name
+                      : name
+                  }}
+                </div>
+              </template>
+            </v-select>
           </div>
+
           <!-- Type -->
           <div class="col-2">
-            <select-box v-model="filter.type_id" :label="$t('service_provider_type')" :items="serviceProviderTypes" name="type_id" />
+            <label>{{ $t('service_provider_type') }}</label>
+            <v-select
+              v-model="filter.type_id"
+              dir="rtl"
+              :options="serviceProviderTypes"
+              :reduce="serviceProviderType => serviceProviderType.id"
+              label="title"
+              :placeholder="$t('select') + ' ' + $t('service_provider')"
+            >
+              <template #selected-option="{ title }">
+                <div class="d-center">
+                  {{
+                    serviceProviderTypes.find(serviceProviderType => serviceProviderType.id == filter.service_provider_type_id) ?
+                      serviceProviderTypes.find(serviceProviderType => serviceProviderType.id == filter.service_provider_type_id).title
+                      : title
+                  }}
+                </div>
+              </template>
+            </v-select>
           </div>
         </div>
         <submit-button />
@@ -67,9 +103,15 @@
                       <strong>...تحميل</strong>
                     </div>
                   </template>
+
+                  <!-- Area -->
+                  <template v-slot:cell(area)="data">
+                    <span>{{ data.item.area.name }}</span>
+                  </template>
+
                   <!-- Type -->
                   <template v-slot:cell(type)="data">
-                    <span>{{ data.item.type.title }}</span>
+                    <span>{{ data.item.type ? data.item.type.title : 'deleted' }}</span>
                   </template>
 
                   <!-- Status -->
@@ -111,7 +153,7 @@
                     <b-button
                       variant="danger"
                       size="sm"
-                      @click.stop.prevent="deleteItem(data.item.id, $event)"
+                      @click.stop.prevent="deleteAction(data.item.id, $event)"
                     >
                       Delete
                     </b-button>
@@ -138,6 +180,7 @@
 import LabelInputText from '~/components/forms/LabelInputText'
 import SubmitButton from '~/components/forms/SubmitButton'
 import SelectBox from '~/components/forms/SelectBox'
+import { deleteItem } from '~/utils'
 
 export default {
   layout: 'admin',
@@ -165,23 +208,23 @@ export default {
         email: '',
         phone: '',
         address: '',
-        type_id: ''
+        type_id: '',
+        area_id: ''
       },
 
       query: {},
 
+      areas: [],
       serviceProviders: [],
       serviceProviderTypes: [],
       sortBy: 'id',
       sortDesc: false,
       fields: [
         { key: 'id', sortable: true },
-        // { key: 'first_name', sortable: true },
-        // { key: 'last_name', sortable: true }
         { key: 'name', sortable: true },
+        { key: 'area', sortable: true },
         { key: 'type', sortable: true },
         { key: 'phone', sortable: true },
-        { key: 'address', sortable: false },
         { key: 'last_seen', sortable: true },
         { key: 'status', sortable: true },
         { key: 'actions', sortable: false }
@@ -196,6 +239,7 @@ export default {
     }
   },
   mounted () {
+    this.fetchAreas()
     this.fetchServiceProviderTypes()
     this.fetchData()
   },
@@ -224,9 +268,20 @@ export default {
           this.serviceProviderTypes = res
         })
     },
-    deleteItem (id, event) {
-      event.preventDefault()
-      alert(id)
+    async fetchAreas () {
+      await this.$axios.$get('areas/all')
+        .then((res) => {
+          this.areas = res
+        })
+    },
+    async deleteAction (id, event) {
+      const endpoint = `service-providers/${id}/delete`
+      const res = await deleteItem(endpoint)
+
+      if (res === true) {
+        const index = this.serviceProviders.findIndex(element => element.id === id)
+        this.serviceProviders.splice(index, 1)
+      }
     },
     searchFilter () {
       this.currentPage = 1

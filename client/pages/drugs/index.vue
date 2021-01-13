@@ -93,7 +93,7 @@
                     <b-button
                       variant="danger"
                       size="sm"
-                      @click.stop.prevent="deleteItem(data.item.id, $event)"
+                      @click.stop.prevent="deleteAction(data.item.id, $event)"
                     >
                       Delete
                     </b-button>
@@ -126,6 +126,7 @@
 import LabelInputText from '~/components/forms/LabelInputText'
 import SubmitButton from '~/components/forms/SubmitButton'
 import SelectBox from '~/components/forms/SelectBox'
+import { deleteItem } from '~/utils'
 
 export default {
   layout: 'admin',
@@ -210,9 +211,15 @@ export default {
       this.$router.replace({ name: 'drugs',
         query: this.query }).catch(() => {})
     },
-    deleteItem (id, event) {
+    async deleteAction (id, event) {
+      const endpoint = `drugs/${id}/delete`
+      const res = await deleteItem(endpoint)
+
+      if (res === true) {
+        const index = this.drugs.findIndex(element => element.id === id)
+        this.drugs.splice(index, 1)
+      }
       event.preventDefault()
-      alert(id)
     },
     searchFilter () {
       this.currentPage = 1

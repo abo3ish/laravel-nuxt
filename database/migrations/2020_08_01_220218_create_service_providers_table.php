@@ -31,6 +31,7 @@ class CreateServiceProvidersTable extends Migration
             $table->dateTime('last_seen')->nullable();
             $table->double('lat')->nullable();
             $table->double('lng')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

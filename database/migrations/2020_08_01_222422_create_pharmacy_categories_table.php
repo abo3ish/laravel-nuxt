@@ -21,6 +21,7 @@ class CreatePharmacyCategoriesTable extends Migration
             $table->boolean('status')->default(true);
             $table->string('slug')->nullable();
             $table->integer('parent_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

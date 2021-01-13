@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Admin\Drug;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class DrugResource extends JsonResource
 {
@@ -16,15 +17,14 @@ class DrugResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'scientific_name' => $this->scientific_name,
-            // 'description' => $this->description,
+            'name' => Str::limit($this->name, 20, '...'),
+            'scientific_name' => Str::limit($this->scientific_name, 20, '...'),
             'image' => $this->image_url,
             'price' => $this->price,
             'category' => [
                 'id' => $this->category->id,
-                'title' => $this->category->title,
-            ]
+                'title' => $this->category ? $this->category->title : 'قسم محذوف',
+            ],
         ];
     }
 }

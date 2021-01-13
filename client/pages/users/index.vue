@@ -177,7 +177,7 @@ export default {
         { key: 'email', sortable: true },
         { key: 'phone', sortable: true },
         { key: 'address', sortable: false },
-        { key: 'social_provider', sortable: true },
+        { key: 'register_method', sortable: true },
         { key: 'last_seen', sortable: true },
         { key: 'status', sortable: true },
         { key: 'actions', sortable: false }

@@ -22,6 +22,7 @@ class CreateExaminationsTable extends Migration
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('accept_multi')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

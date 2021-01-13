@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading v-if="!form.title" />
+    <loading v-if="loading" />
     <header-info
       :name="'examinations'"
       :navigation="[{name:'home', link: 'dashboard'}, {name: 'examinations', link: 'examinations'}, {name: form.title, link: '', trans: false}]"
@@ -40,7 +40,7 @@
 
               <!-- Icon -->
               <div class="img-responsive">
-                <input type="file" name="icon" accept="image/*" @change="onFileChange">
+                <b-form-file ref="icon-file" class="mt-4" accept="image/*" name="icon" @change="onFileChange" />
                 <img class="img-fluid" :src="form.icon">
               </div>
               <!-- /.card-body -->
@@ -81,15 +81,15 @@ export default {
   },
   data: () => {
     return {
-      image: null,
+      loading: true,
       form: new Form({
         title: '',
         description: '',
         display_order: '',
         icon: '',
         slug: '',
-        accept_multi: Boolean(true),
-        status: Boolean(true)
+        accept_multi: '',
+        status: ''
       })
     }
   },
@@ -102,33 +102,19 @@ export default {
         .then((res) => {
           this.form.fill(res)
         })
+      this.loading = false
     },
 
-    update () {
-      this.form.post('/examinations/' + this.$route.params.id, this.form).then((res) => {
-        if (res.status === 200) {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('saved_successfully'),
-            type: 'success'
-          })
+    async update () {
+      this.loading = true
+      await this.form.post('/examinations/' + this.$route.params.id, this.form)
+        .then((res) => {
           this.form.fill(res.data)
-        } else {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('saved_failed'),
-            type: 'error'
-          })
-        }
-      }).catch(() => {
-        this.$notify({
-          group: 'feedback',
-          title: this.$t('saved_failed'),
-          type: 'error'
+          this.fireSwal('success', this.$t('updated_successfully'))
+        }).catch((e) => {
+          this.fireSwal('error', this.$t('something_wrong'))
         })
-      })
-
-      this.form.reset()
+      this.loading = false
     },
 
     onFileChange (e) {

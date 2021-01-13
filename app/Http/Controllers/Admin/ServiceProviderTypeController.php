@@ -103,6 +103,7 @@ class ServiceProviderTypeController extends AdminBaseController
      */
     public function destroy(ServiceProviderType $serviceProviderType)
     {
-        //
+        $serviceProviderType->delete();
+        return true;
     }
 }

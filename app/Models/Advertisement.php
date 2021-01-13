@@ -17,6 +17,11 @@ class Advertisement extends Model
         'status'
     ];
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
     public function getImageUrlAttribute()
     {
         return getAd($this->image);

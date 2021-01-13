@@ -20,7 +20,7 @@ export default {
   head () {
     return {
       bodyAttrs: {
-        class: 'hold-transition sidebar-mini'
+        class: 'hold-transition sidebar-mini swal2-toast-shown swal2-shown'
       }
     }
   },

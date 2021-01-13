@@ -20,12 +20,16 @@ class ShowServiceProviderResource extends JsonResource
             'phone' => $this->phone,
             'email' => $this->email,
             'age' => $this->age,
-            'address' => $this->address,
+            // 'address' => $this->address,
+            'area' => [
+                'id' => $this->area_id,
+                'name' => $this->area ? $this->area->name : 'منطقة محذوفة'
+            ],
             'status' => $this->status,
             'orders' => $this->orders,
             'type' => [
-                'id' => $this->type->id,
-                'title' => $this->serviceProviderType->title
+                'id' => $this->type_id,
+                'title' => $this->serviceProviderType ? $this->serviceProviderType->title : 'نوع مقدم خدمة محذوف',
             ],
             'last_seen' => $this->last_seen,
             'created_at' => $this->created_at,

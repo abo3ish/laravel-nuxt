@@ -1,9 +1,9 @@
 <template>
   <div>
-    <loading v-if="!ad.id" />
+    <loading v-if="loading" />
     <header-info
-      :name="'users'"
-      :navigation="[{name:'home', link: 'dashboard'}, {name: 'users', link: 'users'}, {name: user.name, link: '', trans: false}]"
+      :name="'ads'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'ads', link: 'ads'}, {name: ad.slug, link: '', trans: false}]"
     />
 
     <div class="row">
@@ -79,19 +79,21 @@ export default {
 
   data: () => {
     return {
+      loading: true,
       ad: {}
     }
   },
   mounted () {
+    this.loading = true
     this.fetchData()
   },
   methods: {
     async fetchData () {
       await this.$axios.$get('advertisements/' + this.$route.params.id)
         .then((res) => {
-          console.log(res)
           this.ad = res
         })
+      this.loading = false
     }
   }
 }

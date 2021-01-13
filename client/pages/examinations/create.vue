@@ -1,8 +1,9 @@
 <template>
   <div>
+    <loading v-if="loading" />
     <header-info
       :name="'examinations'"
-      :navigation="[{name:'home', link: 'dashboard'}, {name: 'examinations', link: '', trans: true}]"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'examinations', link: 'examinations', trans: true}, {name: form.title, trans: false}]"
     />
 
     <div class="row">
@@ -25,32 +26,21 @@
               <!-- Description -->
               <label-input-text v-model="form.description" :label="$t('description')" :type="'text'" :placeholder="'Enter Description'" name="description" />
 
-              <!-- password -->
-              <select-box v-model="form.service_provider_type_id" :items="serviceProviderTypes" :label="$t('service_provider_type')" name="service_provider_type_id" />
-
-              <select-box v-model="form.examination_id" :items="examinations" :label="$t('examination_type')" name="examination_id" />
-
-              <!-- Estimation From -->
-              <label-input-text v-model="form.estimation_from" :label="$t('estimation_from')" :type="'number'" :placeholder="'Enter Estimation From Price'" name="estimation_from" />
-
-              <!-- Estimation To -->
-              <label-input-text v-model="form.estimation_to" :label="$t('estimation_to')" :type="'number'" :placeholder="'Enter Estimation To Price'" name="estimation_to" />
-
-              <!-- Price -->
-              <label-input-text v-model="form.price" :label="$t('price')" :type="'number'" :placeholder="'Enter purchase Price'" name="price" />
-
-              <!-- Parent -->
-              <select-box v-model="form.parent_id" :items="parents" :label="$t('parents')" name="parent_id" />
+              <!-- Display Order -->
+              <label-input-text v-model="form.display_order" :label="$t('display_order')" :type="'number'" :placeholder="'Enter Price'" name="display_order" />
 
               <!-- Slug -->
               <label-input-text v-model="form.slug" :label="$t('slug')" :type="'text'" :placeholder="'Enter Slug'" name="slug" />
+
+              <!-- Accept Multi -->
+              <check-box v-model="form.accept_multi" :label="$t('accept_multi')" name="accept_multi" />
 
               <!-- status -->
               <check-box v-model="form.status" :label="$t('activate')" name="status" />
 
               <!-- Icon -->
               <div class="img-responsive">
-                <input type="file" name="icon" accept="image/*" @change="onFileChange">
+                <b-form-file ref="icon-file" class="mt-4" accept="image/*" name="icon" @change="onFileChange" />
                 <img class="img-fluid" :src="form.icon">
               </div>
               <!-- /.card-body -->
@@ -76,7 +66,6 @@
 
 import Form from 'vform'
 import LabelInputText from '~/components/forms/LabelInputText'
-import SelectBox from '~/components/forms/SelectBox'
 import CheckBox from '~/components/forms/CheckBox'
 
 export default {
@@ -84,64 +73,41 @@ export default {
   middleware: 'auth',
   head () {
     return {
-      title: this.$t('create_new_examination')
+      title: this.$t('add_new')
     }
   },
   components: {
     LabelInputText,
-    SelectBox,
     CheckBox
   },
   data: () => {
     return {
+      loading: false,
       serviceProviderTypes: [],
       parents: [],
       examinations: [],
       form: new Form({
         title: '',
         description: '',
+        display_order: '',
         icon: '',
-        service_provider_type_id: '',
-        estimation_from: '',
-        estimation_to: '',
-        price: '',
-        examination_id: '',
-        parent_id: '',
-        status: Boolean(true),
-        slug: ''
+        slug: '',
+        accept_multi: Boolean(false),
+        status: Boolean(false)
       })
     }
   },
-  mounted () {
-    this.fetchParents()
-    this.fetchServiceProviderTypes()
-    this.fetchExaminations()
-  },
   methods: {
-    create () {
-      this.form.post('/services', this.form).then((res) => {
-        if (res.data) {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('saved_successfully'),
-            type: 'success'
-          })
-        } else {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('saved_failed'),
-            type: 'error'
-          })
-        }
-      }).catch(() => {
-        this.$notify({
-          group: 'feedback',
-          title: this.$t('saved_failed'),
-          type: 'error'
-        })
+    async create () {
+      this.loading = true
+      await this.form.post('/examinations', this.form).then((res) => {
+        this.fireSwal('success', this.$t('created_successfully'))
+        this.form.reset()
+        this.$refs['icon-file'].reset()
+      }).catch((e) => {
+        this.fireSwal('error', this.$t('something_wrong'))
       })
-
-      this.form.reset()
+      this.loading = false
     },
 
     onFileChange (e) {
@@ -155,27 +121,6 @@ export default {
         this.form.icon = reader.result
       }
       reader.readAsDataURL(fileObject)
-    },
-
-    async fetchServiceProviderTypes () {
-      await this.$axios.$get('service-provider-types/all')
-        .then((res) => {
-          this.serviceProviderTypes = res
-        })
-    },
-
-    async fetchExaminations () {
-      await this.$axios.$get('examinations/all')
-        .then((res) => {
-          this.examinations = res
-        })
-    },
-
-    async fetchParents () {
-      await this.$axios.$get('services/all')
-        .then((res) => {
-          this.parents = res
-        })
     }
   }
 }

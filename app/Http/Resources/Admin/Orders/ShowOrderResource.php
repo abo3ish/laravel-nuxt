@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources\Admin\Orders;
 
+use App\Http\Resources\Admin\Orders\AttachmentResource;
 use App\Http\Traits\Admin\ResourceTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Admin\Orders\DrugOrderResource;
-use App\Http\Resources\Admin\Orders\AttachmentResource;
-use App\Http\Resources\Admin\Orders\ServiceOrderResource;
 
 class ShowOrderResource extends JsonResource
 {
@@ -28,7 +26,7 @@ class ShowOrderResource extends JsonResource
                 'phone' => $this->user->phone,
             ],
             'address' => [
-                'area' => $this->area->name,
+                'area' => $this->area ? $this->area->name : 'منطقة محذوفة',
                 'street' => $this->street,
                 'building_number' => $this->building_number,
                 'floor_number' => $this->floor_number,
@@ -36,7 +34,10 @@ class ShowOrderResource extends JsonResource
                 'lat' => $this->lat,
                 'lng' => $this->lng,
             ],
-            'area' => $this->area,
+            'area' => [
+                'id' => $this->area_id,
+                'name' => $this->area ? $this->area : 'منطقة محذوفة',
+            ],
             'type' => $this->type,
             'services' => $this->getServiceOrderResource($this),
             'drugs' => $this->getDrugOrderResource($this),
@@ -44,7 +45,7 @@ class ShowOrderResource extends JsonResource
             'service_provider' => $this->serviceProvider ?? null,
             'status' => [
                 'code' => $this->status,
-                'string' => $this->status_string
+                'string' => $this->status_string,
             ],
             'bill_cycle' => [
                 'from' => $this->billCycle->from,
@@ -66,8 +67,8 @@ class ShowOrderResource extends JsonResource
             ],
             'is_collected' => $this->is_collected,
             'service_provider_type' => [
-                'id' => $this->serviceProviderType->id,
-                'title' => $this->serviceProviderType->title
+                'id' => $this->service_provider_type_id,
+                'title' => $this->serviceProviderType ? $this->serviceProviderType->title : 'نوع مقدم خدمة محذوف',
             ],
             'dates' => [
                 'created_at' => $this->created_at,

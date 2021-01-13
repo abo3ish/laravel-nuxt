@@ -10,6 +10,8 @@ const Toast = Swal.mixin({
   timerProgressBar: true
 })
 
+Vue.prototype.$swal = Swal
+
 Vue.prototype.fireSwal = (icon, title) => {
   Toast.fire({ icon, title })
 }

@@ -90,18 +90,9 @@ export default {
       this.form.post(`/areas/${this.$route.params.id}`, this.form)
         .then((res) => {
           this.form.fill(res.data)
-
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('saved_successfully'),
-            type: 'success'
-          })
+          this.fireSwal('success', this.$t('updated_successfully'))
         }).catch((e) => {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('saved_failed'),
-            type: 'error'
-          })
+          this.fireSwal('error', this.$t('something_wrong'))
         })
     }
   }

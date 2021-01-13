@@ -100,7 +100,7 @@
                     <b-button
                       variant="danger"
                       size="sm"
-                      @click.stop.prevent="deleteItem(data.item.id, $event)"
+                      @click.stop.prevent="deleteAction(data.item.id, $event)"
                     >
                       Delete
                     </b-button>
@@ -127,6 +127,7 @@
 import LabelInputText from '~/components/forms/LabelInputText'
 import SubmitButton from '~/components/forms/SubmitButton'
 import SelectBox from '~/components/forms/SelectBox'
+import { deleteItem } from '~/utils'
 
 export default {
   layout: 'admin',
@@ -206,27 +207,14 @@ export default {
       this.$router.replace({ name: 'ads',
         query: this.query }).catch(() => {})
     },
-    deleteItem (id, event) {
-      this.$axios.$delete(`advertisements/${id}`)
-        .then((res) => {
-          if (res) {
-            this.$notify({
-              group: 'feedback',
-              title: this.$t('ad_deleted_successfully'),
-              type: 'success'
-            })
+    async deleteAction (id, event) {
+      const endpoint = `advertisements/${id}/delete`
+      const res = await deleteItem(endpoint)
 
-            const index = this.ads.findIndex(element => element.id === id)
-            this.ads.splice(index, 1)
-          }
-        }).catch(() => {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('failed'),
-            type: 'error'
-          })
-        })
-
+      if (res === true) {
+        const index = this.ads.findIndex(element => element.id === id)
+        this.ads.splice(index, 1)
+      }
       event.preventDefault()
     },
     searchFilter () {

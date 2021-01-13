@@ -20,7 +20,7 @@ class CreateServiceOrdersTable extends Migration
             $table->foreignId('discount_id')->nullable()->constrained();
             $table->double('price', 8, 2);
             $table->double('discount_price', 8, 2)->nullable();
-
+            $table->softDeletes();
             $table->timestamps();
         });
     }

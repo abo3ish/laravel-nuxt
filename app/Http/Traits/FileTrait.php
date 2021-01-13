@@ -3,9 +3,11 @@
 namespace App\Http\Traits;
 
 use Exception;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
-Trait FileTrait {
+trait FileTrait
+{
 
     public function uploadImageBase64($image, $path, $name)
     {
@@ -17,7 +19,7 @@ Trait FileTrait {
         if ($mimeType[0] != 'image') {
             throw new Exception("Images only are valid to be uploaded", 400);
         }
-        $iconName = $name . "." . $mimeType[1];
+        $iconName = Str::kebab($name) . "." . $mimeType[1];
         Image::make($image)->save($path . $iconName);
 
         return $iconName;

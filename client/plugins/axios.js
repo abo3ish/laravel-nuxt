@@ -42,7 +42,7 @@ export default ({ app, store, redirect, $axios }) => {
       swal({
         type: 'error',
         title: app.i18n.t('error_alert_title'),
-        text: app.i18n.t('error_alert_text'),
+        text: app.i18n.t('something_wrong'),
         reverseButtons: true,
         confirmButtonText: app.i18n.t('ok'),
         cancelButtonText: app.i18n.t('cancel')
@@ -65,7 +65,7 @@ export default ({ app, store, redirect, $axios }) => {
     }
 
     if (status === 405) {
-      fireSwal('error', app.i18n.t('error_alert_text'))
+      fireSwal('error', app.i18n.t('something_wrong'))
     }
 
     return Promise.reject(error)

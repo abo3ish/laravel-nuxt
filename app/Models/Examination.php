@@ -5,9 +5,12 @@ namespace App\Models;
 use App\Models\Service;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Examination extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'title',
         'description',

@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('social_provider')->nullable();
             $table->dateTime('last_seen')->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

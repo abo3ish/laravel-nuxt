@@ -61,7 +61,7 @@
                     <b-button
                       variant="danger"
                       size="sm"
-                      @click.stop.prevent="deleteItem(data.item.id, $event)"
+                      @click.stop.prevent="deleteAction(data.item.id, $event)"
                     >
                       Delete
                     </b-button>
@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import { deleteItem } from '~/utils'
 
 export default {
   layout: 'admin',
@@ -149,9 +150,14 @@ export default {
           this.isBusy = false
         })
     },
-    deleteItem (id, event) {
-      event.preventDefault()
-      alert(id)
+    async deleteAction (id, event) {
+      const endpoint = `service-provider-types/${id}/delete`
+      const res = await deleteItem(endpoint)
+
+      if (res === true) {
+        const index = this.serviceProviderTypes.findIndex(element => element.id === id)
+        this.serviceProviderTypes.splice(index, 1)
+      }
     },
     searchFilter () {
       this.currentPage = 1

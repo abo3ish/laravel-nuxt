@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\User;
 use App\Models\Order;
+use App\Models\Address;
 use App\Models\ServiceOrder;
 use App\Models\ServiceProvider;
 use Illuminate\Database\Seeder;
@@ -28,8 +30,10 @@ class DatabaseSeeder extends Seeder
 
         if (env('APP_ENV') == 'local') {
             factory(ServiceProvider::class, 200)->create();
+            factory(User::class, 10)->create();
+            factory(Address::class, 10)->create();
             factory(Order::class, 200)->create();
-            factory(ServiceOrder::class, 500)->create();
+            factory(ServiceOrder::class, 400)->create();
         }
 
         // $this->call([

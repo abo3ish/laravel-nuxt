@@ -189,10 +189,10 @@
                     </b-badge>
                   </template>
 
-                  <!-- Last Seen -->
+                  <!-- Created At -->
                   <template v-slot:cell(created_at)="data">
                     <span v-if="data.item.created_at">
-                      {{ $moment(String(data.item.created_at), "YYYY-MM-DD").format('LLLL') }}
+                      {{ $moment(String(data.item.created_at), "YYYY-MM-DD hh:mm:ss").format('LLLL') }}
                     </span>
                   </template>
 
@@ -215,13 +215,13 @@
                       Edit
                     </b-button>
                     <!-- Delete -->
-                    <b-button
+                    <!-- <b-button
                       variant="danger"
                       size="sm"
                       @click.stop.prevent="deleteItem(data.item.id, $event)"
                     >
                       Delete
-                    </b-button>
+                    </b-button> -->
                   </template>
                 </b-table>
               </div>

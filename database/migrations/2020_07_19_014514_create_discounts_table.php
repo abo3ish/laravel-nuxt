@@ -26,6 +26,7 @@ class CreateDiscountsTable extends Migration
             $table->string('discountable_type');    // App\Models\ServiceProviderType or App\Models\DrugCategory
             $table->integer('discountable_id');
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

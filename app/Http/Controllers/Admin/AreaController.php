@@ -15,7 +15,10 @@ class AreaController extends AdminBaseController
      */
     public function index()
     {
-        $areas = Area::paginate(config('kashf.pagination_per_page'));
+        $areas = Area::orderBy('name', 'desc');
+        $areas = $this->filter($areas);
+        $areas = $areas->paginate(config('kashf.pagination_per_page'));
+        $areas->withPath(url()->full());
         $areas = customPagination($areas, 'areas');
         return $areas;
 
@@ -78,5 +81,15 @@ class AreaController extends AdminBaseController
     {
         $area->delete();
         return true;
+    }
+
+    public function filter($areas)
+    {
+
+        if (isset(request()->status)) {
+            $areas->where('status', request('status'));
+        }
+
+        return $areas;
     }
 }

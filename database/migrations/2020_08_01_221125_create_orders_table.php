@@ -49,6 +49,7 @@ class CreateOrdersTable extends Migration
             $table->double('actual_profit', 8, 2)->default(0);  // price
             $table->double('company_profit', 8, 2)->default(0); // price
             $table->double('service_provider_profit', 8, 2)->default(0); // price
+            $table->softDeletes();
             $table->timestamps();
         });
     }

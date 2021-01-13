@@ -11,18 +11,13 @@
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">
-              {{ form.name }}
-              <n-link :to="{name: 'create-area' }">
-                <button class="btn btn-outline-light float-left">
-                  {{ $t('add_new') }}
-                </button>
-              </n-link>
+              {{ $t('add_new') }}
             </h3>
           </div>
           <!-- /.card-header -->
 
           <!-- form start -->
-          <form role="form" @submit.prevent="updatead()">
+          <form role="form" @submit.prevent="createArea()">
             <div class="card-body">
               <!-- Name -->
               <label-input-text v-model="form.name" :label="$t('name')" :type="'text'" :placeholder="'Enter Name'" name="Name" />
@@ -58,7 +53,7 @@ export default {
   middleware: 'auth',
   head () {
     return {
-      title: this.form.name
+      title: this.$t('add_new')
     }
   },
   components: {
@@ -75,22 +70,13 @@ export default {
     }
   },
   methods: {
-    updatead () {
+    createArea () {
       this.form.post('/areas', this.form)
-        .then((res) => {
+        .then(() => {
           this.form.reset()
-
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('area_saved_successfully'),
-            type: 'success'
-          })
-        }).catch((e) => {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('area_saved_failed'),
-            type: 'error'
-          })
+          this.fireSwal('success', this.$t('created_successfully'))
+        }).catch(() => {
+          this.fireSwal('error', this.$t('something_wrong'))
         })
     }
   }

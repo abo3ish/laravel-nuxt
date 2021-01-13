@@ -1,31 +1,10 @@
 <template>
   <div>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{{ $t('service_providers') }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item">
-                <nuxt-link :to="{name: 'home'}">
-                  {{ $t("home") }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                <nuxt-link :to="{name: 'service-providers'}">
-                  {{ $t('service_providers') }}
-                </nuxt-link>
-              </li>
-              <li class="breadcrumb-item active">
-                <!-- {{ serviceProvider.name }} -->
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+    <loading v-if="loading" />
+    <header-info
+      :name="'service_providers'"
+      :navigation="[{name:'home', link: 'dashboard'}, {name: 'service_providers', link: 'service-providers', trans: true}, {name: serviceProvider.name, link: '', trans: false}]"
+    />
 
     <div class="row">
       <div class="col-md-12">
@@ -119,7 +98,7 @@
             <div class="form-group">
               <label>{{ $t('created_at') }} : </label>
               <code>
-                {{ $moment(String(serviceProvider.created_at), "YYYY-MM-DD").format('LLLL') }} <br>
+                {{ $moment(String(serviceProvider.created_at), "YYYY-MM-DD hh:mm:ss").format('LLLL') }} <br>
               </code>
             </div>
           </div>
@@ -144,6 +123,7 @@ export default {
   },
   data: () => {
     return {
+      loading: false,
       serviceProvider: {
         id: '',
         name: '',
@@ -169,6 +149,7 @@ export default {
     }
   },
   async mounted () {
+    this.loading = true
     // this.fetchServiceProviderTypes()
     await this.fetchData()
   },
@@ -178,6 +159,7 @@ export default {
         .then((res) => {
           this.serviceProvider = res
         })
+      this.loading = false
     },
     update () {
       this.form.put('/orders/' + this.$route.params.id, this.form)

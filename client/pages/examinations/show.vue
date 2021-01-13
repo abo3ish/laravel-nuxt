@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading v-if="!examination.title" />
+    <loading v-if="loading" />
     <header-info
       :name="'examinations'"
       :navigation="[{name:'home', link: 'dashboard'}, {name: 'examinations', link: 'examinations'}, {name: examination.title, link: '', trans: false}]"
@@ -24,73 +24,77 @@
 
           <!-- form start -->
           <div class="card-body">
-            <!-- Name -->
-            <div class="form-group">
-              <label for="icon">{{ $t('icon') }} : </label>
-              <b-img fluid :src="examination.icon" />
-            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="title">{{ $t('title') }} : </label>
+                  <code>
+                    {{ examination.title }} <br>
+                  </code>
+                </div>
 
+                <!-- description -->
+                <div class="form-group">
+                  <label for="description">{{ $t('description') }} : </label>
+                  <code>
+                    {{ examination.description }} <br>
+                  </code>
+                </div>
+
+                <!-- slug -->
+                <div class="form-group">
+                  <label for="slug">{{ $t('slug') }} : </label>
+                  <code>
+                    {{ examination.slug }} <br>
+                  </code>
+                </div>
+
+                <!-- slug -->
+                <div class="form-group">
+                  <label for="accept_multi">{{ $t('accept_multi') }} : </label>
+                  <b-badge v-if="examination.accept_multi" variant="success">
+                    {{ $t('active') }}
+                  </b-badge>
+                  <b-badge v-else variant="success">
+                    {{ $t('active') }}
+                  </b-badge>
+                </div>
+
+                <!-- display Order -->
+                <div class="form-group">
+                  <label for="display_order">{{ $t('display_order') }} : </label>
+                  <code>
+                    {{ examination.display_order }} <br>
+                  </code>
+                </div>
+
+                <!-- slug -->
+                <div class="form-group">
+                  <label for="slug">{{ $t('slug') }} : </label>
+                  <code>
+                    {{ examination.slug }}
+                  </code>
+                </div>
+
+                <!-- Status -->
+                <div class="form-group">
+                  <label for="balance">{{ $t('status') }} : </label>
+                  <b-badge v-if="examination.status" variant="success">
+                    {{ $t('active') }}
+                  </b-badge>
+                  <b-badge v-else variant="success">
+                    {{ $t('active') }}
+                  </b-badge>
+                </div>
+              </div>
+              <div class="col-6">
+                <!-- Icon -->
+                <div class="form-group">
+                  <b-img fluid :src="examination.icon" />
+                </div>
+              </div>
+            </div>
             <!-- Title -->
-            <div class="form-group">
-              <label for="name">{{ $t('name') }} : </label>
-              <code>
-                {{ examination.title }} <br>
-              </code>
-            </div>
-
-            <!-- description -->
-            <div class="form-group">
-              <label for="description">{{ $t('description') }} : </label>
-              <code>
-                {{ examination.description }} <br>
-              </code>
-            </div>
-
-            <!-- slug -->
-            <div class="form-group">
-              <label for="slug">{{ $t('slug') }} : </label>
-              <code>
-                {{ examination.slug }} <br>
-              </code>
-            </div>
-
-            <!-- slug -->
-            <div class="form-group">
-              <label for="accept_multi">{{ $t('accept_multi') }} : </label>
-              <b-badge v-if="examination.accept_multi" variant="success">
-                {{ $t('active') }}
-              </b-badge>
-              <b-badge v-else variant="success">
-                {{ $t('active') }}
-              </b-badge>
-            </div>
-
-            <!-- display Order -->
-            <div class="form-group">
-              <label for="display_order">{{ $t('display_order') }} : </label>
-              <code>
-                {{ examination.display_order }} <br>
-              </code>
-            </div>
-
-            <!-- slug -->
-            <div class="form-group">
-              <label for="slug">{{ $t('slug') }} : </label>
-              <code>
-                {{ examination.slug }}
-              </code>
-            </div>
-
-            <!-- Status -->
-            <div class="form-group">
-              <label for="balance">{{ $t('status') }} : </label>
-              <b-badge v-if="examination.status" variant="success">
-                {{ $t('active') }}
-              </b-badge>
-              <b-badge v-else variant="success">
-                {{ $t('active') }}
-              </b-badge>
-            </div>
           </div>
         </div>
       <!-- /.card -->
@@ -100,8 +104,6 @@
 </template>
 
 <script>
-import Loading from '~/components/global/loading'
-
 export default {
   layout: 'admin',
   middleware: 'auth',
@@ -110,12 +112,9 @@ export default {
       title: this.examination.name
     }
   },
-  components: {
-    Loading
-  },
-
   data: () => {
     return {
+      loading: true,
       examination: {}
     }
   },
@@ -123,11 +122,12 @@ export default {
     this.fetchData()
   },
   methods: {
-    fetchData () {
-      this.$axios.$get('examinations/' + this.$route.params.id)
+    async fetchData () {
+      await this.$axios.$get('examinations/' + this.$route.params.id)
         .then((res) => {
           this.examination = res
         })
+      this.loading = false
     }
   }
 }

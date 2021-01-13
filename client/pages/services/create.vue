@@ -124,28 +124,12 @@ export default {
   methods: {
     create () {
       this.form.post('/services', this.form).then((res) => {
-        if (res.data) {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('saved_successfully'),
-            type: 'success'
-          })
-        } else {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('saved_failed'),
-            type: 'error'
-          })
-        }
-      }).catch(() => {
-        this.$notify({
-          group: 'feedback',
-          title: this.$t('saved_failed'),
-          type: 'error'
-        })
+        this.fireSwal('success', this.$t('created_successfully'))
+        this.form.reset()
+      }).catch((e) => {
+        this.fireSwal('error', this.$t('something_wrong'))
       })
 
-      this.form.reset()
     },
 
     onFileChange (e) {

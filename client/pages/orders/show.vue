@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading v-if="!order.id" />
+    <loading v-if="loading" />
 
     <header-info
       :name="'orders'"
@@ -43,9 +43,14 @@
 
             <!-- Name -->
             <div class="form-group">
-              <label for="username">{{ $t('username') }} : </label>
+              <label for="user">{{ $t('user') }} : </label>
               <code>
-                {{ order.user.name }} <br>
+                <nuxt-link v-if=" order.user"
+                           :to="{ name: 'show-user', params: { id: order.user.id }}"
+                >
+                  {{ order.user.name }}
+                </nuxt-link>
+                <br>
               </code>
             </div>
 
@@ -104,7 +109,13 @@
             <div class="form-group">
               <label for="service_provider">{{ $t('service_provider') }} : </label>
               <code id="service_provider">
-                {{ order.service_provider ? order.service_provider.name : $t('service_provider_not_assigned') }} <br>
+                <nuxt-link v-if=" order.service_provider"
+                           :to="{ name: 'show-service-provider', params: { id: order.service_provider.id }}"
+                >
+                  {{ order.service_provider.name }}
+                </nuxt-link>
+                <span v-else>{{ $t('service_provider_not_assigned') }}</span>
+                <br>
               </code>
             </div>
             <!-- /.Service Provider -->
@@ -205,6 +216,7 @@ export default {
   },
   data () {
     return {
+      loading: true,
       order: {
         id: '',
         uuid: '',
@@ -250,6 +262,7 @@ export default {
         .then((res) => {
           this.order = res
         })
+      this.loading = false
     },
     playAudio (attachment) {
       attachment.loading = true

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\User\UserResource;
 use App\Http\Resources\Admin\User\EditUserResource;
 use App\Http\Resources\Admin\User\ShowUserResource;
+use App\Http\Resources\Admin\User\UserResource;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -58,7 +58,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return new ShowUserResource($user);
+        return new ShowUserResource($user->load('addresses'));
     }
 
     /**
@@ -112,7 +112,7 @@ class UserController extends Controller
 
         if (request()->identifier) {
             $users->where('name', 'like', request('identifier') . "%")
-            ->orWhere('phone', 'like', request('identifier') . "%");
+                ->orWhere('phone', 'like', request('identifier') . "%");
         }
 
         if (request()->user_id) {

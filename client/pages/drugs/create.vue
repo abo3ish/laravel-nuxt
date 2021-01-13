@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading v-if="loading" />
     <header-info
       :name="'drugs'"
       :navigation="[{name:'home', link: 'dashboard'}, {name: 'drugs', link: 'drugs'}, {name: form.name, link: '', trans: false}]"
@@ -81,6 +82,7 @@ export default {
   },
   data: () => {
     return {
+      loading: false,
       categories: [],
       drug: {},
       form: new Form({
@@ -98,22 +100,16 @@ export default {
     this.fetchCategories()
   },
   methods: {
-    createDrug () {
-      this.form.post('/drugs', this.form)
+    async createDrug () {
+      this.loading = true
+      await this.form.post('/drugs', this.form)
         .then((res) => {
           this.form.reset()
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('saved_successfully'),
-            type: 'success'
-          })
+          this.fireSwal('success', this.$t('created_successfully'))
         }).catch((e) => {
-          this.$notify({
-            group: 'feedback',
-            title: this.$t('saved_failed'),
-            type: 'error'
-          })
+          this.fireSwal('error', this.$t('something_wrong'))
         })
+      this.loading = false
     },
     async fetchCategories () {
       await this.$axios.$get('/pharmacy-categories')
