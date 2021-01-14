@@ -28,13 +28,13 @@ class DatabaseSeeder extends Seeder
             ServiceProviderSeeder::class,
         ]);
 
-        if (env('APP_ENV') != 'production') {
-            factory(ServiceProvider::class, 200)->create();
-            factory(User::class, 10)->create();
-            factory(Address::class, 10)->create();
-            factory(Order::class, 200)->create();
-            factory(ServiceOrder::class, 400)->create();
-        }
+        // if (env('APP_ENV') != 'production') {
+        //     factory(ServiceProvider::class, 200)->create();
+        //     factory(User::class, 10)->create();
+        //     factory(Address::class, 10)->create();
+        //     factory(Order::class, 200)->create();
+        //     factory(ServiceOrder::class, 400)->create();
+        // }
 
         // $this->call([
         //     ServiceProviderSeeder::class

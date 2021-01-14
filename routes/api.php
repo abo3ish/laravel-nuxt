@@ -6,6 +6,8 @@ require_once __DIR__ . '/admin.php';
 require_once __DIR__ . '/serviceProvider.php';
 
 Route::group(['namespace' => 'User'], function () {
+    Route::post('mobile-crashes', 'MobileCrashController@store');
+
     Route::get('splash-ad', 'AdvertisementController@showSplashAd');
 
     Route::post('login', 'AuthController@login');
@@ -26,18 +28,17 @@ Route::group(['namespace' => 'User'], function () {
     Route::get('areas', 'AreaController@index');
 
     /*
-        Examinations
-    */
+    Examinations
+     */
     Route::get('/examinations', 'ExaminationController@index');
 
     /*
-        Pharmacy
-    */
+    Pharmacy
+     */
     Route::get('pharmacy-categories/{pharmacyCategory}/sub', 'PharmacyCategoryController@subCategories');
     Route::resource('pharmacy-categories', 'PharmacyCategoryController');
     Route::get('drugs', 'DrugController@index');
 });
-
 
 Route::group(['middleware' => 'auth:api', 'namespace' => 'User'], function () {
 
@@ -46,7 +47,6 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'User'], function () {
     Route::delete('/me', 'MeController@destroy');
     Route::get('user', 'MeController@index');
     Route::post('logout', 'AuthController@logout');
-
 
     //Attachments
     Route::get('attachments/{attachment}', 'OrderController@getAttachment');
@@ -61,5 +61,3 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'User'], function () {
     // Checkout
     Route::post('cart/checkout', 'CartController@checkout');
 });
-
-
