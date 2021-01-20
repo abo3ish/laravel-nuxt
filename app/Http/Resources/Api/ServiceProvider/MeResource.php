@@ -15,19 +15,20 @@ class MeResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'phone' => $this->phone,
+            'image' => $this->image,
             'address' => $this->address,
-            'area' => $this->area->name,
-            'age' => $this->age,
             'rate' => $this->rate,
-            'service_provider_type' => [
-                'id' => $this->serviceProviderType->id,
-                'title' => $this->serviceProviderType->title,
-                'slug' => $this->serviceProviderType->slug
-            ],
+            'rate_count' => $this->rate_count,
+            'type' => $this->type->title,
             'status' => $this->status,
-            'image' => $this->image_url,
+            'area' => [
+                'id' => $this->area_id,
+                'name' => $this->area->name,
+                'governorate_id' => $this->governorate->id,
+            ],
             'token' => $this->token,
         ];
     }

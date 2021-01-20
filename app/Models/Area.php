@@ -9,6 +9,10 @@ class Area extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'status'];
+    protected $fillable = ['name',  'governorate_id', 'status'];
 
+    public function governorate()
+    {
+        return $this->belongsTo(Governorate::class);
+    }
 }

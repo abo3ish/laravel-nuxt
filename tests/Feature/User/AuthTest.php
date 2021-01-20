@@ -2,17 +2,17 @@
 
 namespace Tests\Feature\User;
 
+use AreaSeeder;
+use Tests\TestCase;
 use App\Models\Area;
 use App\Models\User;
-use AreaSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AuthTest extends TestCase
 {
-    // use DatabaseMigrations;
-    use RefreshDatabase;
+    use DatabaseMigrations;
 
     protected $user;
 
@@ -62,7 +62,6 @@ class AuthTest extends TestCase
                 'error' => [trans('errors.wrong_credentials')],
                 'code' => 401,
             ]);
-
     }
 
     public function test_fetch_the_current_user()
@@ -80,16 +79,16 @@ class AuthTest extends TestCase
                 'error',
                 'code',
             ])->assertJson([
-            'data' => [
-                'id' => $this->user->id,
-                'name' => $this->user->name,
-                'email' => $this->user->email,
-                'phone' => $this->user->phone,
-                'address' => [],
-            ],
-            'error' => null,
-            'code' => 200,
-        ]);
+                'data' => [
+                    'id' => $this->user->id,
+                    'name' => $this->user->name,
+                    'email' => $this->user->email,
+                    'phone' => $this->user->phone,
+                    'address' => [],
+                ],
+                'error' => null,
+                'code' => 200,
+            ]);
     }
 
     public function test_user_can_register_successfully()

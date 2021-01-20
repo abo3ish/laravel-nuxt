@@ -16,17 +16,17 @@ class CreateServiceProvidersTable extends Migration
         Schema::create('service_providers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('type_id')->constrained('service_provider_types');
-            $table->string('phone');
-            $table->foreignId('area_id')->constrained();
-            $table->string('address');
-            $table->string('email');
-            $table->integer('age');
+            $table->foreignId('type_id');
+            $table->string('national_id', 14)->unique();
+            $table->string('phone')->unique();
+            $table->foreignId('area_id');
+            $table->string('address')->nullable();
             $table->string('image')->nullable();
             $table->string('password');
             $table->integer('rate')->default(5);
+            $table->integer('rate_count')->default(0);
             $table->text('note')->nullable();
-            $table->boolean('status')->default(true);
+            $table->integer('status')->default(7);
             $table->string('push_token')->nullable();
             $table->dateTime('last_seen')->nullable();
             $table->double('lat')->nullable();

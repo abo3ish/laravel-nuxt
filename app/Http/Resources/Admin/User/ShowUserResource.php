@@ -23,7 +23,7 @@ class ShowUserResource extends JsonResource
             'channel' => $this->channel,
             'push_token_type' => $this->push_token_type,
             'push_token' => $this->push_token,
-            'social_provider' => $this->social_id,
+            'social_provider' => $this->social_provider,
             'social_id' => $this->social_id,
             'orders_count' => $this->orders->count(),
             'addresses' => UserAddressesResource::collection($this->addresses->load('area')),

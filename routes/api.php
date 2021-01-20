@@ -24,17 +24,13 @@ Route::group(['namespace' => 'User'], function () {
     // Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
     // Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
 
-    // All Areas
+    /* Areas */
     Route::get('areas', 'AreaController@index');
 
-    /*
-    Examinations
-     */
+    /* Examinations */
     Route::get('/examinations', 'ExaminationController@index');
 
-    /*
-    Pharmacy
-     */
+    /* Pharmacy */
     Route::get('pharmacy-categories/{pharmacyCategory}/sub', 'PharmacyCategoryController@subCategories');
     Route::resource('pharmacy-categories', 'PharmacyCategoryController');
     Route::get('drugs', 'DrugController@index');
@@ -48,16 +44,16 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'User'], function () {
     Route::get('user', 'MeController@index');
     Route::post('logout', 'AuthController@logout');
 
-    //Attachments
+    /* Attachments */
     Route::get('attachments/{attachment}', 'OrderController@getAttachment');
 
-    // Address
+    /* addresses */
     Route::resource('addresses', 'AddressController');
 
     // Examination Order
     Route::post('reorder/{order}', 'OrderController@reorder');
     Route::resource('orders', 'OrderController');
 
-    // Checkout
+    /* Checkout */
     Route::post('cart/checkout', 'CartController@checkout');
 });

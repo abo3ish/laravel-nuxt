@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable//, MustVerifyEmail
+class User extends Authenticatable //, MustVerifyEmail
 
 {
     use Notifiable, HasApiTokens, SoftDeletes;
@@ -117,11 +117,10 @@ class User extends Authenticatable//, MustVerifyEmail
         return $this->morphMany(Device::class, 'deviceable');
     }
 
-    public function updatePushToken($pushToken, $pushTokenType)
+    public function updatePushToken($pushToken)
     {
         $this->update([
             'push_token' => $pushToken,
-            'push_token_type' => $pushTokenType,
         ]);
     }
 

@@ -5,7 +5,6 @@ namespace Tests\Feature\User;
 use AreaSeeder;
 use Tests\TestCase;
 use App\Models\Area;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AreaTest extends TestCase
@@ -21,7 +20,7 @@ class AreaTest extends TestCase
         $this->seed(AreaSeeder::class);
         $areas = Area::where('status', 1)->get();
         $areasCount =
-        $response = $this->get('/api/areas')
+            $response = $this->get('/api/areas')
             ->assertSuccessful()
             ->assertJsonStructure([
                 'data' => [

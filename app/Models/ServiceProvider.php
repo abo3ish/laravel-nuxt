@@ -16,15 +16,15 @@ class ServiceProvider extends Authenticatable
 
     protected $fillable = [
         'name',
-        'phone',
-        'email',
-        'address',
         'type_id',
+        'national_id',
+        'phone',
+        'address',
         'area_id',
         'password',
-        'status',
-        'age',
         'rate',
+        'rate_count',
+        'status',
         'image',
         'push_token',
         'lat',
@@ -33,9 +33,37 @@ class ServiceProvider extends Authenticatable
 
     protected $hidden = ['password'];
 
+    protected $casts = [
+        'status' => 'integer',
+        'area_id' => 'integer',
+        'rate' => 'integer',
+        'rate_count' => 'integer',
+    ];
+
+    protected $date = [
+        'last_seen'
+    ];
+
+    /* Type */
     public function type()
     {
         return $this->belongsTo(ServiceProviderType::class, 'type_id');
+    }
+
+    /**
+     * @return array
+     */
+    public static function Statuses()
+    {
+        return [
+            1   => 'available',
+            2   => 'idle',
+            3   => 'busy',
+            4   => 'offline',
+            5   => 'waiting_approval',
+            6   => 'suspend',
+            7   => 'under_revision',
+        ];
     }
 
     /**
@@ -56,6 +84,11 @@ class ServiceProvider extends Authenticatable
         return $this->belongsTo(Area::class);
     }
 
+    public function governorate()
+    {
+        return $this->area->governorate();
+    }
+
     public function serviceProviderType()
     {
         return $this->belongsTo(ServiceProviderType::class, 'type_id');
@@ -72,5 +105,4 @@ class ServiceProvider extends Authenticatable
             'push_token' => $pushToken
         ]);
     }
-
 }

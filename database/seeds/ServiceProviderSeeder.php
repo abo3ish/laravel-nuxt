@@ -17,13 +17,12 @@ class ServiceProviderSeeder extends Seeder
         ServiceProvider::create([
             'name' => 'kashwedawaa pharmacy',
             'type_id' => ServiceProviderType::all()->random()->id,
+            'national_id' => '29400232',
             'phone' => '01018304360',
             'area_id' => Area::all()->random()->id,
             'address' => 'El bahr st, Tanta',
-            'email' => 'serviceProvider@gmail.com',
             'password' => bcrypt('secret'),
-            'status' => 1,
-            'age' => 26,
+            // 'status' => 1,
             'last_seen' => now()
         ]);
     }

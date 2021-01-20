@@ -18,6 +18,14 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     {
         // Telescope::night();
 
+        Telescope::tag(function (IncomingEntry $entry) {
+            if ($entry->type === 'request') {
+                return [$entry->content['method'], $entry->content['uri']];
+            }
+
+            return [];
+        });
+
         $this->hideSensitiveRequestDetails();
 
         Telescope::filter(function (IncomingEntry $entry) {

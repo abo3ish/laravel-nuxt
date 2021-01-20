@@ -17,11 +17,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            GovernorateSeeder::class,
             ServiceProviderTypeSeeder::class,
             ExaminationSeeder::class,
             AdminSeeder::class,
             // UserSeeder::class,
-            AreaSeeder::class,
+            // AreaSeeder::class,
             // AddressSeeder::class,
             AdvertisementSeeder::class,
             PharmacyCategorySeeder::class,

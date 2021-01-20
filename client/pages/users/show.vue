@@ -132,7 +132,7 @@
               </template>
               <template v-slot:cell(map)="data">
                 <span><a
-                  :href="`https://www.google.com/maps/search/?api=1&query=${data.item.lat},${data.item.lat}`"
+                  :href="`https://www.google.com/maps/search/?api=1&query=${data.item.lat},${data.item.lng}`"
                   target="_blank"
                 >
                   افتح علي الخريطة
