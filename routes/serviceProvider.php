@@ -9,7 +9,7 @@ Route::group(
     ],
     function () {
         Route::post('/login', 'AuthController@login');
-        Route::post('/register', 'AuthController@register');
+        Route::post('/register/{serviceProviderType}', 'AuthController@register');
     }
 );
 

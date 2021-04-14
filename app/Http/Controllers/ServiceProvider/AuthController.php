@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers\ServiceProvider;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\ServiceProvider;
+use Illuminate\Support\Facades\DB;
+use App\Models\ServiceProviderType;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Traits\UserProviderTrait;
+use App\Http\Traits\VerificationTrait;
 use App\Http\Controllers\ApiBaseController;
+use App\Models\ServiceProviderVerification;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Requests\ServiceProvider\RegisterRequest;
 use App\Http\Resources\Api\ServiceProvider\MeResource;
 
 class AuthController extends ApiBaseController
 {
-    use AuthenticatesUsers, UserProviderTrait;
+    use AuthenticatesUsers, UserProviderTrait, VerificationTrait;
 
     public function login(Request $request)
     {
@@ -34,33 +40,40 @@ class AuthController extends ApiBaseController
         return apiReturn($data, null, Response::HTTP_OK);
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request, ServiceProviderType $serviceProviderType)
     {
-        $provider = ServiceProvider::create([
-            'type_id' => $request->type_id,
-            'name' => $request->name,
-            'national_id' => $request->national_id,
-            'phone' => $request->phone,
-            'area_id' => $request->area_id,
-            // 'Syndicate_id' => $request->Syndicate_id,
-            // 'practicing_id' => $request->practicing_id,
-            'image' => $request->image,
-            'password' => $request->password,
-            'status' => 7
-        ]);
-        // dd(ServiceProvider::find($provider->id));
-        $provider->refresh();
+        try {
+            DB::beginTransaction();
 
-        $token = $provider->createToken($request->device_type . "-register")->plainTextToken;
+            $provider = ServiceProvider::create([
+                'type_id' => $serviceProviderType->id,
+                'name' => $request->name,
+                // 'national_id' => $request->national_id,
+                'phone' => $request->phone,
+                'area_id' => $request->area_id,
+                'image' => $request->image,
+                'password' => $request->password,
+                'status' => 7
+            ]);
 
-        $this->addToDevices($request->device_type, $request->details, $provider, $request->ip(), 'login');
+            $this->handleVerification($provider);
+            $provider->refresh();
 
-        $provider->updatePushToken($request->push_token);
+            $token = $provider->createToken($request->device_type . "-register")->plainTextToken;
+            $this->addToDevices($request->device_type, $request->details, $provider, $request->ip(), 'Register');
 
-        $provider->token = $token;
-        $data = new MeResource($provider);
+            $provider->updatePushToken($request->push_token);
 
-        return apiReturn($data, null, Response::HTTP_OK);
+            $provider->token = $token;
+            return $provider;
+            $data = new MeResource($provider);
+
+            DB::commit();
+            return apiReturn($data, [], Response::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return apiReturn(null, [$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function logout()

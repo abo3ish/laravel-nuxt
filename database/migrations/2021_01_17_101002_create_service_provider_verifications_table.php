@@ -16,9 +16,9 @@ class CreateServiceProviderVerificationsTable extends Migration
         Schema::create('service_provider_verifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('service_provider_id')->constrained();
-            $table->string('type');     // Syndicate_id     //  nation_id           // practicing_id           // lisense_id
-            $table->string('number');   // 2235345          // 132342343            // 4234324
-            $table->string('image');   // test.jpg         // national_id.jgp      // practicing_id.jpg
+            $table->string('type');  // Syndicate_id  // nation_id  // practicing_id  // lisense_id
+            $table->string('number');  // 2235345  // 132342343  // 4234324
+            $table->string('image');  // test.jpg  // national_id.jgp  // practicing_id.jpg
             $table->timestamps();
         });
     }

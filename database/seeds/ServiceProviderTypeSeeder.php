@@ -47,10 +47,15 @@ class ServiceProviderTypeSeeder extends Seeder
             'slug' => 'radiologist',
             'profit_percentage' => 20
         ]);
+        // ServiceProviderType::create([
+        //     'title' => 'صيدلية',
+        //     'slug' => 'pharmacy',
+        //     'profit_percentage' => 7
+        // ]);
         ServiceProviderType::create([
-            'title' => 'صيدلية',
-            'slug' => 'pharmacy',
-            'profit_percentage' => 7
+            'title' => 'ديليفري',
+            'slug' => 'delivery',
+            'profit_percentage' => 80
         ]);
     }
 }

@@ -4,13 +4,13 @@ namespace Tests\Feature\User;
 
 use App\Models\Address;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class OrderTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     protected $user, $address;
 
@@ -68,7 +68,6 @@ class OrderTest extends TestCase
                 'code',
             ])
             ->assertJsonValidationErrors(['items'], 'error');
-
     }
 
     public function test_that_we_cant_order_services_within_different_examination()
@@ -85,7 +84,6 @@ class OrderTest extends TestCase
                 'code',
             ])
             ->assertJsonValidationErrors(['items'], 'error');
-
     }
 
     public function test_that_we_cant_order_parent_service_that_has_childs()
@@ -102,7 +100,6 @@ class OrderTest extends TestCase
                 'code',
             ])
             ->assertJsonValidationErrors(['items'], 'error');
-
     }
 
     public function test_order_with_invalid_address()

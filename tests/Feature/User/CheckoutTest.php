@@ -74,7 +74,6 @@ class CheckoutTest extends TestCase
                 'error',
                 'code',
             ]);
-
     }
 
     public function test_checkout_cart_that_has_only_audio_file_successfully()
@@ -92,7 +91,6 @@ class CheckoutTest extends TestCase
                 'error',
                 'code',
             ]);
-
     }
 
     public function test_checkout_cart_that_has_drugs_photos_and_audio_files_successfully()
@@ -126,7 +124,6 @@ class CheckoutTest extends TestCase
                 'error' => [trans('errors.empty_cart')],
                 'code' => 400,
             ]);
-
     }
 
     public function test_checkout_file_size_validation()

@@ -33,7 +33,7 @@ class CartController extends Controller
             DB::beginTransaction();
 
             $address = Address::findOrFail($request->address_id);
-            $serviceProviderType = ServiceProviderType::where('slug', 'pharmacy')->first();
+            $serviceProviderType = ServiceProviderType::where('slug', 'delivery')->first();
             $billCycle = BillCycle::where('status', 1)->first();
             $deliveryPrice = 10;
 

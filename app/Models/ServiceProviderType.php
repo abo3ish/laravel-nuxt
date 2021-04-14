@@ -17,8 +17,17 @@ class ServiceProviderType extends Model
         'profit_percentage'
     ];
 
+    const DOCTOR = 'doctor';
+    const NURSE = 'nurse';
+    const DELIVERY = 'delivery';
+
     public function discount()
     {
         return $this->morphOne(Discount::class, 'discountable');
+    }
+
+    public function scopeSlug($query, $slug)
+    {
+        return $query->where('slug', $slug);
     }
 }

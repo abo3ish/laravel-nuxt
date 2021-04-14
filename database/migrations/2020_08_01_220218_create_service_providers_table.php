@@ -17,12 +17,12 @@ class CreateServiceProvidersTable extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('type_id');
-            $table->string('national_id', 14)->unique();
+            $table->string('national_id', 14)->unique()->nullable();
             $table->string('phone')->unique();
             $table->foreignId('area_id');
             $table->string('address')->nullable();
             $table->string('image')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->integer('rate')->default(5);
             $table->integer('rate_count')->default(0);
             $table->text('note')->nullable();
